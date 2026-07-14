@@ -119,6 +119,10 @@
   .seg{display:flex;gap:6px;margin:2px 0 14px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:4px}
   .seg button{flex:1;padding:9px;border:none;background:none;border-radius:9px;font-weight:700;font-size:13px;color:var(--muted);cursor:pointer}
   .seg button.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+  .genbtn{margin-top:10px;background:var(--surface-2);border:1px solid var(--line);color:var(--accent);font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:8px;cursor:pointer}
+  .genbtn:active{transform:scale(.98)}
+  .rstrip{display:flex;gap:8px;align-items:center;background:var(--red-bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:4px 0 6px;font-size:13px;font-weight:600;color:var(--text)}
+  .rstrip .dot{width:9px;height:9px;border-radius:50%;background:var(--red)}
   .draftbox{white-space:pre-wrap;font-size:13.5px;line-height:1.5;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:8px;overflow-x:auto}
   .draft-subj{font-weight:700;font-size:14px;margin:2px 0 2px}
   .modal-actions{display:flex;gap:10px;margin-top:4px}
@@ -168,6 +172,16 @@
     </select></div>
     <div class="field"><label for="m-due">Due date</label><input id="m-due" type="date" /></div>
     <div class="modal-actions"><button class="btn btn-ghost" id="m-cancel">Cancel</button><button class="btn btn-primary" id="m-save">Add task</button></div>
+  </div>
+</div>
+<div class="modal-backdrop" id="draftmodal">
+  <div class="modal">
+    <h2 id="d-title">Generated email</h2>
+    <p class="psub" id="d-to" style="margin:0 0 4px"></p>
+    <p class="draft-subj" id="d-subj"></p>
+    <div class="draftbox" id="d-body"></div>
+    <div class="modal-actions" style="margin-top:12px"><button class="btn btn-ghost" id="d-close">Close</button><button class="btn btn-primary" id="d-copy">Copy email</button></div>
+    <p class="psub" style="margin-top:10px;text-align:center">Draft only — review and send from Outlook.</p>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -1992,6 +2006,156 @@
 </script>
 <!--APM_CHANGES_END-->
 
+<!--APM_REMINDERS_START-->
+<script id="apm-reminders" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "selfAlertTo": "sagar.p@hellochapter.com",
+  "counts": {
+    "urgent": 6,
+    "email": 3,
+    "notify": 2
+  },
+  "reminders": [
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "project": "330 East 79th Street Apt #6B",
+      "title": "Bill client — Milestone #1/6 ($1,613)",
+      "due": "2025-03-17T00:00:00.000Z",
+      "daysUntil": -484,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 484 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "project": "1025 Fifth Avenue #6CS",
+      "title": "Bill client — Milestone #6/6 ($21,379)",
+      "due": "2026-02-25T00:00:00.000Z",
+      "daysUntil": -139,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 139 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "project": "177 East 79th Street #16/17",
+      "title": "Bill client — Milestone #3/13 ($20,994)",
+      "due": "2026-04-13T00:00:00.000Z",
+      "daysUntil": -92,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 92 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "project": "535 East 86th Street #21B",
+      "title": "Bill client — Milestone #2/5 ($27,346)",
+      "due": "2026-04-20T00:00:00.000Z",
+      "daysUntil": -85,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 85 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "Bill client — Milestone #3/6 ($16,776)",
+      "due": "2026-04-24T00:00:00.000Z",
+      "daysUntil": -81,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 81 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "title": "Bill client — Milestone #1/5 ($15,709)",
+      "due": "2026-05-04T00:00:00.000Z",
+      "daysUntil": -71,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 71 days overdue — bill the client"
+    },
+    {
+      "kind": "task",
+      "level": "email",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "title": "Design/PM Project Pass Off",
+      "due": "2026-07-15T00:00:00.000Z",
+      "daysUntil": 1,
+      "urgency": "2-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 1 days"
+    },
+    {
+      "kind": "task",
+      "level": "email",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "General Contractor Sign Off",
+      "due": "2026-07-15T00:00:00.000Z",
+      "daysUntil": 1,
+      "urgency": "2-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 1 days"
+    },
+    {
+      "kind": "sub",
+      "level": "email",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "title": "Example Plumbing Co. — Rough-in complete",
+      "due": "2026-07-18",
+      "daysUntil": 4,
+      "urgency": "due-soon",
+      "amount": 21000,
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Sub payment due-soon"
+    },
+    {
+      "kind": "task",
+      "level": "notify",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "Check and Protect Tile Work",
+      "due": "2026-07-17T00:00:00.000Z",
+      "daysUntil": 3,
+      "urgency": "3-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 3 days"
+    },
+    {
+      "kind": "task",
+      "level": "notify",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "Check and Protect new Floors",
+      "due": "2026-07-17T00:00:00.000Z",
+      "daysUntil": 3,
+      "urgency": "3-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 3 days"
+    }
+  ]
+}
+</script>
+<!--APM_REMINDERS_END-->
+
 <script>
 (function(){
   "use strict";
@@ -2001,10 +2165,43 @@
   var PAYMENTS = JSON.parse(document.getElementById("apm-payments").textContent);
   var WEEKLY = JSON.parse(document.getElementById("apm-weekly").textContent);
   var CHANGES = JSON.parse(document.getElementById("apm-changes").textContent);
+  var REMINDERS = JSON.parse(document.getElementById("apm-reminders").textContent);
+  var SELF_EMAIL = (REMINDERS && REMINDERS.selfAlertTo) || "sagar.p@hellochapter.com";
+  var SIGNATURE = "Sagar Patel\nProject Manager, Chapter";
 
   var fmtMoney = function(n){ if(n==null) return "—"; return "$" + Math.round(n).toLocaleString("en-US"); };
   var esc = function(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); };
   var fmtDate = function(iso){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return "—"; return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); };
+
+  // ---- email-drafter (on-demand "Generate email" — draft only) ----
+  var GEN_REG = [];
+  function genBtn(type, ctx, label){ GEN_REG.push({ type: type, ctx: ctx }); return '<button class="genbtn" data-gen="'+(GEN_REG.length-1)+'">'+esc(label||"✉ Generate email")+'</button>'; }
+  function money2(n){ return n==null?"—":"$"+Math.round(n).toLocaleString("en-US"); }
+  function clientOf(dealId){ var p=(DATA.projects||[]).find(function(x){return x.dealId===dealId;}); return (p&&p.client)||null; }
+  function firstNm(n){ return n?String(n).trim().split(/\s+/)[0]:"there"; }
+  function buildDraft(type, c){
+    if(type==="task-reminder") return { title:"Task reminder (to you)", to:SELF_EMAIL,
+      subject:"Reminder: "+c.title+" — "+c.project,
+      body:"Heads up — this task needs attention:\n\nProject: "+c.project+"\nTask: "+c.title+"\nDue: "+(c.due?fmtDate(c.due):"—")+(c.daysUntil!=null&&c.daysUntil<0?" ("+(-c.daysUntil)+" days overdue)":c.daysUntil===0?" (due today)":c.daysUntil!=null?" (in "+c.daysUntil+" days)":"")+"\n\n— Chapter PM Assistant" };
+    if(type==="milestone-bill"){ var cl=clientOf(c.dealId); return { title:"Client payment request", to:(cl&&cl.email)||"",
+      subject:c.project+" — Payment request: "+c.label,
+      body:"Hi "+firstNm(cl&&cl.name)+",\n\nWe've reached the "+c.label+" milestone on "+c.project+". Per the payment schedule in your proposal, this milestone is now due"+(c.amount?" in the amount of "+money2(c.amount):"")+". An invoice will follow shortly — please let me know if you have any questions.\n\nThank you,\n"+SIGNATURE }; }
+    if(type==="sub-reminder") return { title:"Sub payment reminder (to you)", to:SELF_EMAIL,
+      subject:"Sub payment ("+c.flag+"): "+c.sub+" — "+c.project,
+      body:"Sub payment needs attention:\n\nSub: "+c.sub+"\nProject: "+c.project+"\nAmount: "+money2(c.amount)+"\nDue: "+(c.due?fmtDate(c.due):"—")+"\nStatus: "+c.flag+"\n\n— Chapter PM Assistant" };
+    if(type==="co-notice"){ var cl2=clientOf(c.dealId); return { title:"Change order notice", to:(cl2&&cl2.email)||"",
+      subject:c.project+" — Change Order: "+c.title,
+      body:"Hi "+firstNm(cl2&&cl2.name)+",\n\nWe'd like to proceed with the following change order on "+c.project+":\n\n• "+c.title+"\n• Price: "+money2(c.sold)+"\n• Schedule impact: [confirm]\n• Lead-time impact: [confirm]\n\nThis work is outside the original proposal scope. We'll issue it for signature and payment through the portal — per our process, no work begins until it's signed and paid. Happy to walk through any questions.\n\nThank you,\n"+SIGNATURE }; }
+    return { title:"Email", to:"", subject:"", body:"" };
+  }
+  function openDraft(d){
+    var dm=document.getElementById("draftmodal"); dm._draft=d;
+    document.getElementById("d-title").textContent=d.title||"Generated email";
+    document.getElementById("d-to").textContent="To: "+(d.to||"— (confirm recipient)");
+    document.getElementById("d-subj").textContent=d.subject||"";
+    document.getElementById("d-body").textContent=d.body||"";
+    dm.classList.add("show");
+  }
 
   var TABS = ["today","projects","payments","changes","email"];
   var TITLES = { today:"Today at Chapter", projects:"Projects", payments:"Payments", changes:"Change Orders", email:"Email", detail:"Project Detail" };
@@ -2050,10 +2247,17 @@
         + '<button class="complete-btn" data-mid="'+esc(it.mid)+'" aria-label="Mark done">✓</button></div></div></div>';
     }
     var who = it.assigned && it.assigned.length ? ' · '+esc(it.assigned.join(", ")) : "";
+    var gen = "";
+    if(["overdue","today","2-day"].indexOf(it.urgency) >= 0){
+      gen = it.source==="milestone"
+        ? genBtn("milestone-bill", { dealId:it.dealId, project:it.project, label:String(it.title).replace("Bill client — ",""), amount:it.amount }, "✉ Bill client")
+        : genBtn("task-reminder", { title:it.title, project:it.project, due:it.due, daysUntil:it.daysUntil, urgency:it.urgency }, "✉ Reminder to me");
+    }
     return '<div class="card tappable" data-deal="'+it.dealId+'">'
       + '<div class="row"><div><p class="pname">'+esc(it.title)+'</p>'
       + '<p class="psub">'+esc(it.project)+(meta?(" · "+esc(meta)):"")+who+'</p></div>'
-      + '<span class="badge '+(u.c==="muted"?"yellow":u.c)+'">'+u.l+'</span></div></div>';
+      + '<span class="badge '+(u.c==="muted"?"yellow":u.c)+'">'+u.l+'</span></div>'
+      + gen + '</div>';
   }
   function todoSection(title, icon, list, emptyMsg){
     var html = sectionTitle(title, list.length);
@@ -2073,6 +2277,8 @@
     CATS.forEach(function(k){ combined[k].sort(function(a,b){ var r=(URANK[a.urgency]??9)-(URANK[b.urgency]??9); return r || ((a.daysUntil??9999)-(b.daysUntil??9999)); }); });
     var proc = combined.procurement.concat(combined.changeorder);
     var html = "";
+    var rc = REMINDERS.counts || {}; var needEmail = (rc.urgent||0)+(rc.email||0);
+    if(needEmail){ html += '<div class="rstrip"><span class="dot"></span>'+needEmail+' item'+(needEmail===1?"":"s")+' need a reminder email'+(rc.urgent?(" · "+rc.urgent+" urgent"):"")+' — tap ✉ on an item to generate it.</div>'; }
     html += todoSection("Payments &amp; Billing","💵", combined.payments, "No milestone billing due.");
     html += todoSection("Client Communication","💬", combined.communication, "No client updates flagged. Weekly updates auto-draft Fridays.");
     html += todoSection("Procurement &amp; Change Orders","📦", proc, "Nothing to order or bill as a change order.");
@@ -2128,7 +2334,9 @@
     p.changeOrders.forEach(function(c){
       html += '<div class="card'+(c.belowMarkup?" health-yellow":"")+'"><div class="row"><div><p class="pname" style="font-size:15px">'+esc(c.title)+'</p>'
         + '<p class="psub">sold '+fmtMoney(c.sold)+' · cost '+fmtMoney(c.cost)+' · profit '+fmtMoney(c.profit)+'</p></div>'
-        + '<span class="badge '+(c.belowMarkup?"yellow":"green")+'">'+(c.markupPct==null?"—":c.markupPct+"%")+'</span></div></div>';
+        + '<span class="badge '+(c.belowMarkup?"yellow":"green")+'">'+(c.markupPct==null?"—":c.markupPct+"%")+'</span></div>'
+        + genBtn("co-notice", { dealId:p.dealId, project:p.name, title:c.title, sold:c.sold }, "✉ CO notice to client")
+        + '</div>';
     });
     host.innerHTML = html;
     document.getElementById("coBack").addEventListener("click", function(){ coDeal=null; renderChanges(); });
@@ -2152,7 +2360,9 @@
         + '<p class="pname">'+esc(m.label)+' · '+fmtMoney(m.amount)+'</p>'
         + '<p class="psub">'+esc(m.project)+' · '+esc(meta)+' · outstanding '+fmtMoney(m.outstanding)+'</p></div>'
         + '<span class="badge '+st.c+'">'+st.l+'</span></div>'
-        + '<div class="pill '+(st.c==="red"?"red":st.c==="yellow"?"yellow":"muted")+'">'+esc(m.action)+'</div></div>';
+        + '<div class="pill '+(st.c==="red"?"red":st.c==="yellow"?"yellow":"muted")+'">'+esc(m.action)+'</div>'
+        + (["overdue","upcoming","unscheduled"].indexOf(m.status)>=0 ? genBtn("milestone-bill", { dealId:m.dealId, project:m.project, label:m.label, amount:m.amount }, "✉ Bill client") : "")
+        + '</div>';
     });
     // Subcontractor payments
     html += sectionTitle("Subcontractor Payments", subs.length);
@@ -2164,7 +2374,9 @@
       html += '<div class="card"><div class="row"><div>'
         + '<p class="pname">'+esc(x.sub)+' · '+fmtMoney(x.amount)+'</p>'
         + '<p class="psub">'+esc(x.trade)+' · '+esc(x.project)+' · '+esc(x.label)+' · '+esc(meta)+'</p></div>'
-        + '<span class="badge '+f.c+'">'+f.l+'</span></div></div>';
+        + '<span class="badge '+f.c+'">'+f.l+'</span></div>'
+        + (["overdue","due-today","due-soon"].indexOf(x.flag)>=0 ? genBtn("sub-reminder", { sub:x.sub, project:x.project, amount:x.amount, due:x.dueDate, flag:x.flag }, "✉ Reminder to me") : "")
+        + '</div>';
     });
     host.innerHTML = html;
   }
@@ -2317,6 +2529,8 @@
   });
   // Card taps → detail
   document.getElementById("main").addEventListener("click", function(e){
+    var gb = e.target.closest(".genbtn");
+    if(gb){ e.stopPropagation(); var g=GEN_REG[+gb.dataset.gen]; if(g) openDraft(buildDraft(g.type, g.ctx)); return; }
     var cb = e.target.closest(".complete-btn");
     if(cb){ e.stopPropagation(); completeManual(cb.dataset.mid); return; }
     var seg = e.target.closest("[data-emode]");
@@ -2360,6 +2574,17 @@
     saveManual(a); closeModal(); show("today"); renderToday(); toast("Task added");
   });
 
+  // ---- Draft (generated email) modal ----
+  var dm = document.getElementById("draftmodal");
+  document.getElementById("d-close").addEventListener("click", function(){ dm.classList.remove("show"); });
+  dm.addEventListener("click", function(e){ if(e.target===dm) dm.classList.remove("show"); });
+  document.getElementById("d-copy").addEventListener("click", function(){
+    var d = dm._draft; if(!d) return;
+    var t = (d.subject||"") + "\n\n" + (d.body||"");
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(function(){ toast("Email copied"); }, function(){ toast("Copy failed"); }); }
+    else { toast("Copy not supported"); }
+  });
+
   // ---- Swipe between tabs ----
   var tx=0, ty=0, tracking=false;
   var mainEl = document.getElementById("main");
@@ -2392,8 +2617,9 @@
       fetch("data/emails.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
       fetch("data/payments.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
       fetch("data/weekly.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
-      fetch("data/changeorders.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; })
-    ]).then(function(res){ DATA=res[0]; if(res[1]) TODAY=res[1]; if(res[2]) EMAILS=res[2]; if(res[3]) PAYMENTS=res[3]; if(res[4]) WEEKLY=res[4]; if(res[5]) CHANGES=res[5]; renderAll(); toast("Updated"); })
+      fetch("data/changeorders.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
+      fetch("data/reminders.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; })
+    ]).then(function(res){ DATA=res[0]; if(res[1]) TODAY=res[1]; if(res[2]) EMAILS=res[2]; if(res[3]) PAYMENTS=res[3]; if(res[4]) WEEKLY=res[4]; if(res[5]) CHANGES=res[5]; if(res[6]) REMINDERS=res[6]; renderAll(); toast("Updated"); })
       .catch(function(){ renderAll(); toast("Showing last saved data"); })
       .finally(function(){ ptr.classList.remove("loading"); ptr.style.height="0"; });
   }

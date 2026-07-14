@@ -187,7 +187,7 @@ Each skill is discrete and composable, reads from the sources noted, and writes 
 The portal is static; automation runs in the **scheduled skill runner** (Claude Code Routine / cron / Netlify scheduled function):
 
 - **11:00 PM nightly** → run `hub-project-aggregator` → `daily-todo-generator` → `task-reminder-engine` → `payment-tracker`, rebuild `data/*.json`, queue any reminder drafts.
-- **Fridays** → additionally run `weekly-update-drafter`; drafts land in the portal's Email tab for review.
+- **Fridays 2:00 PM** → additionally run `weekly-update-drafter`; drafts land in the portal’s Email tab for review.
 - **On‑demand** → Refresh button / pull‑to‑refresh hits `functions/refresh.js`.
 - **Nothing auto‑sends.** Reminder + weekly drafts always wait for your **Send** click (per prompt + SOP).
 

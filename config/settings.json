@@ -2,6 +2,7 @@
   "$comment": "Central config for the Chapter PM Assistant Portal. Edit these, not the code.",
   "referenceTimezone": "America/New_York",
   "dailyResetTime": "23:00",
+  "weeklyUpdate": { "day": "Friday", "time": "14:00" },
   "hub": {
     "pmUserId": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338",
     "pmName": "Sagar Patel"
