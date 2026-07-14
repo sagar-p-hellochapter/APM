@@ -1,0 +1,139 @@
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "subsAreExample": true,
+  "summary": {
+    "totalOutstandingClient": 678280.93,
+    "milestonesOverdue": 6,
+    "milestonesToAction": 7,
+    "subOverdue": 0,
+    "subDueSoon": 1
+  },
+  "clientMilestones": [
+    {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Milestone #1/5",
+      "amount": 15708.9,
+      "percent": 15,
+      "date": "2026-05-04T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 71,
+      "outstanding": 62835.6,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "project": "333 East 43rd Street #712",
+      "label": "Milestone #1/7",
+      "amount": 40958.75,
+      "percent": 25,
+      "date": null,
+      "status": "unscheduled",
+      "daysOverdue": null,
+      "outstanding": 139259.75,
+      "action": "Schedule + bill"
+    },
+    {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "project": "535 East 86th Street #21B",
+      "label": "Milestone #2/5",
+      "amount": 27345.75,
+      "percent": 10,
+      "date": "2026-04-20T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 85,
+      "outstanding": 123055.87,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "label": "Milestone #3/6",
+      "amount": 16776,
+      "percent": 10,
+      "date": "2026-04-24T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 81,
+      "outstanding": 75492,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "project": "177 East 79th Street #16/17",
+      "label": "Milestone #3/13",
+      "amount": 20993.5,
+      "percent": 10,
+      "date": "2026-04-13T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 92,
+      "outstanding": 120270.75,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "project": "330 East 79th Street Apt #6B",
+      "label": "Milestone #1/6",
+      "amount": 1613,
+      "percent": 20,
+      "date": "2025-03-17T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 484,
+      "outstanding": 119483.75,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "project": "1025 Fifth Avenue #6CS",
+      "label": "Milestone #6/6",
+      "amount": 21378.5,
+      "percent": 10,
+      "date": "2026-02-25T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 139,
+      "outstanding": 37883.21,
+      "action": "Bill now — past due"
+    }
+  ],
+  "subPayments": [
+    {
+      "sub": "Example Plumbing Co.",
+      "trade": "Plumbing",
+      "email": "office@exampleplumbing.com",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Rough-in complete",
+      "amount": 21000,
+      "dueDate": "2026-07-18",
+      "daysUntil": 4,
+      "status": "unpaid",
+      "flag": "due-soon"
+    },
+    {
+      "sub": "Example Plumbing Co.",
+      "trade": "Plumbing",
+      "email": "office@exampleplumbing.com",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Final (retainage 15%)",
+      "amount": 14700,
+      "dueDate": null,
+      "daysUntil": null,
+      "status": "held-until-punch",
+      "flag": "held"
+    },
+    {
+      "sub": "Example Plumbing Co.",
+      "trade": "Plumbing",
+      "email": "office@exampleplumbing.com",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Deposit (15%)",
+      "amount": 6300,
+      "dueDate": "2026-03-01",
+      "daysUntil": -135,
+      "status": "paid",
+      "flag": "paid"
+    }
+  ]
+}

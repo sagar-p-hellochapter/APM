@@ -20,7 +20,7 @@ Planning approved. Building skill-by-skill against live HUB data.
 | 8 | `portal-renderer` | ✅ mobile shell built + rendered (Today, Projects, detail; light/dark) |
 | 2 | `daily-todo-generator` | ✅ built + verified; Today tab live (urgency + categories) |
 | 3 | `task-reminder-engine` | pending |
-| 4 | `payment-tracker` | pending |
+| 4 | `payment-tracker` | ✅ built + verified; Payments tab live (subs = example) |
 | 5 | `email-consolidator` | ✅ built + verified; Email tab live, clients backfilled |
 | 6 | `weekly-update-drafter` | pending |
 | 7 | `email-drafter` | pending |
