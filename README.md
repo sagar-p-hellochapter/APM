@@ -22,7 +22,7 @@ Planning approved. Building skill-by-skill against live HUB data.
 | 3 | `task-reminder-engine` | pending |
 | 4 | `payment-tracker` | ✅ built + verified; Payments tab live (subs = example) |
 | 5 | `email-consolidator` | ✅ built + verified; Email tab live, clients backfilled |
-| 6 | `weekly-update-drafter` | pending |
+| 6 | `weekly-update-drafter` | ✅ built + verified; Weekly drafts in Email tab |
 | 7 | `email-drafter` | pending |
 
 ## Regenerate the project data

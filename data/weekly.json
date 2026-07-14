@@ -1,0 +1,103 @@
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "weekOf": "Friday, July 17, 2026",
+  "projects": [
+    {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "name": "75 East End Avenue #17A",
+      "client": {
+        "name": "Nicholas Stoker",
+        "email": "nicholas.stoker@gmail.com"
+      },
+      "clientReady": true,
+      "clientDraft": {
+        "subject": "75 East End Avenue #17A — Weekly Update (Friday, July 17, 2026)",
+        "to": "nicholas.stoker@gmail.com",
+        "body": "Hi Nicholas,\n\nHere's your weekly update on 75 East End Avenue #17A.\n\nProgress this week:\n• Kicked off procurement coordination and aligned on your requested updates (foyer recessed lighting reduction and related changes).\n• Reviewed countertop and backsplash options with the design team.\n\nComing up (next 2 weeks):\n• Internal design/PM pass-off this week, with job start targeted for early next week.\n• Finalize countertop and backsplash selections.\n\nA couple of things we'd need from you:\n• Please confirm the foyer/lighting modifications so we can lock in procurement.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 75 East End Avenue #17A · Friday, July 17, 2026\nPhase: Pre-Construction\nClient: Nicholas Stoker <nicholas.stoker@gmail.com>\n\nFlags / risks:\n• Milestone #1/5 ($15,709) is 71 days past its date with $62,836 outstanding — release the invoice.\n• Client is actively requesting design changes — keep any scope changes on signed change orders."
+      }
+    },
+    {
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "name": "333 East 43rd Street #712",
+      "client": null,
+      "clientReady": false,
+      "clientDraft": {
+        "subject": "333 East 43rd Street #712 — Weekly Update (Friday, July 17, 2026)",
+        "to": null,
+        "body": "Hi there,\n\nHere's your weekly update on 333 East 43rd Street #712.\n\nProgress this week:\n• Asbestos sampling completed — all materials returned negative, so we're clear to proceed.\n• Latest design uploaded for review and client documents received.\n\nComing up (next 2 weeks):\n• Building super walkthrough, RFI log, and DOB permit follow-up this week.\n• Prepare and send the building package.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 333 East 43rd Street #712 · Friday, July 17, 2026\nPhase: Design & Building Approval\nClient: NOT IDENTIFIED\n\nFlags / risks:\n• Milestone #1/7 ($40,959) is unscheduled with $139,260 outstanding — set the billing date.\n• Client contact/email not identifiable from current threads — confirm before sending."
+      }
+    },
+    {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "name": "535 East 86th Street #21B",
+      "client": {
+        "name": "Dean Schloyer",
+        "email": null
+      },
+      "clientReady": false,
+      "clientDraft": {
+        "subject": "535 East 86th Street #21B — Weekly Update (Friday, July 17, 2026)",
+        "to": null,
+        "body": "Hi Dean,\n\nHere's your weekly update on 535 East 86th Street #21B.\n\nProgress this week:\n• Plumbing rough-ins are progressing with our mechanical subcontractor.\n• Latest design uploaded to your portal for review.\n\nComing up (next 2 weeks):\n• Change-order review and remote camera installation this week.\n• Continue rough-in coordination and inspections.\n\nA couple of things we'd need from you:\n• When you have a moment, review the latest design in your portal and let us know of any changes.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 535 East 86th Street #21B · Friday, July 17, 2026\nPhase: Construction\nClient: Dean Schloyer\n\nFlags / risks:\n• Milestone #2/5 ($27,346) is 85 days past date with $123,056 outstanding — bill the client.\n• Brothers Mechanical invoice #1955 is due — process payment."
+      }
+    },
+    {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "name": "401 East 86th Street #8A",
+      "client": {
+        "name": "Ryan White",
+        "email": "ryanwphd@gmail.com"
+      },
+      "clientReady": true,
+      "clientDraft": {
+        "subject": "401 East 86th Street #8A — Weekly Update (Friday, July 17, 2026)",
+        "to": "ryanwphd@gmail.com",
+        "body": "Hi Ryan,\n\nHere's your weekly update on 401 East 86th Street #8A.\n\nProgress this week:\n• Flooring delivery scheduled for Friday with PID Floors (a 3-hour window will be confirmed Thursday).\n• Appliance order placed with AJ Madison — delivery is being held for August 3 while the unit is under construction.\n\nComing up (next 2 weeks):\n• Floor and tile protection this week, plus general contractor sign-off.\n• Coordinate the flooring installation after delivery.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 401 East 86th Street #8A · Friday, July 17, 2026\nPhase: Construction\nClient: Ryan White <ryanwphd@gmail.com>\n\nFlags / risks:\n• Milestone #3/6 ($16,776) is 81 days past date with $75,492 outstanding — bill the client.\n• GC sign-off due 7/15."
+      }
+    },
+    {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "name": "177 East 79th Street #16/17",
+      "client": {
+        "name": "Rachel Park",
+        "email": "rachelpark28@gmail.com"
+      },
+      "clientReady": true,
+      "clientDraft": {
+        "subject": "177 East 79th Street #16/17 — Weekly Update (Friday, July 17, 2026)",
+        "to": "rachelpark28@gmail.com",
+        "body": "Hi Rachel,\n\nHere's your weekly update on 177 East 79th Street #16/17.\n\nProgress this week:\n• Your change order (material selection round 2 and flooring) was approved and paid — thank you!\n• Flooring spec confirmed at 7½\" width with PID Floors.\n\nComing up (next 2 weeks):\n• Proceed with the round-2 material selections and place the flooring order.\n• Schedule the upcoming trade work.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 177 East 79th Street #16/17 · Friday, July 17, 2026\nPhase: Construction\nClient: Rachel Park <rachelpark28@gmail.com>\n\nFlags / risks:\n• Milestone #3/13 ($20,994) is 92 days past date with $120,271 outstanding — bill the client.\n• Change order paid — confirm it's reflected in the HUB."
+      }
+    },
+    {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "name": "330 East 79th Street Apt #6B",
+      "client": null,
+      "clientReady": false,
+      "clientDraft": {
+        "subject": "330 East 79th Street Apt #6B — Weekly Update (Friday, July 17, 2026)",
+        "to": null,
+        "body": "Hi there,\n\nHere's your weekly update on 330 East 79th Street Apt #6B.\n\nProgress this week:\n• Change order approved.\n• Flooring order coordinated with PID Floors and payment arranged.\n\nComing up (next 2 weeks):\n• Kitchen cabinet protection and continued site work this week.\n• Confirm remaining material orders.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 330 East 79th Street Apt #6B · Friday, July 17, 2026\nPhase: Construction\nClient: NOT IDENTIFIED\n\nFlags / risks:\n• Milestone #1/6 ($1,613) is 484 days past date with $119,484 outstanding — investigate this stale milestone date and bill.\n• Confirm client contact for weekly updates."
+      }
+    }
+  ]
+}

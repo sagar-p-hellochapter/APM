@@ -29,4 +29,5 @@ inline("data/projects.json", "<!--APM_DATA_START-->", "<!--APM_DATA_END-->", "ap
 inline("data/today.json", "<!--APM_TODAY_START-->", "<!--APM_TODAY_END-->", "apm-today");
 inline("data/emails.json", "<!--APM_EMAILS_START-->", "<!--APM_EMAILS_END-->", "apm-emails");
 inline("data/payments.json", "<!--APM_PAYMENTS_START-->", "<!--APM_PAYMENTS_END-->", "apm-payments");
+inline("data/weekly.json", "<!--APM_WEEKLY_START-->", "<!--APM_WEEKLY_END-->", "apm-weekly");
 writeFileSync(HTML, html);

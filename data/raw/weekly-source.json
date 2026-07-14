@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "weekOf": "Friday, July 17, 2026",
+  "_note": "Per-project bullets the runner synthesizes from HUB project notes (last 7d) + recent Outlook + timeline progress. generate.mjs formats these into a warm client draft + a candid internal version. PM projects only (1025 Fifth is Nihaar's).",
+  "projects": [
+    {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564", "name": "75 East End Avenue #17A", "phase": "Pre-Construction",
+      "client": { "name": "Nicholas Stoker", "email": "nicholas.stoker@gmail.com" },
+      "progress": ["Kicked off procurement coordination and aligned on your requested updates (foyer recessed lighting reduction and related changes).", "Reviewed countertop and backsplash options with the design team."],
+      "next": ["Internal design/PM pass-off this week, with job start targeted for early next week.", "Finalize countertop and backsplash selections."],
+      "asks": ["Please confirm the foyer/lighting modifications so we can lock in procurement."],
+      "internalFlags": ["Milestone #1/5 ($15,709) is 71 days past its date with $62,836 outstanding — release the invoice.", "Client is actively requesting design changes — keep any scope changes on signed change orders."]
+    },
+    {
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242", "name": "333 East 43rd Street #712", "phase": "Design & Building Approval",
+      "client": null,
+      "progress": ["Asbestos sampling completed — all materials returned negative, so we're clear to proceed.", "Latest design uploaded for review and client documents received."],
+      "next": ["Building super walkthrough, RFI log, and DOB permit follow-up this week.", "Prepare and send the building package."],
+      "asks": [],
+      "internalFlags": ["Milestone #1/7 ($40,959) is unscheduled with $139,260 outstanding — set the billing date.", "Client contact/email not identifiable from current threads — confirm before sending."]
+    },
+    {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3", "name": "535 East 86th Street #21B", "phase": "Construction",
+      "client": { "name": "Dean Schloyer", "email": null },
+      "progress": ["Plumbing rough-ins are progressing with our mechanical subcontractor.", "Latest design uploaded to your portal for review."],
+      "next": ["Change-order review and remote camera installation this week.", "Continue rough-in coordination and inspections."],
+      "asks": ["When you have a moment, review the latest design in your portal and let us know of any changes."],
+      "internalFlags": ["Milestone #2/5 ($27,346) is 85 days past date with $123,056 outstanding — bill the client.", "Brothers Mechanical invoice #1955 is due — process payment."]
+    },
+    {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f", "name": "401 East 86th Street #8A", "phase": "Construction",
+      "client": { "name": "Ryan White", "email": "ryanwphd@gmail.com" },
+      "progress": ["Flooring delivery scheduled for Friday with PID Floors (a 3-hour window will be confirmed Thursday).", "Appliance order placed with AJ Madison — delivery is being held for August 3 while the unit is under construction."],
+      "next": ["Floor and tile protection this week, plus general contractor sign-off.", "Coordinate the flooring installation after delivery."],
+      "asks": [],
+      "internalFlags": ["Milestone #3/6 ($16,776) is 81 days past date with $75,492 outstanding — bill the client.", "GC sign-off due 7/15."]
+    },
+    {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef", "name": "177 East 79th Street #16/17", "phase": "Construction",
+      "client": { "name": "Rachel Park", "email": "rachelpark28@gmail.com" },
+      "progress": ["Your change order (material selection round 2 and flooring) was approved and paid — thank you!", "Flooring spec confirmed at 7½\" width with PID Floors."],
+      "next": ["Proceed with the round-2 material selections and place the flooring order.", "Schedule the upcoming trade work."],
+      "asks": [],
+      "internalFlags": ["Milestone #3/13 ($20,994) is 92 days past date with $120,271 outstanding — bill the client.", "Change order paid — confirm it's reflected in the HUB."]
+    },
+    {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a", "name": "330 East 79th Street Apt #6B", "phase": "Construction",
+      "client": null,
+      "progress": ["Change order approved.", "Flooring order coordinated with PID Floors and payment arranged."],
+      "next": ["Kitchen cabinet protection and continued site work this week.", "Confirm remaining material orders."],
+      "asks": [],
+      "internalFlags": ["Milestone #1/6 ($1,613) is 484 days past date with $119,484 outstanding — investigate this stale milestone date and bill.", "Confirm client contact for weekly updates."]
+    }
+  ]
+}
