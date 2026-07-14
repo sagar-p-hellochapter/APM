@@ -17,13 +17,13 @@ Planning approved. Building skill-by-skill against live HUB data.
 | # | Skill | Status |
 |---|-------|--------|
 | 1 | `hub-project-aggregator` | ✅ built + verified against 7 live projects |
+| 8 | `portal-renderer` | ✅ mobile shell built + rendered (Today, Projects, detail; light/dark) |
 | 2 | `daily-todo-generator` | pending |
 | 3 | `task-reminder-engine` | pending |
 | 4 | `payment-tracker` | pending |
 | 5 | `email-consolidator` | pending |
 | 6 | `weekly-update-drafter` | pending |
 | 7 | `email-drafter` | pending |
-| 8 | `portal-renderer` | pending |
 
 ## Regenerate the project data
 

@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+<meta name="theme-color" content="#0f172a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Chapter PM Assistant</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --surface:#fff; --surface-2:#fafbfc; --text:#0f172a; --muted:#64748b;
+    --line:#e6e9ee; --brand:#0f172a; --accent:#2563eb;
+    --red:#dc2626; --red-bg:#fef2f2; --yellow:#d97706; --yellow-bg:#fffbeb; --green:#16a34a; --green-bg:#f0fdf4;
+    --nav-h:64px; --header-h:auto; --radius:16px; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.1);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --surface:#131c2e; --surface-2:#0f1727; --text:#e8edf5; --muted:#93a2b8;
+      --line:#243149; --brand:#e8edf5; --accent:#60a5fa;
+      --red:#f87171; --red-bg:#2a1416; --yellow:#fbbf24; --yellow-bg:#2a2110; --green:#4ade80; --green-bg:#0f2417; }
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); overscroll-behavior-y:contain;
+    -webkit-font-smoothing:antialiased;
+  }
+  #app{max-width:640px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line);
+    padding:calc(env(safe-area-inset-top) + 14px) 16px 12px;}
+  .hgreet{font-size:13px;color:var(--muted);margin:0 0 2px}
+  .htitle{font-size:20px;font-weight:700;margin:0;letter-spacing:-.02em}
+  .chips{display:flex;gap:8px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;
+    padding:7px 12px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .dot{width:9px;height:9px;border-radius:50%}
+  .dot.red{background:var(--red)} .dot.yellow{background:var(--yellow)} .dot.green{background:var(--green)}
+  /* Pull to refresh */
+  #ptr{height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;transition:height .15s ease}
+  #ptr .spin{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;margin-right:8px}
+  #ptr.loading .spin{animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* Main */
+  main{flex:1;padding:16px 16px calc(var(--nav-h) + env(safe-area-inset-bottom) + 20px);}
+  .view{display:none;animation:fade .18s ease}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .section-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 2px 10px;display:flex;align-items:center;gap:8px}
+  .section-title .count{background:var(--line);color:var(--text);border-radius:999px;font-size:11px;padding:1px 8px}
+  .section-title:first-child{margin-top:4px}
+  /* Cards */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:14px 15px;margin-bottom:12px;position:relative;overflow:hidden}
+  .card.tappable{cursor:pointer;transition:transform .06s ease}
+  .card.tappable:active{transform:scale(.99)}
+  .card.health-red{border-left:5px solid var(--red)} .card.health-yellow{border-left:5px solid var(--yellow)} .card.health-green{border-left:5px solid var(--green)}
+  .row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .pname{font-size:16px;font-weight:700;margin:0;letter-spacing:-.01em;line-height:1.25}
+  .psub{font-size:12.5px;color:var(--muted);margin:3px 0 0}
+  .badge{flex:0 0 auto;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em}
+  .badge.red{color:var(--red);background:var(--red-bg)} .badge.yellow{color:var(--yellow);background:var(--yellow-bg)} .badge.green{color:var(--green);background:var(--green-bg)}
+  .metrics{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+  .metric .k{font-size:11px;color:var(--muted);margin:0} .metric .v{font-size:15px;font-weight:700;margin:2px 0 0}
+  .v.warn{color:var(--red)}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 10px;border-radius:8px;margin-top:12px}
+  .pill.red{color:var(--red);background:var(--red-bg)} .pill.yellow{color:var(--yellow);background:var(--yellow-bg)} .pill.green{color:var(--green);background:var(--green-bg)} .pill.muted{color:var(--muted);background:var(--surface-2)}
+  .empty{text-align:center;color:var(--muted);padding:26px 14px;background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);font-size:13.5px}
+  .empty .big{font-size:26px;display:block;margin-bottom:8px}
+  .stub{text-align:center;padding:48px 20px;color:var(--muted)}
+  .stub .big{font-size:40px;display:block;margin-bottom:14px}
+  .stub h2{color:var(--text);font-size:18px;margin:0 0 8px}
+  .stub ul{text-align:left;display:inline-block;margin:14px 0 0;padding-left:18px;font-size:13.5px;line-height:1.7}
+  /* Detail */
+  .back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--accent);font-size:15px;font-weight:600;padding:4px 0;margin-bottom:8px;cursor:pointer}
+  .kv{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .kv:last-child{border-bottom:none} .kv .k{color:var(--muted)} .kv .v{font-weight:600;text-align:right}
+  .detail-head{margin:2px 0 4px} .detail-head h1{font-size:20px;margin:0;letter-spacing:-.02em}
+  /* Bottom nav */
+  nav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;background:var(--surface);
+    border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);max-width:640px;margin:0 auto}
+  nav button{flex:1;background:none;border:none;padding:9px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--muted);font-size:10.5px;font-weight:600;min-height:56px;cursor:pointer;position:relative}
+  nav button .ico{font-size:21px;line-height:1}
+  nav button.active{color:var(--accent)}
+  nav button .nbadge{position:absolute;top:5px;left:calc(50% + 8px);background:var(--red);color:#fff;font-size:9px;font-weight:800;
+    min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+  .toast{position:fixed;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);left:50%;transform:translateX(-50%);
+    background:var(--brand);color:var(--bg);font-size:13px;font-weight:600;padding:9px 16px;border-radius:999px;opacity:0;
+    transition:opacity .25s ease;pointer-events:none;z-index:40}
+  .toast.show{opacity:1}
+  .updated{font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <p class="hgreet" id="greet">—</p>
+    <h1 class="htitle">Today at Chapter</h1>
+    <div class="chips" id="chips"></div>
+    <div id="ptr"><span class="spin"></span><span class="ptr-label">Pull to refresh</span></div>
+  </header>
+
+  <main id="main">
+    <section class="view active" id="view-today"></section>
+    <section class="view" id="view-projects"></section>
+    <section class="view" id="view-payments"></section>
+    <section class="view" id="view-changes"></section>
+    <section class="view" id="view-email"></section>
+    <section class="view" id="view-detail"></section>
+  </main>
+
+  <nav id="nav">
+    <button data-tab="today" class="active"><span class="ico">📋</span>Today</button>
+    <button data-tab="projects"><span class="ico">🏢</span>Projects</button>
+    <button data-tab="payments"><span class="ico">💵</span>Payments</button>
+    <button data-tab="changes"><span class="ico">🧾</span>Changes</button>
+    <button data-tab="email"><span class="ico">✉️</span>Email</button>
+  </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<!--APM_DATA_START-->
+<script id="apm-data" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "source": "the HUB by Chapter (live) + config",
+  "summary": {
+    "totalProjects": 7,
+    "byHealth": {
+      "red": 6,
+      "yellow": 1,
+      "green": 0
+    },
+    "totalOutstanding": 678280.93,
+    "overdueMilestones": 6,
+    "overdueTasks": 0
+  },
+  "projects": [
+    {
+      "id": "8bdfa7e4-59a0-4d97-9d65-637bd6c2b2d2",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "name": "75 East End Avenue #17A",
+      "address": "75 East End Avenue #17A",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 104726,
+        "proposal": 104726,
+        "changeOrders": 0,
+        "paymentsReceived": 41890.4,
+        "paymentsBalance": 62835.6,
+        "nextMilestone": {
+          "label": "Milestone #1/5",
+          "amount": 15708.9,
+          "percent": 15,
+          "date": "2026-05-04T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 71
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "81d6e791-0524-443c-a99e-e339a6d167af",
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "name": "333 East 43rd Street #712",
+      "address": "333 East 43rd Street #712",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "yellow",
+      "financials": {
+        "income": 163835,
+        "proposal": 163835,
+        "changeOrders": 0,
+        "paymentsReceived": 24575.25,
+        "paymentsBalance": 139259.75,
+        "nextMilestone": {
+          "label": "Milestone #1/7",
+          "amount": 40958.75,
+          "percent": 25,
+          "date": null,
+          "status": "unscheduled",
+          "daysOverdue": null
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": "Lester Katz DXA",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "70962a9e-23bc-4df8-b19a-5dd02ceeebbf",
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "name": "535 East 86th Street #21B",
+      "address": "535 East 86th Street #21B",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 317423.33,
+        "proposal": 273457.5,
+        "changeOrders": 43965.83,
+        "paymentsReceived": 194367.46,
+        "paymentsBalance": 123055.87,
+        "nextMilestone": {
+          "label": "Milestone #2/5",
+          "amount": 27345.75,
+          "percent": 10,
+          "date": "2026-04-20T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 85
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": "Lester Katz DXA",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "f765752a-0792-4778-8e1e-b0f0319bb71e",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "name": "401 East 86th Street #8A",
+      "address": "401 East 86th Street #8A",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 216098.71,
+        "proposal": 167760,
+        "changeOrders": 48338.71,
+        "paymentsReceived": 140606.71,
+        "paymentsBalance": 75492,
+        "nextMilestone": {
+          "label": "Milestone #3/6",
+          "amount": 16776,
+          "percent": 10,
+          "date": "2026-04-24T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 81
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Katia Haniuk",
+        "architect": "Dionisio Ortega",
+        "administrator": "Project Coordinator BOT"
+      }
+    },
+    {
+      "id": "3b955cea-5c69-4c91-a5e2-2a74138390a5",
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "name": "177 East 79th Street #16/17",
+      "address": "177 East 79th Street #16/17",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 311987.85,
+        "proposal": 226115,
+        "changeOrders": 85872.85,
+        "paymentsReceived": 191717.1,
+        "paymentsBalance": 120270.75,
+        "nextMilestone": {
+          "label": "Milestone #3/13",
+          "amount": 20993.5,
+          "percent": 10,
+          "date": "2026-04-13T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 92
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Monica Cialona",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "503470e7-263d-4ad3-ac5a-0e7851fb5dd5",
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "name": "330 East 79th Street Apt #6B",
+      "address": "330 East 79th Street Apt #6B",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 411648.03,
+        "proposal": 261935,
+        "changeOrders": 149713.03,
+        "paymentsReceived": 292164.28,
+        "paymentsBalance": 119483.75,
+        "nextMilestone": {
+          "label": "Milestone #1/6",
+          "amount": 1613,
+          "percent": 20,
+          "date": "2025-03-17T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 484
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Katia Haniuk",
+        "architect": "Pietro Rosato",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "7f7ade95-123f-4907-9e49-536dec0d07da",
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "name": "1025 Fifth Avenue #6CS",
+      "address": "1025 Fifth Avenue #6CS",
+      "client": null,
+      "role": "designer",
+      "isMyProject": false,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 222494.96,
+        "proposal": 213785,
+        "changeOrders": 8709.96,
+        "paymentsReceived": 184611.75,
+        "paymentsBalance": 37883.21,
+        "nextMilestone": {
+          "label": "Milestone #6/6",
+          "amount": 21378.5,
+          "percent": 10,
+          "date": "2026-02-25T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 139
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Nihaar Pathak",
+        "designer": "Dorothy Weise",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    }
+  ]
+}
+</script>
+<!--APM_DATA_END-->
+
+<script>
+(function(){
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("apm-data").textContent);
+
+  var fmtMoney = function(n){ if(n==null) return "—"; return "$" + Math.round(n).toLocaleString("en-US"); };
+  var esc = function(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); };
+  var fmtDate = function(iso){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return "—"; return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); };
+
+  var TABS = ["today","projects","payments","changes","email"];
+  var TITLES = { today:"Today at Chapter", projects:"Projects", payments:"Payments", changes:"Change Orders", email:"Email", detail:"Project Detail" };
+  var current = "today";
+
+  // ---- Header ----
+  function renderHeader(){
+    var refd = new Date(DATA.referenceDate + "T12:00:00");
+    document.getElementById("greet").textContent =
+      refd.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+    var s = DATA.summary;
+    var chips = document.getElementById("chips");
+    chips.innerHTML =
+      chip(fmtMoney(s.totalOutstanding) + " outstanding") +
+      chip('<span class="dot red"></span>' + s.byHealth.red + " red") +
+      chip('<span class="dot yellow"></span>' + s.byHealth.yellow + " yellow") +
+      chip('<span class="dot green"></span>' + s.byHealth.green + " green") +
+      chip(s.overdueMilestones + " overdue milestone" + (s.overdueMilestones===1?"":"s"));
+  }
+  function chip(inner){ return '<div class="chip">'+inner+'</div>'; }
+
+  // ---- Today ----
+  function renderToday(){
+    var mine = DATA.projects.filter(function(p){return p.isMyProject;});
+    // Payments category: milestones needing action
+    var payItems = mine.filter(function(p){ var m=p.financials.nextMilestone; return m && (m.status==="overdue"||m.status==="upcoming"||m.status==="unscheduled"); })
+      .sort(function(a,b){ return (b.financials.nextMilestone.daysOverdue||0)-(a.financials.nextMilestone.daysOverdue||0); });
+    // Site tasks: overdue
+    var siteItems = mine.filter(function(p){ return p.todos.overdue>0 || p.todos.dueToday>0; });
+
+    var html = "";
+    // Payments
+    html += sectionTitle("Payments &amp; Billing", payItems.length);
+    if(payItems.length===0){ html += emptyState("💵","No milestone billing due."); }
+    else payItems.forEach(function(p){
+      var m=p.financials.nextMilestone;
+      var st = m.status==="overdue" ? "red" : (m.status==="upcoming"?"yellow":"muted");
+      var line = m.status==="overdue" ? (m.daysOverdue+" days overdue")
+               : m.status==="unscheduled" ? "milestone not yet scheduled"
+               : "due "+fmtDate(m.date);
+      html += '<div class="card tappable health-'+p.health+'" data-deal="'+p.dealId+'">'
+        + '<div class="row"><div><p class="pname">'+esc(m.label)+' · '+fmtMoney(m.amount)+'</p>'
+        + '<p class="psub">'+esc(p.address)+'</p></div>'
+        + '<span class="badge '+(st==="muted"?"yellow":st)+'">'+esc(m.status)+'</span></div>'
+        + '<div class="pill '+st+'">Bill client — '+line+'</div></div>';
+    });
+    // Communication
+    html += sectionTitle("Client Communication", 0);
+    html += emptyState("💬","No client updates flagged. Weekly updates auto-draft Fridays.");
+    // Procurement
+    html += sectionTitle("Procurement", 0);
+    html += emptyState("📦","Procurement tracking arrives in Phase 2.");
+    // Site tasks
+    html += sectionTitle("Site Tasks", siteItems.length);
+    if(siteItems.length===0){ html += emptyState("✅","No overdue or due-today site tasks. Your HUB task board is clear."); }
+    else siteItems.forEach(function(p){
+      html += '<div class="card tappable health-'+p.health+'" data-deal="'+p.dealId+'">'
+        + '<div class="row"><div><p class="pname">'+esc(p.address)+'</p>'
+        + '<p class="psub">'+p.todos.overdue+' overdue · '+p.todos.dueToday+' due today</p></div>'
+        + '<span class="badge red">'+p.todos.overdue+'</span></div></div>';
+    });
+    html += '<p class="updated">Data as of '+fmtDate(DATA.generatedAt)+' · '+esc(DATA.source)+'</p>';
+    document.getElementById("view-today").innerHTML = html;
+  }
+
+  // ---- Projects ----
+  function renderProjects(){
+    var html = sectionTitle("All Projects", DATA.projects.length);
+    DATA.projects.forEach(function(p){
+      var f=p.financials, m=f.nextMilestone;
+      var msLine = m ? (m.status==="overdue" ? '<div class="pill red">'+esc(m.label)+' · '+fmtMoney(m.amount)+' · '+m.daysOverdue+'d overdue</div>'
+                    : m.status==="unscheduled" ? '<div class="pill yellow">'+esc(m.label)+' · '+fmtMoney(m.amount)+' · unscheduled</div>'
+                    : '<div class="pill muted">'+esc(m.label)+' · '+fmtMoney(m.amount)+' · '+fmtDate(m.date)+'</div>') : "";
+      html += '<div class="card tappable health-'+p.health+'" data-deal="'+p.dealId+'">'
+        + '<div class="row"><div><p class="pname">'+esc(p.address)+'</p>'
+        + '<p class="psub">'+(p.role==="designer"?"Designer · ":"")+ (p.stakeholders.designer?("Designer: "+esc(p.stakeholders.designer)):"")+'</p></div>'
+        + '<span class="badge '+p.health+'">'+p.health+'</span></div>'
+        + '<div class="metrics"><div class="metric"><p class="k">Outstanding</p><p class="v warn">'+fmtMoney(f.paymentsBalance)+'</p></div>'
+        + '<div class="metric"><p class="k">Contract</p><p class="v">'+fmtMoney(f.income)+'</p></div>'
+        + '<div class="metric"><p class="k">Open to-dos</p><p class="v">'+(p.todos.overdue+p.todos.dueThisWeek)+'</p></div></div>'
+        + msLine + '</div>';
+    });
+    document.getElementById("view-projects").innerHTML = html;
+  }
+
+  // ---- Detail ----
+  function renderDetail(dealId){
+    var p = DATA.projects.find(function(x){return x.dealId===dealId;});
+    if(!p) return;
+    var f=p.financials, m=f.nextMilestone, s=p.stakeholders;
+    var html = '<button class="back" id="backBtn">‹ Back</button>'
+      + '<div class="detail-head"><span class="badge '+p.health+'">'+p.health+'</span><h1>'+esc(p.address)+'</h1></div>';
+    html += sectionTitle("Financials",0).replace(/<span class="count">.*?<\/span>/,"");
+    html += '<div class="card">'
+      + kv("Contract (incl. COs)", fmtMoney(f.income))
+      + kv("Proposal", fmtMoney(f.proposal))
+      + kv("Change orders", fmtMoney(f.changeOrders))
+      + kv("Received", fmtMoney(f.paymentsReceived))
+      + kv("Outstanding", '<span style="color:var(--red)">'+fmtMoney(f.paymentsBalance)+'</span>')
+      + '</div>';
+    if(m){
+      var st = m.status==="overdue"?"red":(m.status==="upcoming"?"yellow":"muted");
+      html += sectionTitle("Next Milestone",0).replace(/<span class="count">.*?<\/span>/,"");
+      html += '<div class="card">'
+        + kv("Milestone", esc(m.label))
+        + kv("Amount", fmtMoney(m.amount)+" ("+(m.percent!=null?m.percent+"%":"—")+")")
+        + kv("Date", fmtDate(m.date))
+        + kv("Status", '<span style="color:var(--'+ (st==="muted"?"muted":st) +')">'+esc(m.status)+(m.daysOverdue?(" · "+m.daysOverdue+"d"):"")+'</span>')
+        + '</div>';
+      if(m.status==="overdue")
+        html += '<div class="pill red" style="width:100%;justify-content:center">⚠︎ Bill the client — '+m.daysOverdue+' days past milestone date</div>';
+    }
+    html += sectionTitle("Team",0).replace(/<span class="count">.*?<\/span>/,"");
+    html += '<div class="card">'
+      + kv("Project Manager", esc(s.projectManager||"—"))
+      + kv("Designer", esc(s.designer||"—"))
+      + kv("Architect", esc(s.architect||"—"))
+      + kv("Administrator", esc(s.administrator||"—"))
+      + '</div>';
+    html += sectionTitle("To-dos, emails &amp; change orders",0).replace(/<span class="count">.*?<\/span>/,"");
+    html += emptyState("🧩","Task list, consolidated emails, and change orders land here as those skills come online.");
+    document.getElementById("view-detail").innerHTML = html;
+    document.getElementById("backBtn").addEventListener("click", function(){ show(lastListTab); });
+  }
+
+  // ---- Stubs ----
+  function renderStub(id, icon, title, items){
+    document.getElementById(id).innerHTML =
+      '<div class="stub"><span class="big">'+icon+'</span><h2>'+title+'</h2>'
+      + '<p>Coming next in the build.</p><ul>'+items.map(function(i){return "<li>"+i+"</li>";}).join("")+'</ul></div>';
+  }
+
+  function sectionTitle(t,c){ return '<div class="section-title">'+t+(c!=null?'<span class="count">'+c+'</span>':'')+'</div>'; }
+  function emptyState(icon,t){ return '<div class="empty"><span class="big">'+icon+'</span>'+t+'</div>'; }
+  function kv(k,v){ return '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+
+  // ---- Navigation ----
+  var lastListTab = "today";
+  function show(tab){
+    if(TABS.indexOf(tab)>=0) lastListTab = tab;
+    current = tab;
+    document.querySelector(".htitle").textContent = TITLES[tab] || "Chapter PM";
+    document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+    document.getElementById("view-"+tab).classList.add("active");
+    document.querySelectorAll("nav button").forEach(function(b){ b.classList.toggle("active", b.dataset.tab===tab); });
+    document.getElementById("main").scrollTop=0; window.scrollTo(0,0);
+  }
+  document.querySelectorAll("nav button").forEach(function(b){
+    b.addEventListener("click", function(){ show(b.dataset.tab); });
+  });
+  // Card taps → detail
+  document.getElementById("main").addEventListener("click", function(e){
+    var card = e.target.closest("[data-deal]");
+    if(card){ renderDetail(card.dataset.deal); show("detail"); }
+  });
+
+  // ---- Swipe between tabs ----
+  var tx=0, ty=0, tracking=false;
+  var mainEl = document.getElementById("main");
+  mainEl.addEventListener("touchstart", function(e){ tx=e.touches[0].clientX; ty=e.touches[0].clientY; tracking=true; }, {passive:true});
+  mainEl.addEventListener("touchend", function(e){
+    if(!tracking) return; tracking=false;
+    if(current==="detail") return;
+    var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.8){
+      var i=TABS.indexOf(current); if(i<0) return;
+      if(dx<0 && i<TABS.length-1) show(TABS[i+1]);
+      else if(dx>0 && i>0) show(TABS[i-1]);
+    }
+  }, {passive:true});
+
+  // ---- Pull to refresh ----
+  var ptr=document.getElementById("ptr"), startY=0, pulling=false, dist=0;
+  document.addEventListener("touchstart", function(e){ if(window.scrollY<=0 && document.getElementById("main").scrollTop<=0){ startY=e.touches[0].clientY; pulling=true; } }, {passive:true});
+  document.addEventListener("touchmove", function(e){
+    if(!pulling) return; dist=e.touches[0].clientY-startY;
+    if(dist>0){ ptr.style.height=Math.min(dist*0.5,60)+"px"; ptr.querySelector(".ptr-label").textContent = dist>80?"Release to refresh":"Pull to refresh"; }
+  }, {passive:true});
+  document.addEventListener("touchend", function(){ if(!pulling) return; pulling=false; if(dist>80){ refresh(); } else { ptr.style.height="0"; } dist=0; });
+
+  function refresh(){
+    ptr.classList.add("loading"); ptr.style.height="44px"; ptr.querySelector(".ptr-label").textContent="Refreshing…";
+    fetch("data/projects.json",{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(json){ DATA=json; renderAll(); toast("Updated"); })
+      .catch(function(){ renderAll(); toast("Showing last saved data"); })
+      .finally(function(){ ptr.classList.remove("loading"); ptr.style.height="0"; });
+  }
+  function toast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(function(){t.classList.remove("show");},1800); }
+
+  function renderAll(){
+    renderHeader(); renderToday(); renderProjects();
+    renderStub("view-payments","💵","Payments", ["Sub payment reminders (from config/subs.json)","Milestone release tracker","Change-order billing status","Mark-paid + draft reminder to yourself"]);
+    renderStub("view-changes","🧾","Change Orders", ["Pending / sent / approved / paid per project","Flag COs awaiting client response >3 business days","Draft the CO client email (cost, schedule, lead time)"]);
+    renderStub("view-email","✉️","Email", ["Per-project consolidated Outlook threads","Weekly client update drafts (Fridays)","All drafts — you review and send from Outlook"]);
+  }
+  renderAll();
+})();
+</script>
+</body>
+</html>
