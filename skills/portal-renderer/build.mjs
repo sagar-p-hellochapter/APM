@@ -27,4 +27,5 @@ function inline(file, startTag, endTag, id){
 
 inline("data/projects.json", "<!--APM_DATA_START-->", "<!--APM_DATA_END-->", "apm-data");
 inline("data/today.json", "<!--APM_TODAY_START-->", "<!--APM_TODAY_END-->", "apm-today");
+inline("data/emails.json", "<!--APM_EMAILS_START-->", "<!--APM_EMAILS_END-->", "apm-emails");
 writeFileSync(HTML, html);

@@ -21,7 +21,7 @@ Planning approved. Building skill-by-skill against live HUB data.
 | 2 | `daily-todo-generator` | ✅ built + verified; Today tab live (urgency + categories) |
 | 3 | `task-reminder-engine` | pending |
 | 4 | `payment-tracker` | pending |
-| 5 | `email-consolidator` | pending |
+| 5 | `email-consolidator` | ✅ built + verified; Email tab live, clients backfilled |
 | 6 | `weekly-update-drafter` | pending |
 | 7 | `email-drafter` | pending |
 

@@ -19,7 +19,10 @@
       "dealId": "599696ee-8491-495a-890c-2a52077a8564",
       "name": "75 East End Avenue #17A",
       "address": "75 East End Avenue #17A",
-      "client": null,
+      "client": {
+        "name": "Nicholas Stoker",
+        "email": "nicholas.stoker@gmail.com"
+      },
       "role": "pm",
       "isMyProject": true,
       "phase": null,
@@ -95,7 +98,10 @@
       "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
       "name": "535 East 86th Street #21B",
       "address": "535 East 86th Street #21B",
-      "client": null,
+      "client": {
+        "name": "Dean Schloyer",
+        "email": null
+      },
       "role": "pm",
       "isMyProject": true,
       "phase": null,
@@ -133,7 +139,10 @@
       "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
       "name": "401 East 86th Street #8A",
       "address": "401 East 86th Street #8A",
-      "client": null,
+      "client": {
+        "name": "Ryan White",
+        "email": "ryanwphd@gmail.com"
+      },
       "role": "pm",
       "isMyProject": true,
       "phase": null,
@@ -171,7 +180,10 @@
       "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
       "name": "177 East 79th Street #16/17",
       "address": "177 East 79th Street #16/17",
-      "client": null,
+      "client": {
+        "name": "Rachel Park",
+        "email": "rachelpark28@gmail.com"
+      },
       "role": "pm",
       "isMyProject": true,
       "phase": null,
@@ -247,7 +259,10 @@
       "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
       "name": "1025 Fifth Avenue #6CS",
       "address": "1025 Fifth Avenue #6CS",
-      "client": null,
+      "client": {
+        "name": "Jorge & Shannon",
+        "email": "jvitutia@hotmail.com"
+      },
       "role": "designer",
       "isMyProject": false,
       "phase": null,
