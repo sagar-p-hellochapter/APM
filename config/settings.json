@@ -1,0 +1,34 @@
+{
+  "$comment": "Central config for the Chapter PM Assistant Portal. Edit these, not the code.",
+  "referenceTimezone": "America/New_York",
+  "dailyResetTime": "23:00",
+  "hub": {
+    "pmUserId": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338",
+    "pmName": "Sagar Patel"
+  },
+  "urgency": {
+    "warningDaysBefore": [3, 2],
+    "escalateWhenOverdue": true
+  },
+  "subPayment": {
+    "dueSoonDays": 5,
+    "overdueSelfAlertDays": 2
+  },
+  "milestone": {
+    "upcomingWindowDays": 7
+  },
+  "changeOrder": {
+    "clientResponseBusinessDays": 3
+  },
+  "health": {
+    "red": "any task overdue OR next milestone date is in the past with a balance outstanding",
+    "yellow": "a task due within 2 days OR next milestone due within 7 days OR milestone unscheduled with balance due",
+    "green": "otherwise"
+  },
+  "email": {
+    "policy": "draft-only-external",
+    "selfSendAllowlist": ["sagar.p@hellochapter.com"],
+    "defaultCc": [],
+    "signature": "<<PENDING: paste your signature block here>>"
+  }
+}

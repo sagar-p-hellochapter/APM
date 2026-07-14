@@ -1,0 +1,23 @@
+{
+  "$comment": "Subcontractor + payment schedule source. The HUB's subcontractor directory is admin-only (a PM token gets 'access denied'), so this file is the source of truth for the payment-tracker. Copy to subs.json and fill in. Match a sub to a project by the project's dealId.",
+  "subcontractors": [
+    {
+      "id": "sub-001",
+      "name": "Example Plumbing Co.",
+      "trade": "Plumbing",
+      "email": "office@exampleplumbing.com",
+      "projects": [
+        {
+          "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+          "projectName": "75 East End Avenue #17A",
+          "contractTotal": 42000,
+          "payments": [
+            { "label": "Deposit (15%)", "amount": 6300, "dueDate": "2026-03-01", "status": "paid" },
+            { "label": "Rough-in complete", "amount": 21000, "dueDate": "2026-07-18", "status": "unpaid" },
+            { "label": "Final (retainage 15%)", "amount": 14700, "dueDate": null, "status": "held-until-punch" }
+          ]
+        }
+      ]
+    }
+  ]
+}

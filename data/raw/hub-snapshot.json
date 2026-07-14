@@ -1,0 +1,90 @@
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "pmUserId": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338",
+  "settings": { "milestone": { "upcomingWindowDays": 7 } },
+  "todoList": { "tabs": [{ "id": "Overdue", "count": 0 }, { "id": "Today", "count": 0 }, { "id": "7 Days", "count": 0 }], "todos": [] },
+  "overdue": {
+    "totalOverdue": 0,
+    "byProject": [
+      { "project": "75 East End Avenue #17A", "dealId": "599696ee-8491-495a-890c-2a52077a8564", "overdueCount": 0 },
+      { "project": "330 East 79th Street Apt #6B", "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a", "overdueCount": 0 },
+      { "project": "333 East 43rd Street #712", "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242", "overdueCount": 0 },
+      { "project": "177 East 79th Street #16/17", "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef", "overdueCount": 0 },
+      { "project": "401 East 86th Street #8A", "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f", "overdueCount": 0 },
+      { "project": "535 East 86th Street #21B", "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3", "overdueCount": 0 }
+    ]
+  },
+  "projects": [
+    {
+      "id": "8bdfa7e4-59a0-4d97-9d65-637bd6c2b2d2",
+      "name": "75 East End Avenue #17A",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "role": "pm",
+      "overview": {
+        "balance": { "income": 104726, "incomeBreakdown": [{ "label": "Proposal", "amount": 104726 }, { "label": "Change Orders", "amount": 0 }], "paymentsReceived": 41890.4, "paymentsBalance": 62835.6, "nextMilestone": { "label": "Milestone #1/5", "amount": "15708.90", "date": "2026-05-04T00:00:00.000Z", "percent": 15 } },
+        "stakeholders": { "projectManager": { "name": "Sagar Patel", "id": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338" }, "designer": { "name": "Lorena Davila", "id": "5db9a973-ac8e-4063-a6aa-0d977dbb04bb" }, "administrator": { "name": "Admin Hello Chapter", "id": "727bf460-ee98-4407-bfdd-a6fa18f3ce5e" }, "architect": { "name": "", "id": "" } }
+      }
+    },
+    {
+      "id": "81d6e791-0524-443c-a99e-e339a6d167af",
+      "name": "333 East 43rd Street #712",
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "role": "pm",
+      "overview": {
+        "balance": { "income": 163835, "incomeBreakdown": [{ "label": "Proposal", "amount": 163835 }, { "label": "Change Orders", "amount": 0 }], "paymentsReceived": 24575.25, "paymentsBalance": 139259.75, "nextMilestone": { "label": "Milestone #1/7", "amount": "40958.75", "date": null, "percent": 25 } },
+        "stakeholders": { "projectManager": { "name": "Sagar Patel", "id": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338" }, "designer": { "name": "Lorena Davila", "id": "5db9a973-ac8e-4063-a6aa-0d977dbb04bb" }, "administrator": { "name": "Admin Hello Chapter", "id": "727bf460-ee98-4407-bfdd-a6fa18f3ce5e" }, "architect": { "name": "Lester Katz DXA", "id": "753f8798-4aa3-40f8-bd54-247718c98e39" } }
+      }
+    },
+    {
+      "id": "70962a9e-23bc-4df8-b19a-5dd02ceeebbf",
+      "name": "535 East 86th Street #21B",
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "role": "pm",
+      "overview": {
+        "balance": { "income": 317423.33, "incomeBreakdown": [{ "label": "Proposal", "amount": 273457.5 }, { "label": "Change Orders", "amount": 43965.83 }], "paymentsReceived": 194367.46, "paymentsBalance": 123055.87, "nextMilestone": { "label": "Milestone #2/5", "amount": "27345.75", "date": "2026-04-20T00:00:00.000Z", "percent": 10 } },
+        "stakeholders": { "projectManager": { "name": "Sagar Patel", "id": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338" }, "designer": { "name": "Lorena Davila", "id": "5db9a973-ac8e-4063-a6aa-0d977dbb04bb" }, "administrator": { "name": "Admin Hello Chapter", "id": "727bf460-ee98-4407-bfdd-a6fa18f3ce5e" }, "architect": { "name": "Lester Katz DXA", "id": "753f8798-4aa3-40f8-bd54-247718c98e39" } }
+      }
+    },
+    {
+      "id": "f765752a-0792-4778-8e1e-b0f0319bb71e",
+      "name": "401 East 86th Street #8A",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "role": "pm",
+      "overview": {
+        "balance": { "income": 216098.71, "incomeBreakdown": [{ "label": "Proposal", "amount": 167760 }, { "label": "Change Orders", "amount": 48338.71 }], "paymentsReceived": 140606.71, "paymentsBalance": 75492, "nextMilestone": { "label": "Milestone #3/6", "amount": "16776.00", "date": "2026-04-24T00:00:00.000Z", "percent": 10 } },
+        "stakeholders": { "projectManager": { "name": "Sagar Patel", "id": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338" }, "designer": { "name": "Katia Haniuk", "id": "8c22a837-f547-48b1-b60e-aa704ab211c4" }, "administrator": { "name": "Project Coordinator BOT", "id": "7723fc71-a491-439f-8236-4616b96107cd" }, "architect": { "name": "Dionisio Ortega", "id": "1e6e8ab4-f95c-4dce-8fb2-4e3f97be8707" } }
+      }
+    },
+    {
+      "id": "3b955cea-5c69-4c91-a5e2-2a74138390a5",
+      "name": "177 East 79th Street #16/17",
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "role": "pm",
+      "overview": {
+        "balance": { "income": 311987.85, "incomeBreakdown": [{ "label": "Proposal", "amount": 226115 }, { "label": "Change Orders", "amount": 85872.85 }], "paymentsReceived": 191717.1, "paymentsBalance": 120270.75, "nextMilestone": { "label": "Milestone #3/13", "amount": "20993.50", "date": "2026-04-13T00:00:00.000Z", "percent": 10 } },
+        "stakeholders": { "projectManager": { "name": "Sagar Patel", "id": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338" }, "designer": { "name": "Monica Cialona", "id": "ad325b81-2068-49d1-a39f-c99405743309" }, "administrator": { "name": "Admin Hello Chapter", "id": "727bf460-ee98-4407-bfdd-a6fa18f3ce5e" }, "architect": { "name": "", "id": "" } }
+      }
+    },
+    {
+      "id": "503470e7-263d-4ad3-ac5a-0e7851fb5dd5",
+      "name": "330 East 79th Street Apt #6B",
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "role": "pm",
+      "overview": {
+        "balance": { "income": 411648.03, "incomeBreakdown": [{ "label": "Proposal", "amount": 261935 }, { "label": "Change Orders", "amount": 149713.03 }], "paymentsReceived": 292164.28, "paymentsBalance": 119483.75, "nextMilestone": { "label": "Milestone #1/6", "amount": "1613.00", "date": "2025-03-17T00:00:00.000Z", "percent": 20 } },
+        "stakeholders": { "projectManager": { "name": "Sagar Patel", "id": "f88dbf43-ea2e-4c6e-88bd-1cca371e3338" }, "designer": { "name": "Katia Haniuk", "id": "8c22a837-f547-48b1-b60e-aa704ab211c4" }, "administrator": { "name": "Admin Hello Chapter", "id": "727bf460-ee98-4407-bfdd-a6fa18f3ce5e" }, "architect": { "name": "Pietro Rosato", "id": "a10bc82e-81d2-4d3a-8ac8-a5ad7a90ed20" } }
+      }
+    },
+    {
+      "id": "7f7ade95-123f-4907-9e49-536dec0d07da",
+      "name": "1025 Fifth Avenue #6CS",
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "role": "designer",
+      "overview": {
+        "balance": { "income": 222494.96, "incomeBreakdown": [{ "label": "Proposal", "amount": 213785 }, { "label": "Change Orders", "amount": 8709.96 }], "paymentsReceived": 184611.75, "paymentsBalance": 37883.21, "nextMilestone": { "label": "Milestone #6/6", "amount": "21378.50", "date": "2026-02-25T00:00:00.000Z", "percent": 10 } },
+        "stakeholders": { "projectManager": { "name": "Nihaar Pathak", "id": "7a0a79a4-1cde-46bd-8ef0-296109af8ef3" }, "designer": { "name": "Dorothy Weise", "id": "72950fd1-1369-4d00-a223-ed989391b39e" }, "administrator": { "name": "Admin Hello Chapter", "id": "727bf460-ee98-4407-bfdd-a6fa18f3ce5e" }, "architect": null }
+      }
+    }
+  ]
+}
