@@ -15,6 +15,7 @@
 | A2 | Subcontractor data | **Not in the HUB.** You provide the sub list + payment schedules at build time → maintained in a data file |
 | A3 | Payment source of truth | **Clients → HUB Invoices tab (live).** **Subs → QuickBooks, but no access** → sub reminders are schedule/due‑date driven from the data file |
 | A4 | Write scope | **Read + email‑send only.** No writes back to the HUB. HUB stays the system of record |
+| **E** | **Email sending** | **Draft‑only for anything external** (clients, subs, vendors) — you review + send from Outlook. The system **may auto‑send only to you** (`sagar.p@hellochapter.com`) for alerts/reminders. **Hard guardrail: the send allowlist contains exactly one address — yours.** |
 | C1 | Client email CC | **No fixed default** — per‑email CC field, filled before sending |
 | C2 | Weekly update format | **Clean plain‑text** email |
 | C3 | Signature | **You will paste your exact signature block** (pending) |
@@ -46,7 +47,7 @@ Requirement #4 is "send emails on my behalf via Outlook." The Microsoft 365 MCP 
 - **Option B: QuickBooks for client‑money emails only.** Milestone invoices / payment reminders / payment links to clients go out through QuickBooks' send tools; everything else (weekly updates, CO notices, task reminders) waits for Option A.
 - **Option C: draft‑only.** Portal generates copy‑paste‑ready drafts (subject + body + recipients); you send from Outlook yourself. Zero send infrastructure, zero risk, but one manual step.
 
-My recommendation: **A for general email, with B available for client invoice reminders.** Ship **C as the day‑one fallback** so the portal is useful before send infrastructure is stood up.
+**DECISION (locked):** **Option C — draft‑only — for everything external.** The portal produces a ready‑to‑send draft (subject + body + recipients + CC); you review it and send from Outlook yourself. **The one exception:** alerts/reminders addressed to *you* may be auto‑sent to `sagar.p@hellochapter.com` and nowhere else. This is enforced by a single‑entry send allowlist in `config/settings.json` — the system is structurally incapable of emailing a client, sub, or vendor. (Self‑send uses a minimal Graph `/sendMail` scoped to your address; if that isn't stood up, self‑alerts simply appear in the portal instead. No external send path is ever built.)
 
 ---
 
@@ -153,7 +154,7 @@ Each skill is discrete and composable, reads from the sources noted, and writes 
 | **payment-tracker** | HUB (client invoices/milestones/COs) + `subs.json` (sub schedules) | payment flags: sub due ≤5d/today/overdue, milestone ready‑to‑release, CO billing status | HUB: invoices + change-orders read *(TBD)*; QB optional for client reminders |
 | **email-consolidator** | Outlook + `projects.seed.json` | per‑project email thread view; matches on client name + email + street address; flags unread/<48h | M365: `outlook_email_search`, `read_resource` |
 | **weekly-update-drafter** | HUB notes/timeline (7d) + Outlook (7d) | client‑facing draft (plain‑text) + candid internal version → `drafts.json` | M365: `outlook_email_search`; HUB notes *(TBD)*; Claude for drafting |
-| **email-sender** | `drafts.json` | preview → on confirm, sends; logs sent record | **Option A:** Graph `/sendMail` via function · **Option B:** QB `send_invoice`/`send_invoice_reminder`/`send_payment_link` |
+| **email-drafter** *(was email-sender)* | `drafts.json` | renders a copy‑ready draft (subject/body/to/cc) for you to send from Outlook; **may self‑send only to your address** | none for external (draft only) · Graph `/sendMail` **scoped to `sagar.p@hellochapter.com`** for self‑alerts |
 | **portal-renderer** | all `data/*.json` | the mobile‑first HTML portal + embedded offline fallback snapshot | none (build step) |
 
 ---
@@ -228,11 +229,27 @@ green  = otherwise
 
 ---
 
-## 11. Open decisions — I need your call
+## 11. Decisions
 
-1. **Email sending (§2):** A (Graph serverless), B (QuickBooks for client invoices only), C (draft‑only), or **A+B with C as fallback** (my recommendation)?
-2. **Hosting target:** Netlify (as the prompt suggests) — confirm, or do you have a preferred host?
-3. **Scheduler:** for the 11 PM / Friday automation — Netlify scheduled functions, a Claude Code Routine, or GitHub Actions cron? (Affects where the runner lives.)
-4. **Kickoff data:** when we start building, I'll need (a) your **project list** (name, address, client name + email), (b) your **subs + payment schedules**, and (c) your **signature block**.
-5. **HUB authorization:** please connect the HUB MCP so I can inspect its real tool surface and test skills against live data.
+1. **Email sending — ✅ RESOLVED:** draft‑only for all external mail; self‑send allowed only to your address (§2).
+2. **Hosting target — proposed default:** Netlify static + (optional) scheduled function. Speak up if you prefer another host.
+3. **Scheduler — proposed default:** a **Claude Code Routine** for the 11 PM rebuild and Friday drafts (native to this environment; no extra infra). Alternative: Netlify scheduled function or GitHub Actions cron.
+4. **Kickoff data (needed to build):** (a) **project list** — name, address, client name + email · (b) **subs + payment schedules** · (c) your **signature block**.
+5. **HUB authorization — ⛔ BLOCKER:** the HUB MCP is not authorized in this session (see §12). Nothing data‑related can be tested until it is.
+
+---
+
+## 12. Connecting the HUB MCP (what's actually required)
+
+The HUB is a **remote MCP server** (`https://hub-mcp.blackmeadow-b37bd1c2.eastus2.azurecontainerapps.io/mcp`) that authenticates over **OAuth**. In this web session it currently reports *"requires authentication — tools unavailable,"* and a tool‑surface probe returned **zero HUB tools**, so it is not usable yet. "Connected" in your connector list is not the same as "authorized for this environment."
+
+To connect it properly:
+
+1. **claude.ai → Settings → Connectors** (the same place your Microsoft 365 / QuickBooks connectors live).
+2. Find **"the HUB by Chapter"**. If it shows *Connect* / *Reconnect* / *Authorize*, click it and complete the OAuth sign‑in with your Chapter HUB credentials.
+3. Make sure it's enabled for the environment these Claude Code web sessions run in (not only the desktop/app). If there's a per‑environment or per‑workspace toggle, turn it on there.
+4. If it already looks connected, **disconnect and reconnect** — the token has likely expired or wasn't scoped to this environment (that's the usual cause of "requires authentication" while the UI says connected).
+5. **Start a fresh Claude Code session** afterward so the connector's tools load, then tell me — I'll immediately probe the HUB tool surface and confirm by pulling one real project.
+
+(Interactive alternative if you use the Claude Code CLI: run `/mcp` and authorize `the_HUB_by_Chapter_MCP` there. This non‑interactive web session can't run the OAuth flow itself, so I can't authorize it from here.)
 ```
