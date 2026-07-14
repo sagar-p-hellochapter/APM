@@ -23,10 +23,10 @@ const OUT = arg("--out","data/today.json");
 const dayMs = 86400000;
 
 const CATEGORY_RULES = [
+  ["changeorder",   /change\s*order/i],
   ["payments",      /invoic|payment|cash\s*flow|balance|deposit|milestone|collect|billing/i],
   ["communication", /client|update|sign\s*off|pass\s*off|walkthrough|conference|call|meeting|email|review|survey|kickoff/i],
-  ["procurement",   /material|order|purchase|\bpo\b|procure|deliver|submittal|takeoff|take\s*off|spec/i],
-  ["changeorder",   /change\s*order/i],
+  ["procurement",   /material|purchase|\bpo\b|procure|deliver|submittal|takeoff|take\s*off|spec/i],
 ];
 function categorize(title, phase){
   var t = (title||"") + " " + (phase||"");

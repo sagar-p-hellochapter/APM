@@ -99,6 +99,26 @@
     transition:opacity .25s ease;pointer-events:none;z-index:40}
   .toast.show{opacity:1}
   .updated{font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
+  .rowend{display:flex;align-items:center;gap:6px}
+  /* Add-task */
+  .fab{position:fixed;right:16px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);z-index:35;background:var(--accent);color:#fff;border:none;border-radius:999px;height:50px;padding:0 20px;font-size:15px;font-weight:700;box-shadow:0 4px 16px rgba(37,99,235,.42);display:flex;align-items:center;gap:7px;cursor:pointer}
+  .fab .plus{font-size:22px;line-height:1;margin-top:-1px}
+  .card.manual{border-left:5px solid var(--accent)}
+  .manual-tag{display:inline-block;font-size:10px;font-weight:700;color:var(--accent);background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle}
+  .complete-btn{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:none;color:var(--green);font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .complete-btn:active{background:var(--green-bg)}
+  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.5);z-index:50;display:none;align-items:flex-end;justify-content:center}
+  .modal-backdrop.show{display:flex}
+  .modal{background:var(--surface);width:100%;max-width:640px;border-radius:20px 20px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 20px);animation:slideup .2s ease}
+  @keyframes slideup{from{transform:translateY(40px);opacity:.5}to{transform:none;opacity:1}}
+  .modal h2{margin:0 0 16px;font-size:18px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .field input,.field select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--text);font-size:16px;font-family:inherit}
+  .modal-actions{display:flex;gap:10px;margin-top:4px}
+  .btn{flex:1;padding:13px;border-radius:10px;border:none;font-size:15px;font-weight:700;cursor:pointer}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-ghost{background:var(--surface-2);color:var(--text);border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -126,6 +146,23 @@
     <button data-tab="changes"><span class="ico">🧾</span>Changes</button>
     <button data-tab="email"><span class="ico">✉️</span>Email</button>
   </nav>
+</div>
+<button class="fab" id="fab"><span class="plus">+</span> Add task</button>
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2>Add a task</h2>
+    <div class="field"><label for="m-title">Task</label><input id="m-title" type="text" placeholder="e.g. Call plumber about rough-in" /></div>
+    <div class="field"><label for="m-project">Project</label><select id="m-project"></select></div>
+    <div class="field"><label for="m-cat">Category</label><select id="m-cat">
+      <option value="site">Site task</option>
+      <option value="payments">Payments &amp; billing</option>
+      <option value="communication">Client communication</option>
+      <option value="procurement">Procurement</option>
+      <option value="changeorder">Change order</option>
+    </select></div>
+    <div class="field"><label for="m-due">Due date</label><input id="m-due" type="date" /></div>
+    <div class="modal-actions"><button class="btn btn-ghost" id="m-cancel">Cancel</button><button class="btn btn-primary" id="m-save">Add task</button></div>
+  </div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -425,16 +462,22 @@
   "referenceDate": "2026-07-14",
   "windowDays": 7,
   "taskCoverage": [
-    "599696ee-8491-495a-890c-2a52077a8564"
+    "599696ee-8491-495a-890c-2a52077a8564",
+    "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+    "a87b2423-eada-4091-8a95-13591dcea5e3",
+    "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+    "b97ef384-cb37-4cba-bf50-37cb027084ef",
+    "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+    "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb"
   ],
   "summary": {
-    "total": 9,
+    "total": 19,
     "counts": {
       "overdue": 6,
       "today": 0,
-      "2-day": 1,
-      "3-day": 0,
-      "soon": 2
+      "2-day": 2,
+      "3-day": 2,
+      "soon": 9
     }
   },
   "byCategory": {
@@ -540,11 +583,88 @@
           "Lorena Davila"
         ],
         "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "General Contractor Sign Off",
+        "due": "2026-07-15T00:00:00.000Z",
+        "daysUntil": 1,
+        "urgency": "2-day",
+        "category": "communication",
+        "phase": "Post-Construction & Job Closing",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Building Super Walkthrough",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "communication",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
       }
     ],
     "procurement": [],
-    "changeorder": [],
+    "changeorder": [
+      {
+        "source": "task",
+        "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+        "project": "535 East 86th Street #21B",
+        "title": "Change Orders",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "changeorder",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel",
+          "Lorena Davila"
+        ],
+        "clientVisible": false
+      }
+    ],
     "site": [
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "Check and Protect Tile Work",
+        "due": "2026-07-17T00:00:00.000Z",
+        "daysUntil": 3,
+        "urgency": "3-day",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "Check and Protect new Floors",
+        "due": "2026-07-17T00:00:00.000Z",
+        "daysUntil": 3,
+        "urgency": "3-day",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
       {
         "source": "task",
         "dealId": "599696ee-8491-495a-890c-2a52077a8564",
@@ -555,6 +675,81 @@
         "urgency": "soon",
         "category": "site",
         "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Follow up on Architectural prints & Filing",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Design & Building Approval",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Department of Buildings Permit",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Design & Building Approval",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "RFI Log",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+        "project": "535 East 86th Street #21B",
+        "title": "Remote Camera Installation",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+        "project": "330 East 79th Street Apt #6B",
+        "title": "Check and Protect Kitchen Cabinets",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Construction",
         "assigned": [
           "Sagar Patel"
         ],
@@ -578,6 +773,21 @@
           "category": "payments",
           "note": "484 days overdue",
           "amount": 1613
+        },
+        {
+          "source": "task",
+          "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+          "project": "330 East 79th Street Apt #6B",
+          "title": "Check and Protect Kitchen Cabinets",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
         }
       ]
     },
@@ -632,6 +842,37 @@
           "category": "payments",
           "note": "85 days overdue",
           "amount": 27345.75
+        },
+        {
+          "source": "task",
+          "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+          "project": "535 East 86th Street #21B",
+          "title": "Change Orders",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "changeorder",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel",
+            "Lorena Davila"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+          "project": "535 East 86th Street #21B",
+          "title": "Remote Camera Installation",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
         }
       ]
     },
@@ -650,6 +891,51 @@
           "category": "payments",
           "note": "81 days overdue",
           "amount": 16776
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "General Contractor Sign Off",
+          "due": "2026-07-15T00:00:00.000Z",
+          "daysUntil": 1,
+          "urgency": "2-day",
+          "category": "communication",
+          "phase": "Post-Construction & Job Closing",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "Check and Protect Tile Work",
+          "due": "2026-07-17T00:00:00.000Z",
+          "daysUntil": 3,
+          "urgency": "3-day",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "Check and Protect new Floors",
+          "due": "2026-07-17T00:00:00.000Z",
+          "daysUntil": 3,
+          "urgency": "3-day",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
         }
       ]
     },
@@ -707,6 +993,66 @@
       "project": "333 East 43rd Street #712",
       "items": [
         {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Building Super Walkthrough",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "communication",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Follow up on Architectural prints & Filing",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Design & Building Approval",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Department of Buildings Permit",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Design & Building Approval",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "RFI Log",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
           "source": "milestone",
           "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
           "project": "333 East 43rd Street #712",
@@ -756,16 +1102,32 @@
   function chip(inner){ return '<div class="chip">'+inner+'</div>'; }
 
   // ---- Today ----
-  var URG = { overdue:{c:"red",l:"OVERDUE"}, today:{c:"red",l:"TODAY"}, "2-day":{c:"yellow",l:"2-DAY"}, "3-day":{c:"yellow",l:"3-DAY"}, soon:{c:"muted",l:"SOON"} };
+  var URG = { overdue:{c:"red",l:"OVERDUE"}, today:{c:"red",l:"TODAY"}, "2-day":{c:"yellow",l:"2-DAY"}, "3-day":{c:"yellow",l:"3-DAY"}, soon:{c:"muted",l:"SOON"}, later:{c:"muted",l:"LATER"} };
+  var URANK = { overdue:0, today:1, "2-day":2, "3-day":3, soon:4, later:5 };
+  var CATS = ["payments","communication","procurement","changeorder","site"];
+
+  function manualUrg(days){ if(days==null) return "later"; if(days<0) return "overdue"; if(days===0) return "today"; if(days<=2) return "2-day"; if(days<=3) return "3-day"; if(days<=7) return "soon"; return "later"; }
+  function loadManual(){ try{ return JSON.parse(localStorage.getItem("apm_manual_todos")||"[]"); }catch(e){ return []; } }
+  function saveManual(a){ try{ localStorage.setItem("apm_manual_todos", JSON.stringify(a)); }catch(e){} }
+  function completeManual(id){ saveManual(loadManual().filter(function(x){ return x.id!==id; })); renderToday(); toast("Task completed"); }
+
+  function metaFor(it){
+    if(it.source==="milestone") return it.note||"";
+    return it.due ? (it.daysUntil<0 ? (-it.daysUntil+"d overdue") : it.daysUntil===0 ? "due today" : "due "+fmtDate(it.due)) : "";
+  }
   function todoCard(it){
     var u = URG[it.urgency] || URG.soon;
-    var meta = it.source==="milestone"
-      ? (it.note || "")
-      : (it.due ? (it.daysUntil<0 ? (-it.daysUntil+"d overdue") : it.daysUntil===0 ? "due today" : "due "+fmtDate(it.due)) : "");
+    var meta = metaFor(it);
+    if(it.source==="manual"){
+      return '<div class="card manual"><div class="row"><div><p class="pname">'+esc(it.title)+'<span class="manual-tag">added</span></p>'
+        + '<p class="psub">'+esc(it.project||"General")+(meta?(" · "+esc(meta)):"")+'</p></div>'
+        + '<div class="rowend"><span class="badge '+(u.c==="muted"?"yellow":u.c)+'">'+u.l+'</span>'
+        + '<button class="complete-btn" data-mid="'+esc(it.mid)+'" aria-label="Mark done">✓</button></div></div></div>';
+    }
     var who = it.assigned && it.assigned.length ? ' · '+esc(it.assigned.join(", ")) : "";
     return '<div class="card tappable" data-deal="'+it.dealId+'">'
       + '<div class="row"><div><p class="pname">'+esc(it.title)+'</p>'
-      + '<p class="psub">'+esc(it.project)+(meta?(' · '+esc(meta)):"")+who+'</p></div>'
+      + '<p class="psub">'+esc(it.project)+(meta?(" · "+esc(meta)):"")+who+'</p></div>'
       + '<span class="badge '+(u.c==="muted"?"yellow":u.c)+'">'+u.l+'</span></div></div>';
   }
   function todoSection(title, icon, list, emptyMsg){
@@ -776,14 +1138,22 @@
   }
   function renderToday(){
     var c = TODAY.byCategory || {};
-    var proc = (c.procurement||[]).concat(c.changeorder||[]);
+    var ref = TODAY.referenceDate || new Date().toISOString().slice(0,10);
+    var combined = {}; CATS.forEach(function(k){ combined[k] = (c[k]||[]).slice(); });
+    loadManual().forEach(function(m){
+      var days = m.due ? Math.round((Date.parse(m.due+"T00:00:00Z")-Date.parse(ref+"T00:00:00Z"))/86400000) : null;
+      var cat = combined[m.category] ? m.category : "site";
+      combined[cat].push({ source:"manual", mid:m.id, title:m.title, project:m.project||"General", due:m.due||null, daysUntil:days, urgency:manualUrg(days), dealId:m.dealId||null });
+    });
+    CATS.forEach(function(k){ combined[k].sort(function(a,b){ var r=(URANK[a.urgency]??9)-(URANK[b.urgency]??9); return r || ((a.daysUntil??9999)-(b.daysUntil??9999)); }); });
+    var proc = combined.procurement.concat(combined.changeorder);
     var html = "";
-    html += todoSection("Payments &amp; Billing","💵", c.payments||[], "No milestone billing due.");
-    html += todoSection("Client Communication","💬", c.communication||[], "No client updates flagged. Weekly updates auto-draft Fridays.");
+    html += todoSection("Payments &amp; Billing","💵", combined.payments, "No milestone billing due.");
+    html += todoSection("Client Communication","💬", combined.communication, "No client updates flagged. Weekly updates auto-draft Fridays.");
     html += todoSection("Procurement &amp; Change Orders","📦", proc, "Nothing to order or bill as a change order.");
-    html += todoSection("Site Tasks","🏗️", c.site||[], "No site tasks due this week. Board is clear.");
+    html += todoSection("Site Tasks","🏗️", combined.site, "No site tasks due this week. Board is clear.");
     var cov = (TODAY.taskCoverage||[]).length;
-    html += '<p class="updated">Milestones: all projects · Task items: '+cov+' of '+(DATA.summary?DATA.summary.totalProjects:"?")+' projects (nightly refresh fills the rest)<br>Data as of '+fmtDate(DATA.generatedAt)+'</p>';
+    html += '<p class="updated">Milestones + tasks across all '+cov+' projects · Data as of '+fmtDate(DATA.generatedAt)+'</p>';
     document.getElementById("view-today").innerHTML = html;
   }
 
@@ -874,8 +1244,37 @@
   });
   // Card taps → detail
   document.getElementById("main").addEventListener("click", function(e){
+    var cb = e.target.closest(".complete-btn");
+    if(cb){ e.stopPropagation(); completeManual(cb.dataset.mid); return; }
     var card = e.target.closest("[data-deal]");
     if(card){ renderDetail(card.dataset.deal); show("detail"); }
+  });
+
+  // ---- Add-task modal ----
+  var modal = document.getElementById("modal");
+  function openModal(){
+    var sel = document.getElementById("m-project");
+    sel.innerHTML = '<option value="">General (no project)</option>' +
+      DATA.projects.map(function(p){ return '<option value="'+p.dealId+'">'+esc(p.address)+'</option>'; }).join("");
+    document.getElementById("m-title").value = "";
+    document.getElementById("m-cat").value = "site";
+    document.getElementById("m-due").value = TODAY.referenceDate || new Date().toISOString().slice(0,10);
+    modal.classList.add("show");
+    setTimeout(function(){ document.getElementById("m-title").focus(); }, 60);
+  }
+  function closeModal(){ modal.classList.remove("show"); }
+  document.getElementById("fab").addEventListener("click", openModal);
+  document.getElementById("m-cancel").addEventListener("click", closeModal);
+  modal.addEventListener("click", function(e){ if(e.target===modal) closeModal(); });
+  document.getElementById("m-save").addEventListener("click", function(){
+    var title = document.getElementById("m-title").value.trim();
+    if(!title){ document.getElementById("m-title").focus(); return; }
+    var sel = document.getElementById("m-project");
+    var dealId = sel.value || null;
+    var project = dealId ? sel.options[sel.selectedIndex].text : "General";
+    var a = loadManual();
+    a.push({ id:"m"+Date.now()+"-"+a.length, title:title, dealId:dealId, project:project, category:document.getElementById("m-cat").value, due:document.getElementById("m-due").value||null });
+    saveManual(a); closeModal(); show("today"); renderToday(); toast("Task added");
   });
 
   // ---- Swipe between tabs ----

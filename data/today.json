@@ -3,16 +3,22 @@
   "referenceDate": "2026-07-14",
   "windowDays": 7,
   "taskCoverage": [
-    "599696ee-8491-495a-890c-2a52077a8564"
+    "599696ee-8491-495a-890c-2a52077a8564",
+    "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+    "a87b2423-eada-4091-8a95-13591dcea5e3",
+    "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+    "b97ef384-cb37-4cba-bf50-37cb027084ef",
+    "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+    "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb"
   ],
   "summary": {
-    "total": 9,
+    "total": 19,
     "counts": {
       "overdue": 6,
       "today": 0,
-      "2-day": 1,
-      "3-day": 0,
-      "soon": 2
+      "2-day": 2,
+      "3-day": 2,
+      "soon": 9
     }
   },
   "byCategory": {
@@ -118,11 +124,88 @@
           "Lorena Davila"
         ],
         "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "General Contractor Sign Off",
+        "due": "2026-07-15T00:00:00.000Z",
+        "daysUntil": 1,
+        "urgency": "2-day",
+        "category": "communication",
+        "phase": "Post-Construction & Job Closing",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Building Super Walkthrough",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "communication",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
       }
     ],
     "procurement": [],
-    "changeorder": [],
+    "changeorder": [
+      {
+        "source": "task",
+        "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+        "project": "535 East 86th Street #21B",
+        "title": "Change Orders",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "changeorder",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel",
+          "Lorena Davila"
+        ],
+        "clientVisible": false
+      }
+    ],
     "site": [
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "Check and Protect Tile Work",
+        "due": "2026-07-17T00:00:00.000Z",
+        "daysUntil": 3,
+        "urgency": "3-day",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "Check and Protect new Floors",
+        "due": "2026-07-17T00:00:00.000Z",
+        "daysUntil": 3,
+        "urgency": "3-day",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
       {
         "source": "task",
         "dealId": "599696ee-8491-495a-890c-2a52077a8564",
@@ -133,6 +216,81 @@
         "urgency": "soon",
         "category": "site",
         "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Follow up on Architectural prints & Filing",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Design & Building Approval",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Department of Buildings Permit",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Design & Building Approval",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "RFI Log",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+        "project": "535 East 86th Street #21B",
+        "title": "Remote Camera Installation",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+        "project": "330 East 79th Street Apt #6B",
+        "title": "Check and Protect Kitchen Cabinets",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Construction",
         "assigned": [
           "Sagar Patel"
         ],
@@ -156,6 +314,21 @@
           "category": "payments",
           "note": "484 days overdue",
           "amount": 1613
+        },
+        {
+          "source": "task",
+          "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+          "project": "330 East 79th Street Apt #6B",
+          "title": "Check and Protect Kitchen Cabinets",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
         }
       ]
     },
@@ -210,6 +383,37 @@
           "category": "payments",
           "note": "85 days overdue",
           "amount": 27345.75
+        },
+        {
+          "source": "task",
+          "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+          "project": "535 East 86th Street #21B",
+          "title": "Change Orders",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "changeorder",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel",
+            "Lorena Davila"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+          "project": "535 East 86th Street #21B",
+          "title": "Remote Camera Installation",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
         }
       ]
     },
@@ -228,6 +432,51 @@
           "category": "payments",
           "note": "81 days overdue",
           "amount": 16776
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "General Contractor Sign Off",
+          "due": "2026-07-15T00:00:00.000Z",
+          "daysUntil": 1,
+          "urgency": "2-day",
+          "category": "communication",
+          "phase": "Post-Construction & Job Closing",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "Check and Protect Tile Work",
+          "due": "2026-07-17T00:00:00.000Z",
+          "daysUntil": 3,
+          "urgency": "3-day",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "Check and Protect new Floors",
+          "due": "2026-07-17T00:00:00.000Z",
+          "daysUntil": 3,
+          "urgency": "3-day",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
         }
       ]
     },
@@ -284,6 +533,66 @@
       "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
       "project": "333 East 43rd Street #712",
       "items": [
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Building Super Walkthrough",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "communication",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Follow up on Architectural prints & Filing",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Design & Building Approval",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Department of Buildings Permit",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Design & Building Approval",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "RFI Log",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
         {
           "source": "milestone",
           "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",

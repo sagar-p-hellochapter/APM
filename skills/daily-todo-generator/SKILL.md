@@ -45,8 +45,7 @@ item { source(task|milestone), dealId, project, title, due, daysUntil, urgency,
 ## Coverage note
 Milestone/payment items are portfolio-wide (from projects.json). Task items depend on which
 boards the runner fetched — `taskCoverage` lists them, and the portal shows "Task items: N
-of M projects." The nightly runner fetches all active boards; the committed sample covers
-75 East End Avenue #17A.
+of M projects." The nightly runner fetches all active boards; all 7 active boards are now included in the committed snapshot.
 
 ## Verified
 Against the live 75 East End board (2026-07-14): 9 items — 6 overdue milestones, 1

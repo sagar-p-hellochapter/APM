@@ -33,6 +33,13 @@ the HTML, edit data upstream (aggregator) then rebuild.
   overdue), team. Placeholders for to-dos / emails / change orders until those skills land.
 - **Payments / Changes / Email** — stubbed with what each will contain (next skills).
 
+## Add-task (manual to-dos)
+The Today tab has an **"+ Add task"** button. Because the portal is read-only to the HUB,
+manual tasks are stored **client-side in `localStorage`** (`apm_manual_todos`) — not written
+back to the HUB. They're merged into the Today categories with the same urgency logic
+(overdue/2-day/3-day/soon/later), tagged "added", and cleared with the ✓ complete button.
+Fields: title, project (optional), category, due date.
+
 ## Verified
 Rendered in headless Chromium at 390×844 (light + dark), no console errors, against the
 7 live projects. Portfolio header shows $678,281 outstanding · 6 red / 1 yellow / 0 green.
