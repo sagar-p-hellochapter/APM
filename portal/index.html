@@ -19,6 +19,13 @@
       --line:#243149; --brand:#e8edf5; --accent:#60a5fa;
       --red:#f87171; --red-bg:#2a1416; --yellow:#fbbf24; --yellow-bg:#2a2110; --green:#4ade80; --green-bg:#0f2417; }
   }
+  /* Explicit theme overrides win over the media query in both directions (viewer toggle). */
+  :root[data-theme="dark"]{ --bg:#0b1220; --surface:#131c2e; --surface-2:#0f1727; --text:#e8edf5; --muted:#93a2b8;
+    --line:#243149; --brand:#e8edf5; --accent:#60a5fa;
+    --red:#f87171; --red-bg:#2a1416; --yellow:#fbbf24; --yellow-bg:#2a2110; --green:#4ade80; --green-bg:#0f2417; }
+  :root[data-theme="light"]{ --bg:#f4f5f7; --surface:#fff; --surface-2:#fafbfc; --text:#0f172a; --muted:#64748b;
+    --line:#e6e9ee; --brand:#0f172a; --accent:#2563eb;
+    --red:#dc2626; --red-bg:#fef2f2; --yellow:#d97706; --yellow-bg:#fffbeb; --green:#16a34a; --green-bg:#f0fdf4; }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;height:100%}
   body{
