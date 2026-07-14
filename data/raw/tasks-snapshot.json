@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "windowDays": 7,
+  "warningDays": [3, 2],
+  "_note": "Not-done tasks per project, assembled by the runner from hub_get_project_tasks. This sample covers 75 East End Avenue #17A (live board); the nightly runner fills all 7 projects.",
+  "projects": [
+    {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "name": "75 East End Avenue #17A",
+      "tasks": [
+        { "title": "Design/PM Project Pass Off", "endDate": "2026-07-15T00:00:00.000Z", "done": false, "status": "TODO", "phase": "Pre-Construction", "assigned": [{ "name": "Sagar Patel" }, { "name": "Lorena Davila" }], "portal": false },
+        { "title": "Job Start Date", "endDate": "2026-07-20T00:00:00.000Z", "done": false, "status": "PROGRESS", "phase": "Pre-Construction", "assigned": [{ "name": "Sagar Patel" }], "portal": false },
+        { "title": "Remote Camera Installation", "endDate": "2026-07-23T00:00:00.000Z", "done": false, "status": "TODO", "phase": "Construction", "assigned": [{ "name": "Sagar Patel" }], "portal": false },
+        { "title": "Create Cash Flow Log", "endDate": "2026-07-31T00:00:00.000Z", "done": false, "status": "TODO", "phase": "Pre-Construction", "assigned": [{ "name": "Sagar Patel" }], "portal": false },
+        { "title": "Create Change Order for Materials", "endDate": "2026-07-31T00:00:00.000Z", "done": false, "status": "TODO", "phase": "Pre-Construction", "assigned": [{ "name": "Sagar Patel" }], "portal": false },
+        { "title": "Order Materials", "endDate": "2026-08-04T00:00:00.000Z", "done": false, "status": "TODO", "phase": "Pre-Construction", "assigned": [{ "name": "Admin Hello Chapter" }], "portal": false },
+        { "title": "Mobilization (Site Preparation)", "endDate": "2026-08-14T00:00:00.000Z", "done": false, "status": "TODO", "phase": "Construction", "assigned": [{ "name": "Sagar Patel" }], "portal": false },
+        { "title": "Two Week Look Ahead Schedule", "endDate": "2026-08-14T00:00:00.000Z", "done": false, "status": "TODO", "phase": "Construction", "assigned": [{ "name": "Sagar Patel" }, { "name": "Senna Oppermann" }], "portal": false }
+      ]
+    }
+  ]
+}

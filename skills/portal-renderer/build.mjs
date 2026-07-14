@@ -13,25 +13,18 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const HTML = "portal/index.html";
-const DATA = "data/projects.json";
-
-const data = readFileSync(DATA, "utf8").trim();
 let html = readFileSync(HTML, "utf8");
 
-const start = "<!--APM_DATA_START-->";
-const end = "<!--APM_DATA_END-->";
-const block =
-  start +
-  '\n<script id="apm-data" type="application/json">\n' +
-  data +
-  "\n</script>\n" +
-  end;
-
-const re = new RegExp(start.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[\\s\\S]*?" + end.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-if (!re.test(html)) {
-  console.error("ERROR: data markers not found in " + HTML);
-  process.exit(1);
+function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function inline(file, startTag, endTag, id){
+  const data = readFileSync(file, "utf8").trim();
+  const block = startTag + '\n<script id="' + id + '" type="application/json">\n' + data + "\n</script>\n" + endTag;
+  const re = new RegExp(esc(startTag) + "[\\s\\S]*?" + esc(endTag));
+  if (!re.test(html)) { console.error("ERROR: markers " + startTag + " not found in " + HTML); process.exit(1); }
+  html = html.replace(re, block);
+  console.error("Inlined " + file + " (" + data.length + " bytes)");
 }
-html = html.replace(re, block);
+
+inline("data/projects.json", "<!--APM_DATA_START-->", "<!--APM_DATA_END-->", "apm-data");
+inline("data/today.json", "<!--APM_TODAY_START-->", "<!--APM_TODAY_END-->", "apm-today");
 writeFileSync(HTML, html);
-console.error("Inlined " + DATA + " into " + HTML + " (" + data.length + " bytes)");

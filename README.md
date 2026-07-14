@@ -18,7 +18,7 @@ Planning approved. Building skill-by-skill against live HUB data.
 |---|-------|--------|
 | 1 | `hub-project-aggregator` | ✅ built + verified against 7 live projects |
 | 8 | `portal-renderer` | ✅ mobile shell built + rendered (Today, Projects, detail; light/dark) |
-| 2 | `daily-todo-generator` | pending |
+| 2 | `daily-todo-generator` | ✅ built + verified; Today tab live (urgency + categories) |
 | 3 | `task-reminder-engine` | pending |
 | 4 | `payment-tracker` | pending |
 | 5 | `email-consolidator` | pending |
