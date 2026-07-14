@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "_note": "Per-project change orders from hub_get_change_order_costs (sold/cost/profit). The API does not expose CO lifecycle status (Draft/Pending/Approved/Paid), so co-tracker computes markup vs the SOP's 100%-minimum rule instead. Duplicate rows from the API are de-duplicated by co-tracker.",
+  "projects": [
+    { "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3", "name": "535 East 86th Street #21B", "changeOrders": [
+      { "title": "CO-002 Material Specifications — Round 1", "sold": 43965.83, "cost": 39968.94 },
+      { "title": "CO-004 Material Specifications — Island Back Panel", "sold": 502.13, "cost": 456.48 }
+    ]},
+    { "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f", "name": "401 East 86th Street #8A", "changeOrders": [
+      { "title": "CO-001 Electrical", "sold": 6370, "cost": 3365 },
+      { "title": "CO-002 Water Lines", "sold": 2400, "cost": 1000 },
+      { "title": "CO-003 Wall-Hung Toilet Installation", "sold": 5000, "cost": 3000 },
+      { "title": "CO-004 Material Specifications — Round 1", "sold": 39568.71, "cost": 35971.55 }
+    ]},
+    { "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef", "name": "177 East 79th Street #16/17", "changeOrders": [
+      { "title": "CO-001 Load Letter", "sold": 1000, "cost": 500 },
+      { "title": "CO-002 Door Installation", "sold": 9415, "cost": 4707.5 },
+      { "title": "CO-003 Material Specifications — Round 1 (Plumbing)", "sold": 30243.97, "cost": 27494.52 },
+      { "title": "CO-004 Material Specifications — Round 2 (Tiles)", "sold": 20711.87, "cost": 18828.97 },
+      { "title": "CO-005 Electrical — Panel Replacement", "sold": 5000, "cost": 2000 },
+      { "title": "CO-006 Electrical — Code Compliance", "sold": 1800, "cost": 1000 },
+      { "title": "CO-007 Electrical", "sold": 19000, "cost": 8500 },
+      { "title": "CO-008 Material Specifications — Wood Floor", "sold": 29828.88, "cost": 27117.16 }
+    ]},
+    { "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a", "name": "330 East 79th Street Apt #6B", "changeOrders": [
+      { "title": "CO-001 Electrical Terms", "sold": 41600, "cost": 26000 },
+      { "title": "CO-003 Kitchen Cabinets", "sold": 31000, "cost": 15500 },
+      { "title": "CO-004 New Wall Framing & Drop Ceilings", "sold": 10540, "cost": 6200 },
+      { "title": "CO-005 Material Specifications — Round 1 (Plumbing/Waterworks)", "sold": 21730.49, "cost": 19754.99 },
+      { "title": "CO-006 Material Specifications — Flooring", "sold": 24029.15, "cost": 21844.68 },
+      { "title": "CO-007 Plumbing", "sold": 7000, "cost": 3500 },
+      { "title": "CO-008 Electrical", "sold": 56000, "cost": 28000 },
+      { "title": "CO-009 Flooring — Hardwood Installation", "sold": 50000, "cost": 25000 },
+      { "title": "CO-009 Material Specifications — Tiles", "sold": 5046.16, "cost": 4587.42 },
+      { "title": "CO-010 Material Specifications — Round 2", "sold": 62353.39, "cost": 56684.9 },
+      { "title": "CO-010 Vanities — Bathroom", "sold": 18700, "cost": 11800 },
+      { "title": "CO-011 Material Specifications — In-Wall Toilet Tank", "sold": 2286.9, "cost": 2079 },
+      { "title": "CO-012 Material Specifications — Round 2 (Tiles)", "sold": 22091.04, "cost": 20082.76 },
+      { "title": "CO-013 Plumbing Installation & Partial Reframing", "sold": 14910, "cost": 7100 }
+    ]},
+    { "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb", "name": "1025 Fifth Avenue #6CS", "changeOrders": [
+      { "title": "CO-002 Drop Ceiling — Both Bathrooms", "sold": 1360, "cost": 800 },
+      { "title": "CO-002 Extra Work", "sold": 3940, "cost": 1750 },
+      { "title": "CO-003 Material Specifications — Pulls", "sold": 1258.37, "cost": 1143.97 },
+      { "title": "CO-003 Pocket Doors & Plumbing Terms", "sold": 2530, "cost": 900 },
+      { "title": "CO-004 Material Specifications — Vents & Mirror", "sold": 1875.46, "cost": 1704.96 },
+      { "title": "CO-004 Material Specifications — Vents & Mirror (b)", "sold": 1636.13, "cost": 1487.39 }
+    ]}
+  ]
+}

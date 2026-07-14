@@ -40,6 +40,17 @@ project by `dealId`). Sub *paid* status can't be pulled (QuickBooks sub access u
 so `status` is maintained in that file. Overdue-2-day self-alerts (SOP A4) are drafted by
 `email-drafter` to your own address only.
 
-## Not yet wired
-Change-order billing detail (pending/approved/paid per CO) needs the HUB CO endpoints
-(`hub_get_change_order_costs` / `hub_office_change_orders`) — that's the Changes tab, still stubbed.
+## Change orders (`co-tracker.mjs` → the Changes tab)
+`co-tracker.mjs` reads a CO snapshot (from `hub_get_change_order_costs`: sold/cost/profit
+per CO), de-dups the API's repeated rows, computes **markup %**, and flags any CO below the
+SOP's **100% minimum markup** (A9 — below 100% needs management approval). Output:
+`data/changeorders.json`.
+
+```bash
+node skills/payment-tracker/co-tracker.mjs   # → data/changeorders.json
+```
+
+Verified (2026-07-14): 34 COs across 5 projects · sold $594,693 · profit $164,863 ·
+**22 below 100% markup**. Caveat: the HUB cost endpoint does **not** expose CO lifecycle
+status (Draft/Pending/Approved/Paid), so the tab tracks value + markup, not status. Adding
+status needs a different HUB endpoint.
