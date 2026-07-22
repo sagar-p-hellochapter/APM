@@ -1,0 +1,49 @@
+name: Deploy portal to GitHub Pages
+
+# Publishes the mobile portal (portal/index.html + the live data/ layer) to GitHub Pages.
+# Runs whenever the portal or its data changes on this branch, and on manual dispatch.
+# Served at: https://sagar-p-hellochapter.github.io/apm/
+
+on:
+  push:
+    branches: [claude/sop-prompt-review-alf2cx]
+    paths:
+      - portal/index.html
+      - data/**
+      - .github/workflows/pages.yml
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble site (portal + data)
+        run: |
+          mkdir -p _site
+          cp portal/index.html _site/index.html
+          cp -r data _site/data
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
