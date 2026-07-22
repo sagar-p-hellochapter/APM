@@ -1,0 +1,66 @@
+name: Refresh PM portal data
+
+# Self-updating data layer: re-pull the HUB + Outlook, rebuild the portal, commit the
+# regenerated data/, and trigger a Netlify deploy. Runs nightly and Friday 2 PM ET.
+# Times are UTC (EDT = UTC-4): 11 PM ET -> 03:00 UTC daily; 2 PM ET Fri -> 18:00 UTC Fri.
+# (In EST these land at 10 PM / 1 PM ET — adjust the cron in November if that matters.)
+
+on:
+  schedule:
+    - cron: "0 3 * * *"    # nightly ~11 PM ET — operational refresh
+    - cron: "0 18 * * 5"   # Friday ~2 PM ET — weekly client-update drafts
+  workflow_dispatch: {}
+
+concurrency:
+  group: pm-portal-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/sop-prompt-review-alf2cx
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Pull live data (HUB + Outlook)
+        env:
+          HUB_MCP_URL: ${{ secrets.HUB_MCP_URL }}
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          HUB_USER_ID: ${{ secrets.HUB_USER_ID }}
+          GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID: ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_SECRET: ${{ secrets.GRAPH_CLIENT_SECRET }}
+          GRAPH_USER: ${{ secrets.GRAPH_USER }}
+        run: node scripts/fetch-all.mjs
+
+      - name: Rebuild portal from data
+        run: node skills/refresh.mjs --ref "$(date +%F)"
+
+      - name: Commit regenerated data
+        run: |
+          git config user.name "chapter-pm-bot"
+          git config user.email "itstime@hellochapter.com"
+          git add data portal/index.html
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "chore: scheduled portal refresh ($(date -u +%FT%TZ))"
+            git push origin HEAD:claude/sop-prompt-review-alf2cx
+          fi
+
+      - name: Trigger Netlify deploy
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -n "$NETLIFY_BUILD_HOOK" ]; then
+            curl -fsS -X POST -d '{}' "$NETLIFY_BUILD_HOOK" && echo "Netlify deploy triggered."
+          else
+            echo "NETLIFY_BUILD_HOOK not set — skipping deploy trigger (Netlify git integration can still auto-build on push)."
+          fi

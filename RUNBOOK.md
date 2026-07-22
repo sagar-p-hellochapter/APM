@@ -39,6 +39,34 @@ If a source is unauthorized at run time, keep its last snapshot (the page shows 
 These run as **Claude Code Routines** (scheduled triggers) that fire the refresh + republish.
 Cron is stored in UTC: nightly `0 3 * * *`, Friday `0 18 * * 5` (EDT; shifts one hour in EST).
 
+## Auto-refresh CI (now scaffolded) — `.github/workflows/refresh.yml`
+Runs `scripts/fetch-all.mjs` → `skills/refresh.mjs` → commits `data/` → triggers Netlify,
+on cron **`0 3 * * *`** (11 PM ET) and **`0 18 * * 5`** (Fri 2 PM ET), plus manual
+**Run workflow**. Each source self-skips if its secret is missing, so the site never breaks —
+it just keeps the last-good snapshot. It goes live once you add these **GitHub repo secrets**
+(Settings → Secrets and variables → Actions):
+
+| Secret | For |
+|--------|-----|
+| `HUB_MCP_URL` | `https://hub-mcp.blackmeadow-b37bd1c2.eastus2.azurecontainerapps.io/mcp` |
+| `HUB_TOKEN` | HUB API bearer token (you provision) |
+| `HUB_USER_ID` | *(optional)* PM user id `f88dbf43-…` if the server doesn't default it |
+| `GRAPH_TENANT_ID` / `GRAPH_CLIENT_ID` / `GRAPH_CLIENT_SECRET` | Azure app (Mail.Read application permission, admin-consented) |
+| `GRAPH_USER` | your mailbox UPN, `sagar.p@hellochapter.com` |
+| `NETLIFY_BUILD_HOOK` | Netlify build hook URL (optional if Netlify's git integration auto-builds) |
+
+**Deploy to Netlify:** point a Netlify site at this repo/branch. `netlify.toml` assembles a
+publish dir (`portal/index.html` + `data/`) so the hosted page fetches fresh `data/*.json`.
+Netlify auto-builds on each push (including the workflow's data commits) → the page updates
+itself. That's the real self-updating URL, independent of any chat session.
+
+> **Untested against live endpoints.** `scripts/fetch-hub.mjs` (MCP-over-HTTP) and
+> `scripts/fetch-outlook.mjs` (Graph) are scaffolds written to the standard protocols but not
+> yet run with real tokens. First run: trigger the workflow manually and check the logs;
+> the HUB auth scheme and Graph scopes may need a tweak. Weekly-update *bullets* are still
+> curated (`data/raw/weekly-source.json`) — regenerating them from notes needs an LLM step
+> (add `ANTHROPIC_API_KEY` + a synth script); the formatter re-runs regardless.
+
 ## Production (always-on, independent of any chat session)
 For a page that updates 24/7 without this session alive, deploy `portal/` + `data/` to **Netlify**
 and run the refresh as a **scheduled Netlify function** (or GitHub Actions cron) holding your
