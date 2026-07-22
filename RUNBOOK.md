@@ -53,6 +53,7 @@ it just keeps the last-good snapshot. It goes live once you add these **GitHub r
 | `HUB_USER_ID` | *(optional)* PM user id `f88dbf43-…` if the server doesn't default it |
 | `GRAPH_TENANT_ID` / `GRAPH_CLIENT_ID` / `GRAPH_CLIENT_SECRET` | Azure app (Mail.Read application permission, admin-consented) |
 | `GRAPH_USER` | your mailbox UPN, `sagar.p@hellochapter.com` |
+| `ANTHROPIC_API_KEY` | Claude API key — **Friday runs only**; re-synthesizes the weekly client-update bullets from the week's HUB notes + recent Outlook. Optional: without it, Friday keeps the last curated bullets. |
 | `NETLIFY_BUILD_HOOK` | Netlify build hook URL (optional if Netlify's git integration auto-builds) |
 
 **Deploy to Netlify:** point a Netlify site at this repo/branch. `netlify.toml` assembles a
@@ -63,9 +64,26 @@ itself. That's the real self-updating URL, independent of any chat session.
 > **Untested against live endpoints.** `scripts/fetch-hub.mjs` (MCP-over-HTTP) and
 > `scripts/fetch-outlook.mjs` (Graph) are scaffolds written to the standard protocols but not
 > yet run with real tokens. First run: trigger the workflow manually and check the logs;
-> the HUB auth scheme and Graph scopes may need a tweak. Weekly-update *bullets* are still
-> curated (`data/raw/weekly-source.json`) — regenerating them from notes needs an LLM step
-> (add `ANTHROPIC_API_KEY` + a synth script); the formatter re-runs regardless.
+> the HUB auth scheme and Graph scopes may need a tweak. Weekly-update *bullets* are now
+> auto-synthesized on Fridays by `scripts/synthesize-weekly.mjs` (Claude API, gated on
+> `ANTHROPIC_API_KEY`) from the week's HUB notes + recent Outlook + financials; without the
+> key it keeps the last curated bullets in `data/raw/weekly-source.json`. That synth script is
+> also untested against the live Anthropic + HUB endpoints — check the Friday run's logs.
+
+## Weekly bullet synthesis — `scripts/synthesize-weekly.mjs` (Fridays)
+Regenerates `data/raw/weekly-source.json` (the per-project progress/next/asks/internalFlags
+bullets that `weekly-update-drafter/draft.mjs` formats into client + internal drafts):
+1. Gathers context per PM project — milestone/financial status (`data/projects.json`), the last
+   7 days of HUB notes (`hub_search_project_notes`, if the HUB is reachable), recent Outlook
+   subjects (`data/raw/emails-snapshot.json`), and last week's bullets as a prior.
+2. Calls the Claude Messages API (`claude-opus-4-8`) to synthesize the four bullet lists.
+3. Writes `weekly-source.json`; `refresh.mjs` then formats the drafts and rebuilds the portal.
+
+Guards: skips cleanly (exit 0) if `ANTHROPIC_API_KEY` is unset; synthesizes from
+financials + emails + prior bullets if the HUB is unreachable; leaves the file untouched if the
+API call or JSON parse fails. **It only regenerates draft source text — nothing sends, external
+email stays draft-only, no HUB writeback.** Runs on the Friday cron and on manual
+`workflow_dispatch` (so you can test it), never on the nightly run.
 
 ## Production (always-on, independent of any chat session)
 For a page that updates 24/7 without this session alive, deploy `portal/` + `data/` to **Netlify**

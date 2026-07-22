@@ -40,6 +40,21 @@ jobs:
           GRAPH_USER: ${{ secrets.GRAPH_USER }}
         run: node scripts/fetch-all.mjs
 
+      # Friday only (and manual runs): re-synthesize the weekly client-update bullets from
+      # the week's HUB notes + recent Outlook + financials via the Claude API. Refresh
+      # projects.json first so the synthesis reasons over the freshly-pulled financials.
+      # No-ops safely if ANTHROPIC_API_KEY is unset (keeps last curated bullets).
+      - name: Synthesize weekly bullets (Friday)
+        if: github.event.schedule == '0 18 * * 5' || github.event_name == 'workflow_dispatch'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          HUB_MCP_URL: ${{ secrets.HUB_MCP_URL }}
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          HUB_USER_ID: ${{ secrets.HUB_USER_ID }}
+        run: |
+          node skills/hub-project-aggregator/normalize.mjs --ref "$(date +%F)"
+          node scripts/synthesize-weekly.mjs --ref "$(date +%F)"
+
       - name: Rebuild portal from data
         run: node skills/refresh.mjs --ref "$(date +%F)"
 
