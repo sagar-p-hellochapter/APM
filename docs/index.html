@@ -1,0 +1,2638 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+<meta name="theme-color" content="#0f172a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Chapter PM Assistant</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --surface:#fff; --surface-2:#fafbfc; --text:#0f172a; --muted:#64748b;
+    --line:#e6e9ee; --brand:#0f172a; --accent:#2563eb;
+    --red:#dc2626; --red-bg:#fef2f2; --yellow:#d97706; --yellow-bg:#fffbeb; --green:#16a34a; --green-bg:#f0fdf4;
+    --nav-h:64px; --header-h:auto; --radius:16px; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.1);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --surface:#131c2e; --surface-2:#0f1727; --text:#e8edf5; --muted:#93a2b8;
+      --line:#243149; --brand:#e8edf5; --accent:#60a5fa;
+      --red:#f87171; --red-bg:#2a1416; --yellow:#fbbf24; --yellow-bg:#2a2110; --green:#4ade80; --green-bg:#0f2417; }
+  }
+  /* Explicit theme overrides win over the media query in both directions (viewer toggle). */
+  :root[data-theme="dark"]{ --bg:#0b1220; --surface:#131c2e; --surface-2:#0f1727; --text:#e8edf5; --muted:#93a2b8;
+    --line:#243149; --brand:#e8edf5; --accent:#60a5fa;
+    --red:#f87171; --red-bg:#2a1416; --yellow:#fbbf24; --yellow-bg:#2a2110; --green:#4ade80; --green-bg:#0f2417; }
+  :root[data-theme="light"]{ --bg:#f4f5f7; --surface:#fff; --surface-2:#fafbfc; --text:#0f172a; --muted:#64748b;
+    --line:#e6e9ee; --brand:#0f172a; --accent:#2563eb;
+    --red:#dc2626; --red-bg:#fef2f2; --yellow:#d97706; --yellow-bg:#fffbeb; --green:#16a34a; --green-bg:#f0fdf4; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); overscroll-behavior-y:contain;
+    -webkit-font-smoothing:antialiased;
+  }
+  #app{max-width:640px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line);
+    padding:calc(env(safe-area-inset-top) + 14px) 16px 12px;}
+  .hgreet{font-size:13px;color:var(--muted);margin:0 0 2px}
+  .htitle{font-size:20px;font-weight:700;margin:0;letter-spacing:-.02em}
+  .chips{display:flex;gap:8px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;
+    padding:7px 12px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .dot{width:9px;height:9px;border-radius:50%}
+  .dot.red{background:var(--red)} .dot.yellow{background:var(--yellow)} .dot.green{background:var(--green)}
+  /* Pull to refresh */
+  #ptr{height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;transition:height .15s ease}
+  #ptr .spin{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;margin-right:8px}
+  #ptr.loading .spin{animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* Main */
+  main{flex:1;padding:16px 16px calc(var(--nav-h) + env(safe-area-inset-bottom) + 20px);}
+  .view{display:none;animation:fade .18s ease}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .section-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 2px 10px;display:flex;align-items:center;gap:8px}
+  .section-title .count{background:var(--line);color:var(--text);border-radius:999px;font-size:11px;padding:1px 8px}
+  .section-title:first-child{margin-top:4px}
+  /* Cards */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:14px 15px;margin-bottom:12px;position:relative;overflow:hidden}
+  .card.tappable{cursor:pointer;transition:transform .06s ease}
+  .card.tappable:active{transform:scale(.99)}
+  .card.health-red{border-left:5px solid var(--red)} .card.health-yellow{border-left:5px solid var(--yellow)} .card.health-green{border-left:5px solid var(--green)}
+  .row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .pname{font-size:16px;font-weight:700;margin:0;letter-spacing:-.01em;line-height:1.25}
+  .psub{font-size:12.5px;color:var(--muted);margin:3px 0 0}
+  .badge{flex:0 0 auto;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em}
+  .badge.red{color:var(--red);background:var(--red-bg)} .badge.yellow{color:var(--yellow);background:var(--yellow-bg)} .badge.green{color:var(--green);background:var(--green-bg)}
+  .badge.blue{color:var(--accent);background:var(--surface-2)} .badge.muted{color:var(--muted);background:var(--surface-2)}
+  .metrics{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+  .metric .k{font-size:11px;color:var(--muted);margin:0} .metric .v{font-size:15px;font-weight:700;margin:2px 0 0}
+  .v.warn{color:var(--red)}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 10px;border-radius:8px;margin-top:12px}
+  .pill.red{color:var(--red);background:var(--red-bg)} .pill.yellow{color:var(--yellow);background:var(--yellow-bg)} .pill.green{color:var(--green);background:var(--green-bg)} .pill.muted{color:var(--muted);background:var(--surface-2)}
+  .empty{text-align:center;color:var(--muted);padding:26px 14px;background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);font-size:13.5px}
+  .empty .big{font-size:26px;display:block;margin-bottom:8px}
+  .stub{text-align:center;padding:48px 20px;color:var(--muted)}
+  .stub .big{font-size:40px;display:block;margin-bottom:14px}
+  .stub h2{color:var(--text);font-size:18px;margin:0 0 8px}
+  .stub ul{text-align:left;display:inline-block;margin:14px 0 0;padding-left:18px;font-size:13.5px;line-height:1.7}
+  /* Detail */
+  .back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--accent);font-size:15px;font-weight:600;padding:4px 0;margin-bottom:8px;cursor:pointer}
+  .kv{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .kv:last-child{border-bottom:none} .kv .k{color:var(--muted)} .kv .v{font-weight:600;text-align:right}
+  .detail-head{margin:2px 0 4px} .detail-head h1{font-size:20px;margin:0;letter-spacing:-.02em}
+  /* Bottom nav */
+  nav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;background:var(--surface);
+    border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);max-width:640px;margin:0 auto}
+  nav button{flex:1;background:none;border:none;padding:9px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--muted);font-size:10.5px;font-weight:600;min-height:56px;cursor:pointer;position:relative}
+  nav button .ico{font-size:21px;line-height:1}
+  nav button.active{color:var(--accent)}
+  nav button .nbadge{position:absolute;top:5px;left:calc(50% + 8px);background:var(--red);color:#fff;font-size:9px;font-weight:800;
+    min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+  .toast{position:fixed;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);left:50%;transform:translateX(-50%);
+    background:var(--brand);color:var(--bg);font-size:13px;font-weight:600;padding:9px 16px;border-radius:999px;opacity:0;
+    transition:opacity .25s ease;pointer-events:none;z-index:40}
+  .toast.show{opacity:1}
+  .updated{font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
+  .rowend{display:flex;align-items:center;gap:6px}
+  /* Add-task */
+  .fab{position:fixed;right:16px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);z-index:35;background:var(--accent);color:#fff;border:none;border-radius:999px;height:50px;padding:0 20px;font-size:15px;font-weight:700;box-shadow:0 4px 16px rgba(37,99,235,.42);display:flex;align-items:center;gap:7px;cursor:pointer}
+  .fab .plus{font-size:22px;line-height:1;margin-top:-1px}
+  .card.manual{border-left:5px solid var(--accent)}
+  .manual-tag{display:inline-block;font-size:10px;font-weight:700;color:var(--accent);background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle}
+  .complete-btn{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:none;color:var(--green);font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .complete-btn:active{background:var(--green-bg)}
+  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.5);z-index:50;display:none;align-items:flex-end;justify-content:center}
+  .modal-backdrop.show{display:flex}
+  .modal{background:var(--surface);width:100%;max-width:640px;border-radius:20px 20px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 20px);animation:slideup .2s ease}
+  @keyframes slideup{from{transform:translateY(40px);opacity:.5}to{transform:none;opacity:1}}
+  .modal h2{margin:0 0 16px;font-size:18px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .field input,.field select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--text);font-size:16px;font-family:inherit}
+  .seg{display:flex;gap:6px;margin:2px 0 14px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:4px}
+  .seg button{flex:1;padding:9px;border:none;background:none;border-radius:9px;font-weight:700;font-size:13px;color:var(--muted);cursor:pointer}
+  .seg button.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+  .genbtn{margin-top:10px;background:var(--surface-2);border:1px solid var(--line);color:var(--accent);font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:8px;cursor:pointer}
+  .genbtn:active{transform:scale(.98)}
+  .rstrip{display:flex;gap:8px;align-items:center;background:var(--red-bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:4px 0 6px;font-size:13px;font-weight:600;color:var(--text)}
+  .rstrip .dot{width:9px;height:9px;border-radius:50%;background:var(--red)}
+  .draftbox{white-space:pre-wrap;font-size:13.5px;line-height:1.5;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:8px;overflow-x:auto}
+  .draft-subj{font-weight:700;font-size:14px;margin:2px 0 2px}
+  .modal-actions{display:flex;gap:10px;margin-top:4px}
+  .btn{flex:1;padding:13px;border-radius:10px;border:none;font-size:15px;font-weight:700;cursor:pointer}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-ghost{background:var(--surface-2);color:var(--text);border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <p class="hgreet" id="greet">—</p>
+    <h1 class="htitle">Today at Chapter</h1>
+    <div class="chips" id="chips"></div>
+    <div id="ptr"><span class="spin"></span><span class="ptr-label">Pull to refresh</span></div>
+  </header>
+
+  <main id="main">
+    <section class="view active" id="view-today"></section>
+    <section class="view" id="view-projects"></section>
+    <section class="view" id="view-payments"></section>
+    <section class="view" id="view-changes"></section>
+    <section class="view" id="view-email"></section>
+    <section class="view" id="view-detail"></section>
+  </main>
+
+  <nav id="nav">
+    <button data-tab="today" class="active"><span class="ico">📋</span>Today</button>
+    <button data-tab="projects"><span class="ico">🏢</span>Projects</button>
+    <button data-tab="payments"><span class="ico">💵</span>Payments</button>
+    <button data-tab="changes"><span class="ico">🧾</span>Changes</button>
+    <button data-tab="email"><span class="ico">✉️</span>Email</button>
+  </nav>
+</div>
+<button class="fab" id="fab"><span class="plus">+</span> Add task</button>
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2>Add a task</h2>
+    <div class="field"><label for="m-title">Task</label><input id="m-title" type="text" placeholder="e.g. Call plumber about rough-in" /></div>
+    <div class="field"><label for="m-project">Project</label><select id="m-project"></select></div>
+    <div class="field"><label for="m-cat">Category</label><select id="m-cat">
+      <option value="site">Site task</option>
+      <option value="payments">Payments &amp; billing</option>
+      <option value="communication">Client communication</option>
+      <option value="procurement">Procurement</option>
+      <option value="changeorder">Change order</option>
+    </select></div>
+    <div class="field"><label for="m-due">Due date</label><input id="m-due" type="date" /></div>
+    <div class="modal-actions"><button class="btn btn-ghost" id="m-cancel">Cancel</button><button class="btn btn-primary" id="m-save">Add task</button></div>
+  </div>
+</div>
+<div class="modal-backdrop" id="draftmodal">
+  <div class="modal">
+    <h2 id="d-title">Generated email</h2>
+    <p class="psub" id="d-to" style="margin:0 0 4px"></p>
+    <p class="draft-subj" id="d-subj"></p>
+    <div class="draftbox" id="d-body"></div>
+    <div class="modal-actions" style="margin-top:12px"><button class="btn btn-ghost" id="d-close">Close</button><button class="btn btn-primary" id="d-copy">Copy email</button></div>
+    <p class="psub" style="margin-top:10px;text-align:center">Draft only — review and send from Outlook.</p>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!--APM_DATA_START-->
+<script id="apm-data" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "source": "the HUB by Chapter (live) + config",
+  "summary": {
+    "totalProjects": 7,
+    "byHealth": {
+      "red": 6,
+      "yellow": 1,
+      "green": 0
+    },
+    "totalOutstanding": 678280.93,
+    "overdueMilestones": 6,
+    "overdueTasks": 0
+  },
+  "projects": [
+    {
+      "id": "8bdfa7e4-59a0-4d97-9d65-637bd6c2b2d2",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "name": "75 East End Avenue #17A",
+      "address": "75 East End Avenue #17A",
+      "client": {
+        "name": "Nicholas Stoker",
+        "email": "nicholas.stoker@gmail.com"
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 104726,
+        "proposal": 104726,
+        "changeOrders": 0,
+        "paymentsReceived": 41890.4,
+        "paymentsBalance": 62835.6,
+        "nextMilestone": {
+          "label": "Milestone #1/5",
+          "amount": 15708.9,
+          "percent": 15,
+          "date": "2026-05-04T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 71
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "81d6e791-0524-443c-a99e-e339a6d167af",
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "name": "333 East 43rd Street #712",
+      "address": "333 East 43rd Street #712",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "yellow",
+      "financials": {
+        "income": 163835,
+        "proposal": 163835,
+        "changeOrders": 0,
+        "paymentsReceived": 24575.25,
+        "paymentsBalance": 139259.75,
+        "nextMilestone": {
+          "label": "Milestone #1/7",
+          "amount": 40958.75,
+          "percent": 25,
+          "date": null,
+          "status": "unscheduled",
+          "daysOverdue": null
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": "Lester Katz DXA",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "70962a9e-23bc-4df8-b19a-5dd02ceeebbf",
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "name": "535 East 86th Street #21B",
+      "address": "535 East 86th Street #21B",
+      "client": {
+        "name": "Dean Schloyer",
+        "email": null
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 317423.33,
+        "proposal": 273457.5,
+        "changeOrders": 43965.83,
+        "paymentsReceived": 194367.46,
+        "paymentsBalance": 123055.87,
+        "nextMilestone": {
+          "label": "Milestone #2/5",
+          "amount": 27345.75,
+          "percent": 10,
+          "date": "2026-04-20T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 85
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": "Lester Katz DXA",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "f765752a-0792-4778-8e1e-b0f0319bb71e",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "name": "401 East 86th Street #8A",
+      "address": "401 East 86th Street #8A",
+      "client": {
+        "name": "Ryan White",
+        "email": "ryanwphd@gmail.com"
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 216098.71,
+        "proposal": 167760,
+        "changeOrders": 48338.71,
+        "paymentsReceived": 140606.71,
+        "paymentsBalance": 75492,
+        "nextMilestone": {
+          "label": "Milestone #3/6",
+          "amount": 16776,
+          "percent": 10,
+          "date": "2026-04-24T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 81
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Katia Haniuk",
+        "architect": "Dionisio Ortega",
+        "administrator": "Project Coordinator BOT"
+      }
+    },
+    {
+      "id": "3b955cea-5c69-4c91-a5e2-2a74138390a5",
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "name": "177 East 79th Street #16/17",
+      "address": "177 East 79th Street #16/17",
+      "client": {
+        "name": "Rachel Park",
+        "email": "rachelpark28@gmail.com"
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 311987.85,
+        "proposal": 226115,
+        "changeOrders": 85872.85,
+        "paymentsReceived": 191717.1,
+        "paymentsBalance": 120270.75,
+        "nextMilestone": {
+          "label": "Milestone #3/13",
+          "amount": 20993.5,
+          "percent": 10,
+          "date": "2026-04-13T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 92
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Monica Cialona",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "503470e7-263d-4ad3-ac5a-0e7851fb5dd5",
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "name": "330 East 79th Street Apt #6B",
+      "address": "330 East 79th Street Apt #6B",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 411648.03,
+        "proposal": 261935,
+        "changeOrders": 149713.03,
+        "paymentsReceived": 292164.28,
+        "paymentsBalance": 119483.75,
+        "nextMilestone": {
+          "label": "Milestone #1/6",
+          "amount": 1613,
+          "percent": 20,
+          "date": "2025-03-17T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 484
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Katia Haniuk",
+        "architect": "Pietro Rosato",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "7f7ade95-123f-4907-9e49-536dec0d07da",
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "name": "1025 Fifth Avenue #6CS",
+      "address": "1025 Fifth Avenue #6CS",
+      "client": {
+        "name": "Jorge & Shannon",
+        "email": "jvitutia@hotmail.com"
+      },
+      "role": "designer",
+      "isMyProject": false,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 222494.96,
+        "proposal": 213785,
+        "changeOrders": 8709.96,
+        "paymentsReceived": 184611.75,
+        "paymentsBalance": 37883.21,
+        "nextMilestone": {
+          "label": "Milestone #6/6",
+          "amount": 21378.5,
+          "percent": 10,
+          "date": "2026-02-25T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 139
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Nihaar Pathak",
+        "designer": "Dorothy Weise",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    }
+  ]
+}
+</script>
+<!--APM_DATA_END-->
+
+<!--APM_TODAY_START-->
+<script id="apm-today" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "windowDays": 7,
+  "taskCoverage": [
+    "599696ee-8491-495a-890c-2a52077a8564",
+    "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+    "a87b2423-eada-4091-8a95-13591dcea5e3",
+    "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+    "b97ef384-cb37-4cba-bf50-37cb027084ef",
+    "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+    "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb"
+  ],
+  "summary": {
+    "total": 19,
+    "counts": {
+      "overdue": 6,
+      "today": 0,
+      "2-day": 2,
+      "3-day": 2,
+      "soon": 9
+    }
+  },
+  "byCategory": {
+    "payments": [
+      {
+        "source": "milestone",
+        "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+        "project": "330 East 79th Street Apt #6B",
+        "title": "Bill client — Milestone #1/6 ($1,613)",
+        "due": "2025-03-17T00:00:00.000Z",
+        "daysUntil": -484,
+        "urgency": "overdue",
+        "category": "payments",
+        "note": "484 days overdue",
+        "amount": 1613
+      },
+      {
+        "source": "milestone",
+        "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+        "project": "1025 Fifth Avenue #6CS",
+        "title": "Bill client — Milestone #6/6 ($21,379)",
+        "due": "2026-02-25T00:00:00.000Z",
+        "daysUntil": -139,
+        "urgency": "overdue",
+        "category": "payments",
+        "note": "139 days overdue",
+        "amount": 21378.5
+      },
+      {
+        "source": "milestone",
+        "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+        "project": "177 East 79th Street #16/17",
+        "title": "Bill client — Milestone #3/13 ($20,994)",
+        "due": "2026-04-13T00:00:00.000Z",
+        "daysUntil": -92,
+        "urgency": "overdue",
+        "category": "payments",
+        "note": "92 days overdue",
+        "amount": 20993.5
+      },
+      {
+        "source": "milestone",
+        "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+        "project": "535 East 86th Street #21B",
+        "title": "Bill client — Milestone #2/5 ($27,346)",
+        "due": "2026-04-20T00:00:00.000Z",
+        "daysUntil": -85,
+        "urgency": "overdue",
+        "category": "payments",
+        "note": "85 days overdue",
+        "amount": 27345.75
+      },
+      {
+        "source": "milestone",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "Bill client — Milestone #3/6 ($16,776)",
+        "due": "2026-04-24T00:00:00.000Z",
+        "daysUntil": -81,
+        "urgency": "overdue",
+        "category": "payments",
+        "note": "81 days overdue",
+        "amount": 16776
+      },
+      {
+        "source": "milestone",
+        "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+        "project": "75 East End Avenue #17A",
+        "title": "Bill client — Milestone #1/5 ($15,709)",
+        "due": "2026-05-04T00:00:00.000Z",
+        "daysUntil": -71,
+        "urgency": "overdue",
+        "category": "payments",
+        "note": "71 days overdue",
+        "amount": 15708.9
+      },
+      {
+        "source": "milestone",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Bill client — Milestone #1/7 ($40,959)",
+        "due": null,
+        "daysUntil": null,
+        "urgency": "soon",
+        "category": "payments",
+        "note": "unscheduled",
+        "amount": 40958.75
+      }
+    ],
+    "communication": [
+      {
+        "source": "task",
+        "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+        "project": "75 East End Avenue #17A",
+        "title": "Design/PM Project Pass Off",
+        "due": "2026-07-15T00:00:00.000Z",
+        "daysUntil": 1,
+        "urgency": "2-day",
+        "category": "communication",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel",
+          "Lorena Davila"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "General Contractor Sign Off",
+        "due": "2026-07-15T00:00:00.000Z",
+        "daysUntil": 1,
+        "urgency": "2-day",
+        "category": "communication",
+        "phase": "Post-Construction & Job Closing",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Building Super Walkthrough",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "communication",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      }
+    ],
+    "procurement": [],
+    "changeorder": [
+      {
+        "source": "task",
+        "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+        "project": "535 East 86th Street #21B",
+        "title": "Change Orders",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "changeorder",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel",
+          "Lorena Davila"
+        ],
+        "clientVisible": false
+      }
+    ],
+    "site": [
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "Check and Protect Tile Work",
+        "due": "2026-07-17T00:00:00.000Z",
+        "daysUntil": 3,
+        "urgency": "3-day",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+        "project": "401 East 86th Street #8A",
+        "title": "Check and Protect new Floors",
+        "due": "2026-07-17T00:00:00.000Z",
+        "daysUntil": 3,
+        "urgency": "3-day",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+        "project": "75 East End Avenue #17A",
+        "title": "Job Start Date",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Follow up on Architectural prints & Filing",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Design & Building Approval",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "Department of Buildings Permit",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Design & Building Approval",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+        "project": "333 East 43rd Street #712",
+        "title": "RFI Log",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Pre-Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+        "project": "535 East 86th Street #21B",
+        "title": "Remote Camera Installation",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      },
+      {
+        "source": "task",
+        "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+        "project": "330 East 79th Street Apt #6B",
+        "title": "Check and Protect Kitchen Cabinets",
+        "due": "2026-07-20T00:00:00.000Z",
+        "daysUntil": 6,
+        "urgency": "soon",
+        "category": "site",
+        "phase": "Construction",
+        "assigned": [
+          "Sagar Patel"
+        ],
+        "clientVisible": false
+      }
+    ]
+  },
+  "byProject": {
+    "a8c78b34-6f11-45db-a7b5-6d02b64c561a": {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "project": "330 East 79th Street Apt #6B",
+      "items": [
+        {
+          "source": "milestone",
+          "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+          "project": "330 East 79th Street Apt #6B",
+          "title": "Bill client — Milestone #1/6 ($1,613)",
+          "due": "2025-03-17T00:00:00.000Z",
+          "daysUntil": -484,
+          "urgency": "overdue",
+          "category": "payments",
+          "note": "484 days overdue",
+          "amount": 1613
+        },
+        {
+          "source": "task",
+          "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+          "project": "330 East 79th Street Apt #6B",
+          "title": "Check and Protect Kitchen Cabinets",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        }
+      ]
+    },
+    "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb": {
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "project": "1025 Fifth Avenue #6CS",
+      "items": [
+        {
+          "source": "milestone",
+          "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+          "project": "1025 Fifth Avenue #6CS",
+          "title": "Bill client — Milestone #6/6 ($21,379)",
+          "due": "2026-02-25T00:00:00.000Z",
+          "daysUntil": -139,
+          "urgency": "overdue",
+          "category": "payments",
+          "note": "139 days overdue",
+          "amount": 21378.5
+        }
+      ]
+    },
+    "b97ef384-cb37-4cba-bf50-37cb027084ef": {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "project": "177 East 79th Street #16/17",
+      "items": [
+        {
+          "source": "milestone",
+          "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+          "project": "177 East 79th Street #16/17",
+          "title": "Bill client — Milestone #3/13 ($20,994)",
+          "due": "2026-04-13T00:00:00.000Z",
+          "daysUntil": -92,
+          "urgency": "overdue",
+          "category": "payments",
+          "note": "92 days overdue",
+          "amount": 20993.5
+        }
+      ]
+    },
+    "a87b2423-eada-4091-8a95-13591dcea5e3": {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "project": "535 East 86th Street #21B",
+      "items": [
+        {
+          "source": "milestone",
+          "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+          "project": "535 East 86th Street #21B",
+          "title": "Bill client — Milestone #2/5 ($27,346)",
+          "due": "2026-04-20T00:00:00.000Z",
+          "daysUntil": -85,
+          "urgency": "overdue",
+          "category": "payments",
+          "note": "85 days overdue",
+          "amount": 27345.75
+        },
+        {
+          "source": "task",
+          "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+          "project": "535 East 86th Street #21B",
+          "title": "Change Orders",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "changeorder",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel",
+            "Lorena Davila"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+          "project": "535 East 86th Street #21B",
+          "title": "Remote Camera Installation",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        }
+      ]
+    },
+    "10d3a71b-f22d-4155-8929-e9b3b524bd8f": {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "items": [
+        {
+          "source": "milestone",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "Bill client — Milestone #3/6 ($16,776)",
+          "due": "2026-04-24T00:00:00.000Z",
+          "daysUntil": -81,
+          "urgency": "overdue",
+          "category": "payments",
+          "note": "81 days overdue",
+          "amount": 16776
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "General Contractor Sign Off",
+          "due": "2026-07-15T00:00:00.000Z",
+          "daysUntil": 1,
+          "urgency": "2-day",
+          "category": "communication",
+          "phase": "Post-Construction & Job Closing",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "Check and Protect Tile Work",
+          "due": "2026-07-17T00:00:00.000Z",
+          "daysUntil": 3,
+          "urgency": "3-day",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+          "project": "401 East 86th Street #8A",
+          "title": "Check and Protect new Floors",
+          "due": "2026-07-17T00:00:00.000Z",
+          "daysUntil": 3,
+          "urgency": "3-day",
+          "category": "site",
+          "phase": "Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        }
+      ]
+    },
+    "599696ee-8491-495a-890c-2a52077a8564": {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "items": [
+        {
+          "source": "milestone",
+          "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+          "project": "75 East End Avenue #17A",
+          "title": "Bill client — Milestone #1/5 ($15,709)",
+          "due": "2026-05-04T00:00:00.000Z",
+          "daysUntil": -71,
+          "urgency": "overdue",
+          "category": "payments",
+          "note": "71 days overdue",
+          "amount": 15708.9
+        },
+        {
+          "source": "task",
+          "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+          "project": "75 East End Avenue #17A",
+          "title": "Design/PM Project Pass Off",
+          "due": "2026-07-15T00:00:00.000Z",
+          "daysUntil": 1,
+          "urgency": "2-day",
+          "category": "communication",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel",
+            "Lorena Davila"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+          "project": "75 East End Avenue #17A",
+          "title": "Job Start Date",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        }
+      ]
+    },
+    "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242": {
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "project": "333 East 43rd Street #712",
+      "items": [
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Building Super Walkthrough",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "communication",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Follow up on Architectural prints & Filing",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Design & Building Approval",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Department of Buildings Permit",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Design & Building Approval",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "task",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "RFI Log",
+          "due": "2026-07-20T00:00:00.000Z",
+          "daysUntil": 6,
+          "urgency": "soon",
+          "category": "site",
+          "phase": "Pre-Construction",
+          "assigned": [
+            "Sagar Patel"
+          ],
+          "clientVisible": false
+        },
+        {
+          "source": "milestone",
+          "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+          "project": "333 East 43rd Street #712",
+          "title": "Bill client — Milestone #1/7 ($40,959)",
+          "due": null,
+          "daysUntil": null,
+          "urgency": "soon",
+          "category": "payments",
+          "note": "unscheduled",
+          "amount": 40958.75
+        }
+      ]
+    }
+  }
+}
+</script>
+<!--APM_TODAY_END-->
+
+<!--APM_EMAILS_START-->
+<script id="apm-emails" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "projects": [
+    {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "name": "75 East End Avenue #17A",
+      "client": {
+        "name": "Nicholas Stoker",
+        "email": "nicholas.stoker@gmail.com"
+      },
+      "unreadCount": 0,
+      "recentCount": 3,
+      "total": 3,
+      "emails": [
+        {
+          "from": "Julio Lopez",
+          "role": "team",
+          "subject": "RE: [Introduction – Procurement Coordination] - 75 East End Ave",
+          "snippet": "Thank you — @Nick Stoker looped in on procurement coordination.",
+          "date": "2026-07-14T17:41:26.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSegAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "Nicholas Stoker (client)",
+          "role": "client",
+          "subject": "Re: [Introduction – Procurement Coordination] - 75 East End Ave",
+          "snippet": "Thanks Julio, I got into the portal. A few modifications: reduce recessed foyer…",
+          "date": "2026-07-14T14:46:20.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSeeAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "Lorena Davila",
+          "role": "team",
+          "subject": "Re: [Countertop and Backsplash] 75 East End Ave",
+          "snippet": "Regarding this job, are you approved and how long will the job take? — Lisa/Elita Ng",
+          "date": "2026-07-14T12:57:20.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSeSAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        }
+      ]
+    },
+    {
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "name": "333 East 43rd Street #712",
+      "client": null,
+      "unreadCount": 0,
+      "recentCount": 0,
+      "total": 2,
+      "emails": [
+        {
+          "from": "HUB (automated)",
+          "role": "system",
+          "subject": "Client uploaded new documents for 333 East 43rd Street #712",
+          "snippet": "New project documents uploaded — review in SharePoint.",
+          "date": "2026-07-09T17:30:00.000Z",
+          "attach": false,
+          "read": true,
+          "recent": false,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACYR6BwAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "Andres — Elite EHS",
+          "role": "vendor",
+          "subject": "Re: 333 East 43rd Apt 712 — Preliminary Results & Proposal",
+          "snippet": "We received the asbestos sampling results — all sampled materials negative for…",
+          "date": "2026-07-06T22:08:56.000Z",
+          "attach": true,
+          "read": true,
+          "recent": false,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACHh0orAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        }
+      ]
+    },
+    {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "name": "535 East 86th Street #21B",
+      "client": {
+        "name": "Dean Schloyer",
+        "email": null
+      },
+      "unreadCount": 0,
+      "recentCount": 2,
+      "total": 3,
+      "emails": [
+        {
+          "from": "Brothers Mechanical",
+          "role": "sub",
+          "subject": "535 E 86 21B Plumbing Rough-ins — Invoice 1955",
+          "snippet": "Bill to 535 East 86th St Apt 21B — Invoice 1955, due on receipt, invoice date 07/09.",
+          "date": "2026-07-13T23:14:02.000Z",
+          "attach": true,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEJAACi2CndQGSAR69scM9bJJg%2BAACl2B5eAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "QuickBooks",
+          "role": "system",
+          "subject": "New payment request from Brothers Mechanical Group — invoice 1955",
+          "snippet": "Payment request for invoice 1955 (535 East 86th St Apt 21B).",
+          "date": "2026-07-13T21:13:32.000Z",
+          "attach": true,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSeCAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "HUB (automated)",
+          "role": "system",
+          "subject": "Latest design ready for review — 535 East 86th Street #21B",
+          "snippet": "Hi Dean Schloyer, your latest design has been uploaded to your project portal.",
+          "date": "2026-07-10T23:00:00.000Z",
+          "attach": false,
+          "read": true,
+          "recent": false,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACYR6CwAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        }
+      ]
+    },
+    {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "name": "401 East 86th Street #8A",
+      "client": {
+        "name": "Ryan White",
+        "email": "ryanwphd@gmail.com"
+      },
+      "unreadCount": 0,
+      "recentCount": 2,
+      "total": 3,
+      "emails": [
+        {
+          "from": "Alisa — PID Floors",
+          "role": "vendor",
+          "subject": "Re: PID Floors | 401 East 86th Street #8A | 26826",
+          "snippet": "Friday is good. Please let me know about the time.",
+          "date": "2026-07-13T17:12:31.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSd9AAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "Julio Lopez",
+          "role": "team",
+          "subject": "RE: PID Floors | 401 East 86th Street #8A | 26826",
+          "snippet": "Order received and payment processed — updated confirmation attached.",
+          "date": "2026-07-13T15:21:04.000Z",
+          "attach": true,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSd2AAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "You (Sagar)",
+          "role": "you",
+          "subject": "Re: Order Confirmation: AJ Madison order #209913775",
+          "snippet": "Shipping: Ryan White, 401 East 86th St #8A — hold delivery for Aug 3 (unit under construction).",
+          "date": "2026-07-03T20:30:18.000Z",
+          "attach": false,
+          "read": true,
+          "recent": false,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEJAACi2CndQGSAR69scM9bJJg%2BAACI1wW5AAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        }
+      ]
+    },
+    {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "name": "177 East 79th Street #16/17",
+      "client": {
+        "name": "Rachel Park",
+        "email": "rachelpark28@gmail.com"
+      },
+      "unreadCount": 0,
+      "recentCount": 3,
+      "total": 3,
+      "emails": [
+        {
+          "from": "Lawrence — PID Floors",
+          "role": "vendor",
+          "subject": "Re: PID Floors | 177 East 79th | Benbrook floor availability | 26977",
+          "snippet": "We'll continue with the original spec of 7½\" width.",
+          "date": "2026-07-14T18:36:17.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSepAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "HUB (automated)",
+          "role": "system",
+          "subject": "Client approved change order — 177 East 79th Street #16/17",
+          "snippet": "Your client has approved a change order.",
+          "date": "2026-07-14T18:32:00.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSenAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "Rachel Park (client)",
+          "role": "client",
+          "subject": "Re: Change Order Release - 177 East 79th #16/17 - Material Selection R2 + flooring",
+          "snippet": "Paid, thanks Julio.",
+          "date": "2026-07-14T18:31:08.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSemAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        }
+      ]
+    },
+    {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "name": "330 East 79th Street Apt #6B",
+      "client": null,
+      "unreadCount": 0,
+      "recentCount": 0,
+      "total": 2,
+      "emails": [
+        {
+          "from": "Hello Chapter",
+          "role": "team",
+          "subject": "Re: Change Order Release - 330 East 79th #6B - Material Selection R2",
+          "snippet": "Please send the client via PandaDoc.",
+          "date": "2026-07-10T14:32:12.000Z",
+          "attach": true,
+          "read": true,
+          "recent": false,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACYR6CUAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "You (Sagar)",
+          "role": "you",
+          "subject": "Re: PID Floors — quote request",
+          "snippet": "@Julio can you confirm this is the order for 330 E 79th 6B?",
+          "date": "2026-07-08T21:49:49.000Z",
+          "attach": false,
+          "read": true,
+          "recent": false,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEJAACi2CndQGSAR69scM9bJJg%2BAACI1wXeAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        }
+      ]
+    },
+    {
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "name": "1025 Fifth Avenue #6CS",
+      "client": {
+        "name": "Jorge & Shannon",
+        "email": "jvitutia@hotmail.com"
+      },
+      "unreadCount": 0,
+      "recentCount": 2,
+      "total": 2,
+      "emails": [
+        {
+          "from": "Jorge (client)",
+          "role": "client",
+          "subject": "RE: 1025 Fifth Ave #6CS - Remaining Scope and Path to Close-Out",
+          "snippet": "Replying on remaining scope and path to close-out.",
+          "date": "2026-07-14T15:27:18.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSefAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        },
+        {
+          "from": "Eli",
+          "role": "team",
+          "subject": "1025 Fifth Ave #6CS - Remaining Scope and Path to Close-Out",
+          "snippet": "Setting out clearly how we are moving this to completion so we're aligned.",
+          "date": "2026-07-14T14:32:47.000Z",
+          "attach": false,
+          "read": true,
+          "recent": true,
+          "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSebAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!--APM_EMAILS_END-->
+
+<!--APM_PAYMENTS_START-->
+<script id="apm-payments" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "subsAreExample": true,
+  "summary": {
+    "totalOutstandingClient": 678280.93,
+    "milestonesOverdue": 6,
+    "milestonesToAction": 7,
+    "subOverdue": 0,
+    "subDueSoon": 1
+  },
+  "clientMilestones": [
+    {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Milestone #1/5",
+      "amount": 15708.9,
+      "percent": 15,
+      "date": "2026-05-04T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 71,
+      "outstanding": 62835.6,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "project": "333 East 43rd Street #712",
+      "label": "Milestone #1/7",
+      "amount": 40958.75,
+      "percent": 25,
+      "date": null,
+      "status": "unscheduled",
+      "daysOverdue": null,
+      "outstanding": 139259.75,
+      "action": "Schedule + bill"
+    },
+    {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "project": "535 East 86th Street #21B",
+      "label": "Milestone #2/5",
+      "amount": 27345.75,
+      "percent": 10,
+      "date": "2026-04-20T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 85,
+      "outstanding": 123055.87,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "label": "Milestone #3/6",
+      "amount": 16776,
+      "percent": 10,
+      "date": "2026-04-24T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 81,
+      "outstanding": 75492,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "project": "177 East 79th Street #16/17",
+      "label": "Milestone #3/13",
+      "amount": 20993.5,
+      "percent": 10,
+      "date": "2026-04-13T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 92,
+      "outstanding": 120270.75,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "project": "330 East 79th Street Apt #6B",
+      "label": "Milestone #1/6",
+      "amount": 1613,
+      "percent": 20,
+      "date": "2025-03-17T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 484,
+      "outstanding": 119483.75,
+      "action": "Bill now — past due"
+    },
+    {
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "project": "1025 Fifth Avenue #6CS",
+      "label": "Milestone #6/6",
+      "amount": 21378.5,
+      "percent": 10,
+      "date": "2026-02-25T00:00:00.000Z",
+      "status": "overdue",
+      "daysOverdue": 139,
+      "outstanding": 37883.21,
+      "action": "Bill now — past due"
+    }
+  ],
+  "subPayments": [
+    {
+      "sub": "Example Plumbing Co.",
+      "trade": "Plumbing",
+      "email": "office@exampleplumbing.com",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Rough-in complete",
+      "amount": 21000,
+      "dueDate": "2026-07-18",
+      "daysUntil": 4,
+      "status": "unpaid",
+      "flag": "due-soon"
+    },
+    {
+      "sub": "Example Plumbing Co.",
+      "trade": "Plumbing",
+      "email": "office@exampleplumbing.com",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Final (retainage 15%)",
+      "amount": 14700,
+      "dueDate": null,
+      "daysUntil": null,
+      "status": "held-until-punch",
+      "flag": "held"
+    },
+    {
+      "sub": "Example Plumbing Co.",
+      "trade": "Plumbing",
+      "email": "office@exampleplumbing.com",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "label": "Deposit (15%)",
+      "amount": 6300,
+      "dueDate": "2026-03-01",
+      "daysUntil": -135,
+      "status": "paid",
+      "flag": "paid"
+    }
+  ]
+}
+</script>
+<!--APM_PAYMENTS_END-->
+
+<!--APM_WEEKLY_START-->
+<script id="apm-weekly" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "weekOf": "Friday, July 17, 2026",
+  "projects": [
+    {
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "name": "75 East End Avenue #17A",
+      "client": {
+        "name": "Nicholas Stoker",
+        "email": "nicholas.stoker@gmail.com"
+      },
+      "clientReady": true,
+      "clientDraft": {
+        "subject": "75 East End Avenue #17A — Weekly Update (Friday, July 17, 2026)",
+        "to": "nicholas.stoker@gmail.com",
+        "body": "Hi Nicholas,\n\nHere's your weekly update on 75 East End Avenue #17A.\n\nProgress this week:\n• Kicked off procurement coordination and aligned on your requested updates (foyer recessed lighting reduction and related changes).\n• Reviewed countertop and backsplash options with the design team.\n\nComing up (next 2 weeks):\n• Internal design/PM pass-off this week, with job start targeted for early next week.\n• Finalize countertop and backsplash selections.\n\nA couple of things we'd need from you:\n• Please confirm the foyer/lighting modifications so we can lock in procurement.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 75 East End Avenue #17A · Friday, July 17, 2026\nPhase: Pre-Construction\nClient: Nicholas Stoker <nicholas.stoker@gmail.com>\n\nFlags / risks:\n• Milestone #1/5 ($15,709) is 71 days past its date with $62,836 outstanding — release the invoice.\n• Client is actively requesting design changes — keep any scope changes on signed change orders."
+      }
+    },
+    {
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "name": "333 East 43rd Street #712",
+      "client": null,
+      "clientReady": false,
+      "clientDraft": {
+        "subject": "333 East 43rd Street #712 — Weekly Update (Friday, July 17, 2026)",
+        "to": null,
+        "body": "Hi there,\n\nHere's your weekly update on 333 East 43rd Street #712.\n\nProgress this week:\n• Asbestos sampling completed — all materials returned negative, so we're clear to proceed.\n• Latest design uploaded for review and client documents received.\n\nComing up (next 2 weeks):\n• Building super walkthrough, RFI log, and DOB permit follow-up this week.\n• Prepare and send the building package.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 333 East 43rd Street #712 · Friday, July 17, 2026\nPhase: Design & Building Approval\nClient: NOT IDENTIFIED\n\nFlags / risks:\n• Milestone #1/7 ($40,959) is unscheduled with $139,260 outstanding — set the billing date.\n• Client contact/email not identifiable from current threads — confirm before sending."
+      }
+    },
+    {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "name": "535 East 86th Street #21B",
+      "client": {
+        "name": "Dean Schloyer",
+        "email": null
+      },
+      "clientReady": false,
+      "clientDraft": {
+        "subject": "535 East 86th Street #21B — Weekly Update (Friday, July 17, 2026)",
+        "to": null,
+        "body": "Hi Dean,\n\nHere's your weekly update on 535 East 86th Street #21B.\n\nProgress this week:\n• Plumbing rough-ins are progressing with our mechanical subcontractor.\n• Latest design uploaded to your portal for review.\n\nComing up (next 2 weeks):\n• Change-order review and remote camera installation this week.\n• Continue rough-in coordination and inspections.\n\nA couple of things we'd need from you:\n• When you have a moment, review the latest design in your portal and let us know of any changes.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 535 East 86th Street #21B · Friday, July 17, 2026\nPhase: Construction\nClient: Dean Schloyer\n\nFlags / risks:\n• Milestone #2/5 ($27,346) is 85 days past date with $123,056 outstanding — bill the client.\n• Brothers Mechanical invoice #1955 is due — process payment."
+      }
+    },
+    {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "name": "401 East 86th Street #8A",
+      "client": {
+        "name": "Ryan White",
+        "email": "ryanwphd@gmail.com"
+      },
+      "clientReady": true,
+      "clientDraft": {
+        "subject": "401 East 86th Street #8A — Weekly Update (Friday, July 17, 2026)",
+        "to": "ryanwphd@gmail.com",
+        "body": "Hi Ryan,\n\nHere's your weekly update on 401 East 86th Street #8A.\n\nProgress this week:\n• Flooring delivery scheduled for Friday with PID Floors (a 3-hour window will be confirmed Thursday).\n• Appliance order placed with AJ Madison — delivery is being held for August 3 while the unit is under construction.\n\nComing up (next 2 weeks):\n• Floor and tile protection this week, plus general contractor sign-off.\n• Coordinate the flooring installation after delivery.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 401 East 86th Street #8A · Friday, July 17, 2026\nPhase: Construction\nClient: Ryan White <ryanwphd@gmail.com>\n\nFlags / risks:\n• Milestone #3/6 ($16,776) is 81 days past date with $75,492 outstanding — bill the client.\n• GC sign-off due 7/15."
+      }
+    },
+    {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "name": "177 East 79th Street #16/17",
+      "client": {
+        "name": "Rachel Park",
+        "email": "rachelpark28@gmail.com"
+      },
+      "clientReady": true,
+      "clientDraft": {
+        "subject": "177 East 79th Street #16/17 — Weekly Update (Friday, July 17, 2026)",
+        "to": "rachelpark28@gmail.com",
+        "body": "Hi Rachel,\n\nHere's your weekly update on 177 East 79th Street #16/17.\n\nProgress this week:\n• Your change order (material selection round 2 and flooring) was approved and paid — thank you!\n• Flooring spec confirmed at 7½\" width with PID Floors.\n\nComing up (next 2 weeks):\n• Proceed with the round-2 material selections and place the flooring order.\n• Schedule the upcoming trade work.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 177 East 79th Street #16/17 · Friday, July 17, 2026\nPhase: Construction\nClient: Rachel Park <rachelpark28@gmail.com>\n\nFlags / risks:\n• Milestone #3/13 ($20,994) is 92 days past date with $120,271 outstanding — bill the client.\n• Change order paid — confirm it's reflected in the HUB."
+      }
+    },
+    {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "name": "330 East 79th Street Apt #6B",
+      "client": null,
+      "clientReady": false,
+      "clientDraft": {
+        "subject": "330 East 79th Street Apt #6B — Weekly Update (Friday, July 17, 2026)",
+        "to": null,
+        "body": "Hi there,\n\nHere's your weekly update on 330 East 79th Street Apt #6B.\n\nProgress this week:\n• Change order approved.\n• Flooring order coordinated with PID Floors and payment arranged.\n\nComing up (next 2 weeks):\n• Kitchen cabinet protection and continued site work this week.\n• Confirm remaining material orders.\n\nAs always, reach out with any questions.\n\nBest,\nSagar Patel\nProject Manager, Chapter"
+      },
+      "internal": {
+        "body": "INTERNAL — 330 East 79th Street Apt #6B · Friday, July 17, 2026\nPhase: Construction\nClient: NOT IDENTIFIED\n\nFlags / risks:\n• Milestone #1/6 ($1,613) is 484 days past date with $119,484 outstanding — investigate this stale milestone date and bill.\n• Confirm client contact for weekly updates."
+      }
+    }
+  ]
+}
+</script>
+<!--APM_WEEKLY_END-->
+
+<!--APM_CHANGES_START-->
+<script id="apm-changes" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "summary": {
+    "count": 34,
+    "totalSold": 594693.48,
+    "totalProfit": 164863.29,
+    "belowMarkup": 22
+  },
+  "projects": [
+    {
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "name": "535 East 86th Street #21B",
+      "count": 2,
+      "totals": {
+        "sold": 44467.96,
+        "cost": 40425.42,
+        "profit": 4042.54
+      },
+      "belowMarkupCount": 2,
+      "changeOrders": [
+        {
+          "title": "CO-002 Material Specifications — Round 1",
+          "sold": 43965.83,
+          "cost": 39968.94,
+          "profit": 3996.89,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-004 Material Specifications — Island Back Panel",
+          "sold": 502.13,
+          "cost": 456.48,
+          "profit": 45.65,
+          "markupPct": 10,
+          "belowMarkup": true
+        }
+      ]
+    },
+    {
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "name": "401 East 86th Street #8A",
+      "count": 4,
+      "totals": {
+        "sold": 53338.71,
+        "cost": 43336.55,
+        "profit": 10002.16
+      },
+      "belowMarkupCount": 3,
+      "changeOrders": [
+        {
+          "title": "CO-004 Material Specifications — Round 1",
+          "sold": 39568.71,
+          "cost": 35971.55,
+          "profit": 3597.16,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-001 Electrical",
+          "sold": 6370,
+          "cost": 3365,
+          "profit": 3005,
+          "markupPct": 89,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-003 Wall-Hung Toilet Installation",
+          "sold": 5000,
+          "cost": 3000,
+          "profit": 2000,
+          "markupPct": 67,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-002 Water Lines",
+          "sold": 2400,
+          "cost": 1000,
+          "profit": 1400,
+          "markupPct": 140,
+          "belowMarkup": false
+        }
+      ]
+    },
+    {
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "name": "177 East 79th Street #16/17",
+      "count": 8,
+      "totals": {
+        "sold": 116999.72,
+        "cost": 90148.15,
+        "profit": 26851.57
+      },
+      "belowMarkupCount": 4,
+      "changeOrders": [
+        {
+          "title": "CO-003 Material Specifications — Round 1 (Plumbing)",
+          "sold": 30243.97,
+          "cost": 27494.52,
+          "profit": 2749.45,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-008 Material Specifications — Wood Floor",
+          "sold": 29828.88,
+          "cost": 27117.16,
+          "profit": 2711.72,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-004 Material Specifications — Round 2 (Tiles)",
+          "sold": 20711.87,
+          "cost": 18828.97,
+          "profit": 1882.9,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-007 Electrical",
+          "sold": 19000,
+          "cost": 8500,
+          "profit": 10500,
+          "markupPct": 124,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-002 Door Installation",
+          "sold": 9415,
+          "cost": 4707.5,
+          "profit": 4707.5,
+          "markupPct": 100,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-005 Electrical — Panel Replacement",
+          "sold": 5000,
+          "cost": 2000,
+          "profit": 3000,
+          "markupPct": 150,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-006 Electrical — Code Compliance",
+          "sold": 1800,
+          "cost": 1000,
+          "profit": 800,
+          "markupPct": 80,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-001 Load Letter",
+          "sold": 1000,
+          "cost": 500,
+          "profit": 500,
+          "markupPct": 100,
+          "belowMarkup": false
+        }
+      ]
+    },
+    {
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "name": "330 East 79th Street Apt #6B",
+      "count": 14,
+      "totals": {
+        "sold": 367287.13,
+        "cost": 248133.75,
+        "profit": 119153.38
+      },
+      "belowMarkupCount": 9,
+      "changeOrders": [
+        {
+          "title": "CO-010 Material Specifications — Round 2",
+          "sold": 62353.39,
+          "cost": 56684.9,
+          "profit": 5668.49,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-008 Electrical",
+          "sold": 56000,
+          "cost": 28000,
+          "profit": 28000,
+          "markupPct": 100,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-009 Flooring — Hardwood Installation",
+          "sold": 50000,
+          "cost": 25000,
+          "profit": 25000,
+          "markupPct": 100,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-001 Electrical Terms",
+          "sold": 41600,
+          "cost": 26000,
+          "profit": 15600,
+          "markupPct": 60,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-003 Kitchen Cabinets",
+          "sold": 31000,
+          "cost": 15500,
+          "profit": 15500,
+          "markupPct": 100,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-006 Material Specifications — Flooring",
+          "sold": 24029.15,
+          "cost": 21844.68,
+          "profit": 2184.47,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-012 Material Specifications — Round 2 (Tiles)",
+          "sold": 22091.04,
+          "cost": 20082.76,
+          "profit": 2008.28,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-005 Material Specifications — Round 1 (Plumbing/Waterworks)",
+          "sold": 21730.49,
+          "cost": 19754.99,
+          "profit": 1975.5,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-010 Vanities — Bathroom",
+          "sold": 18700,
+          "cost": 11800,
+          "profit": 6900,
+          "markupPct": 58,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-013 Plumbing Installation & Partial Reframing",
+          "sold": 14910,
+          "cost": 7100,
+          "profit": 7810,
+          "markupPct": 110,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-004 New Wall Framing & Drop Ceilings",
+          "sold": 10540,
+          "cost": 6200,
+          "profit": 4340,
+          "markupPct": 70,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-007 Plumbing",
+          "sold": 7000,
+          "cost": 3500,
+          "profit": 3500,
+          "markupPct": 100,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-009 Material Specifications — Tiles",
+          "sold": 5046.16,
+          "cost": 4587.42,
+          "profit": 458.74,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-011 Material Specifications — In-Wall Toilet Tank",
+          "sold": 2286.9,
+          "cost": 2079,
+          "profit": 207.9,
+          "markupPct": 10,
+          "belowMarkup": true
+        }
+      ]
+    },
+    {
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "name": "1025 Fifth Avenue #6CS",
+      "count": 6,
+      "totals": {
+        "sold": 12599.96,
+        "cost": 7786.32,
+        "profit": 4813.64
+      },
+      "belowMarkupCount": 4,
+      "changeOrders": [
+        {
+          "title": "CO-002 Extra Work",
+          "sold": 3940,
+          "cost": 1750,
+          "profit": 2190,
+          "markupPct": 125,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-003 Pocket Doors & Plumbing Terms",
+          "sold": 2530,
+          "cost": 900,
+          "profit": 1630,
+          "markupPct": 181,
+          "belowMarkup": false
+        },
+        {
+          "title": "CO-004 Material Specifications — Vents & Mirror",
+          "sold": 1875.46,
+          "cost": 1704.96,
+          "profit": 170.5,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-004 Material Specifications — Vents & Mirror (b)",
+          "sold": 1636.13,
+          "cost": 1487.39,
+          "profit": 148.74,
+          "markupPct": 10,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-002 Drop Ceiling — Both Bathrooms",
+          "sold": 1360,
+          "cost": 800,
+          "profit": 560,
+          "markupPct": 70,
+          "belowMarkup": true
+        },
+        {
+          "title": "CO-003 Material Specifications — Pulls",
+          "sold": 1258.37,
+          "cost": 1143.97,
+          "profit": 114.4,
+          "markupPct": 10,
+          "belowMarkup": true
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!--APM_CHANGES_END-->
+
+<!--APM_REMINDERS_START-->
+<script id="apm-reminders" type="application/json">
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "selfAlertTo": "sagar.p@hellochapter.com",
+  "counts": {
+    "urgent": 6,
+    "email": 3,
+    "notify": 2
+  },
+  "reminders": [
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "project": "330 East 79th Street Apt #6B",
+      "title": "Bill client — Milestone #1/6 ($1,613)",
+      "due": "2025-03-17T00:00:00.000Z",
+      "daysUntil": -484,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 484 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "project": "1025 Fifth Avenue #6CS",
+      "title": "Bill client — Milestone #6/6 ($21,379)",
+      "due": "2026-02-25T00:00:00.000Z",
+      "daysUntil": -139,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 139 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "project": "177 East 79th Street #16/17",
+      "title": "Bill client — Milestone #3/13 ($20,994)",
+      "due": "2026-04-13T00:00:00.000Z",
+      "daysUntil": -92,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 92 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "project": "535 East 86th Street #21B",
+      "title": "Bill client — Milestone #2/5 ($27,346)",
+      "due": "2026-04-20T00:00:00.000Z",
+      "daysUntil": -85,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 85 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "Bill client — Milestone #3/6 ($16,776)",
+      "due": "2026-04-24T00:00:00.000Z",
+      "daysUntil": -81,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 81 days overdue — bill the client"
+    },
+    {
+      "kind": "milestone",
+      "level": "urgent",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "title": "Bill client — Milestone #1/5 ($15,709)",
+      "due": "2026-05-04T00:00:00.000Z",
+      "daysUntil": -71,
+      "urgency": "overdue",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Milestone 71 days overdue — bill the client"
+    },
+    {
+      "kind": "task",
+      "level": "email",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "title": "Design/PM Project Pass Off",
+      "due": "2026-07-15T00:00:00.000Z",
+      "daysUntil": 1,
+      "urgency": "2-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 1 days"
+    },
+    {
+      "kind": "task",
+      "level": "email",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "General Contractor Sign Off",
+      "due": "2026-07-15T00:00:00.000Z",
+      "daysUntil": 1,
+      "urgency": "2-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 1 days"
+    },
+    {
+      "kind": "sub",
+      "level": "email",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "project": "75 East End Avenue #17A",
+      "title": "Example Plumbing Co. — Rough-in complete",
+      "due": "2026-07-18",
+      "daysUntil": 4,
+      "urgency": "due-soon",
+      "amount": 21000,
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Sub payment due-soon"
+    },
+    {
+      "kind": "task",
+      "level": "notify",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "Check and Protect Tile Work",
+      "due": "2026-07-17T00:00:00.000Z",
+      "daysUntil": 3,
+      "urgency": "3-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 3 days"
+    },
+    {
+      "kind": "task",
+      "level": "notify",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "project": "401 East 86th Street #8A",
+      "title": "Check and Protect new Floors",
+      "due": "2026-07-17T00:00:00.000Z",
+      "daysUntil": 3,
+      "urgency": "3-day",
+      "emailTo": "sagar.p@hellochapter.com",
+      "reason": "Task due in 3 days"
+    }
+  ]
+}
+</script>
+<!--APM_REMINDERS_END-->
+
+<script>
+(function(){
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("apm-data").textContent);
+  var TODAY = JSON.parse(document.getElementById("apm-today").textContent);
+  var EMAILS = JSON.parse(document.getElementById("apm-emails").textContent);
+  var PAYMENTS = JSON.parse(document.getElementById("apm-payments").textContent);
+  var WEEKLY = JSON.parse(document.getElementById("apm-weekly").textContent);
+  var CHANGES = JSON.parse(document.getElementById("apm-changes").textContent);
+  var REMINDERS = JSON.parse(document.getElementById("apm-reminders").textContent);
+  var SELF_EMAIL = (REMINDERS && REMINDERS.selfAlertTo) || "sagar.p@hellochapter.com";
+  var SIGNATURE = "Sagar Patel\nProject Manager, Chapter";
+
+  var fmtMoney = function(n){ if(n==null) return "—"; return "$" + Math.round(n).toLocaleString("en-US"); };
+  var esc = function(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); };
+  var fmtDate = function(iso){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return "—"; return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); };
+
+  // ---- email-drafter (on-demand "Generate email" — draft only) ----
+  var GEN_REG = [];
+  function genBtn(type, ctx, label){ GEN_REG.push({ type: type, ctx: ctx }); return '<button class="genbtn" data-gen="'+(GEN_REG.length-1)+'">'+esc(label||"✉ Generate email")+'</button>'; }
+  function money2(n){ return n==null?"—":"$"+Math.round(n).toLocaleString("en-US"); }
+  function clientOf(dealId){ var p=(DATA.projects||[]).find(function(x){return x.dealId===dealId;}); return (p&&p.client)||null; }
+  function firstNm(n){ return n?String(n).trim().split(/\s+/)[0]:"there"; }
+  function buildDraft(type, c){
+    if(type==="task-reminder") return { title:"Task reminder (to you)", to:SELF_EMAIL,
+      subject:"Reminder: "+c.title+" — "+c.project,
+      body:"Heads up — this task needs attention:\n\nProject: "+c.project+"\nTask: "+c.title+"\nDue: "+(c.due?fmtDate(c.due):"—")+(c.daysUntil!=null&&c.daysUntil<0?" ("+(-c.daysUntil)+" days overdue)":c.daysUntil===0?" (due today)":c.daysUntil!=null?" (in "+c.daysUntil+" days)":"")+"\n\n— Chapter PM Assistant" };
+    if(type==="milestone-bill"){ var cl=clientOf(c.dealId); return { title:"Client payment request", to:(cl&&cl.email)||"",
+      subject:c.project+" — Payment request: "+c.label,
+      body:"Hi "+firstNm(cl&&cl.name)+",\n\nWe've reached the "+c.label+" milestone on "+c.project+". Per the payment schedule in your proposal, this milestone is now due"+(c.amount?" in the amount of "+money2(c.amount):"")+". An invoice will follow shortly — please let me know if you have any questions.\n\nThank you,\n"+SIGNATURE }; }
+    if(type==="sub-reminder") return { title:"Sub payment reminder (to you)", to:SELF_EMAIL,
+      subject:"Sub payment ("+c.flag+"): "+c.sub+" — "+c.project,
+      body:"Sub payment needs attention:\n\nSub: "+c.sub+"\nProject: "+c.project+"\nAmount: "+money2(c.amount)+"\nDue: "+(c.due?fmtDate(c.due):"—")+"\nStatus: "+c.flag+"\n\n— Chapter PM Assistant" };
+    if(type==="co-notice"){ var cl2=clientOf(c.dealId); return { title:"Change order notice", to:(cl2&&cl2.email)||"",
+      subject:c.project+" — Change Order: "+c.title,
+      body:"Hi "+firstNm(cl2&&cl2.name)+",\n\nWe'd like to proceed with the following change order on "+c.project+":\n\n• "+c.title+"\n• Price: "+money2(c.sold)+"\n• Schedule impact: [confirm]\n• Lead-time impact: [confirm]\n\nThis work is outside the original proposal scope. We'll issue it for signature and payment through the portal — per our process, no work begins until it's signed and paid. Happy to walk through any questions.\n\nThank you,\n"+SIGNATURE }; }
+    return { title:"Email", to:"", subject:"", body:"" };
+  }
+  function openDraft(d){
+    var dm=document.getElementById("draftmodal"); dm._draft=d;
+    document.getElementById("d-title").textContent=d.title||"Generated email";
+    document.getElementById("d-to").textContent="To: "+(d.to||"— (confirm recipient)");
+    document.getElementById("d-subj").textContent=d.subject||"";
+    document.getElementById("d-body").textContent=d.body||"";
+    dm.classList.add("show");
+  }
+
+  var TABS = ["today","projects","payments","changes","email"];
+  var TITLES = { today:"Today at Chapter", projects:"Projects", payments:"Payments", changes:"Change Orders", email:"Email", detail:"Project Detail" };
+  var current = "today";
+
+  // ---- Header ----
+  function renderHeader(){
+    var refd = new Date(DATA.referenceDate + "T12:00:00");
+    document.getElementById("greet").textContent =
+      refd.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+    var s = DATA.summary;
+    var chips = document.getElementById("chips");
+    chips.innerHTML =
+      chip(fmtMoney(s.totalOutstanding) + " outstanding") +
+      chip('<span class="dot red"></span>' + s.byHealth.red + " red") +
+      chip('<span class="dot yellow"></span>' + s.byHealth.yellow + " yellow") +
+      chip('<span class="dot green"></span>' + s.byHealth.green + " green") +
+      chip(s.overdueMilestones + " overdue milestone" + (s.overdueMilestones===1?"":"s"));
+  }
+  function chip(inner){ return '<div class="chip">'+inner+'</div>'; }
+
+  // ---- Today ----
+  var URG = { overdue:{c:"red",l:"OVERDUE"}, today:{c:"red",l:"TODAY"}, "2-day":{c:"yellow",l:"2-DAY"}, "3-day":{c:"yellow",l:"3-DAY"}, soon:{c:"muted",l:"SOON"}, later:{c:"muted",l:"LATER"} };
+  var URANK = { overdue:0, today:1, "2-day":2, "3-day":3, soon:4, later:5 };
+  var CATS = ["payments","communication","procurement","changeorder","site"];
+
+  function manualUrg(days){ if(days==null) return "later"; if(days<0) return "overdue"; if(days===0) return "today"; if(days<=2) return "2-day"; if(days<=3) return "3-day"; if(days<=7) return "soon"; return "later"; }
+  function loadManual(){ try{ return JSON.parse(localStorage.getItem("apm_manual_todos")||"[]"); }catch(e){ return []; } }
+  function saveManual(a){ try{ localStorage.setItem("apm_manual_todos", JSON.stringify(a)); }catch(e){} }
+  function completeManual(id){ saveManual(loadManual().filter(function(x){ return x.id!==id; })); renderToday(); toast("Task completed"); }
+
+  function metaFor(it){
+    if(it.source==="milestone") return it.note||"";
+    return it.due ? (it.daysUntil<0 ? (-it.daysUntil+"d overdue") : it.daysUntil===0 ? "due today" : "due "+fmtDate(it.due)) : "";
+  }
+  function todoCard(it){
+    var u = URG[it.urgency] || URG.soon;
+    var meta = metaFor(it);
+    if(it.source==="manual"){
+      return '<div class="card manual"><div class="row"><div><p class="pname">'+esc(it.title)+'<span class="manual-tag">added</span></p>'
+        + '<p class="psub">'+esc(it.project||"General")+(meta?(" · "+esc(meta)):"")+'</p></div>'
+        + '<div class="rowend"><span class="badge '+(u.c==="muted"?"yellow":u.c)+'">'+u.l+'</span>'
+        + '<button class="complete-btn" data-mid="'+esc(it.mid)+'" aria-label="Mark done">✓</button></div></div></div>';
+    }
+    var who = it.assigned && it.assigned.length ? ' · '+esc(it.assigned.join(", ")) : "";
+    var gen = "";
+    if(["overdue","today","2-day"].indexOf(it.urgency) >= 0){
+      gen = it.source==="milestone"
+        ? genBtn("milestone-bill", { dealId:it.dealId, project:it.project, label:String(it.title).replace("Bill client — ",""), amount:it.amount }, "✉ Bill client")
+        : genBtn("task-reminder", { title:it.title, project:it.project, due:it.due, daysUntil:it.daysUntil, urgency:it.urgency }, "✉ Reminder to me");
+    }
+    return '<div class="card tappable" data-deal="'+it.dealId+'">'
+      + '<div class="row"><div><p class="pname">'+esc(it.title)+'</p>'
+      + '<p class="psub">'+esc(it.project)+(meta?(" · "+esc(meta)):"")+who+'</p></div>'
+      + '<span class="badge '+(u.c==="muted"?"yellow":u.c)+'">'+u.l+'</span></div>'
+      + gen + '</div>';
+  }
+  function todoSection(title, icon, list, emptyMsg){
+    var html = sectionTitle(title, list.length);
+    if(!list.length) return html + emptyState(icon, emptyMsg);
+    list.forEach(function(it){ html += todoCard(it); });
+    return html;
+  }
+  function renderToday(){
+    var c = TODAY.byCategory || {};
+    var ref = TODAY.referenceDate || new Date().toISOString().slice(0,10);
+    var combined = {}; CATS.forEach(function(k){ combined[k] = (c[k]||[]).slice(); });
+    loadManual().forEach(function(m){
+      var days = m.due ? Math.round((Date.parse(m.due+"T00:00:00Z")-Date.parse(ref+"T00:00:00Z"))/86400000) : null;
+      var cat = combined[m.category] ? m.category : "site";
+      combined[cat].push({ source:"manual", mid:m.id, title:m.title, project:m.project||"General", due:m.due||null, daysUntil:days, urgency:manualUrg(days), dealId:m.dealId||null });
+    });
+    CATS.forEach(function(k){ combined[k].sort(function(a,b){ var r=(URANK[a.urgency]??9)-(URANK[b.urgency]??9); return r || ((a.daysUntil??9999)-(b.daysUntil??9999)); }); });
+    var proc = combined.procurement.concat(combined.changeorder);
+    var html = "";
+    var rc = REMINDERS.counts || {}; var needEmail = (rc.urgent||0)+(rc.email||0);
+    if(needEmail){ html += '<div class="rstrip"><span class="dot"></span>'+needEmail+' item'+(needEmail===1?"":"s")+' need a reminder email'+(rc.urgent?(" · "+rc.urgent+" urgent"):"")+' — tap ✉ on an item to generate it.</div>'; }
+    html += todoSection("Payments &amp; Billing","💵", combined.payments, "No milestone billing due.");
+    html += todoSection("Client Communication","💬", combined.communication, "No client updates flagged. Weekly updates auto-draft Fridays.");
+    html += todoSection("Procurement &amp; Change Orders","📦", proc, "Nothing to order or bill as a change order.");
+    html += todoSection("Site Tasks","🏗️", combined.site, "No site tasks due this week. Board is clear.");
+    var cov = (TODAY.taskCoverage||[]).length;
+    html += '<p class="updated">Milestones + tasks across all '+cov+' projects · Data as of '+fmtDate(DATA.generatedAt)+'</p>';
+    document.getElementById("view-today").innerHTML = html;
+  }
+
+  // ---- Projects ----
+  function renderProjects(){
+    var html = sectionTitle("All Projects", DATA.projects.length);
+    DATA.projects.forEach(function(p){
+      var f=p.financials, m=f.nextMilestone;
+      var msLine = m ? (m.status==="overdue" ? '<div class="pill red">'+esc(m.label)+' · '+fmtMoney(m.amount)+' · '+m.daysOverdue+'d overdue</div>'
+                    : m.status==="unscheduled" ? '<div class="pill yellow">'+esc(m.label)+' · '+fmtMoney(m.amount)+' · unscheduled</div>'
+                    : '<div class="pill muted">'+esc(m.label)+' · '+fmtMoney(m.amount)+' · '+fmtDate(m.date)+'</div>') : "";
+      html += '<div class="card tappable health-'+p.health+'" data-deal="'+p.dealId+'">'
+        + '<div class="row"><div><p class="pname">'+esc(p.address)+'</p>'
+        + '<p class="psub">'+(p.role==="designer"?"Designer · ":"")+ (p.stakeholders.designer?("Designer: "+esc(p.stakeholders.designer)):"")+'</p></div>'
+        + '<span class="badge '+p.health+'">'+p.health+'</span></div>'
+        + '<div class="metrics"><div class="metric"><p class="k">Outstanding</p><p class="v warn">'+fmtMoney(f.paymentsBalance)+'</p></div>'
+        + '<div class="metric"><p class="k">Contract</p><p class="v">'+fmtMoney(f.income)+'</p></div>'
+        + '<div class="metric"><p class="k">Open to-dos</p><p class="v">'+(p.todos.overdue+p.todos.dueThisWeek)+'</p></div></div>'
+        + msLine + '</div>';
+    });
+    document.getElementById("view-projects").innerHTML = html;
+  }
+
+  // ---- Change Orders tab ----
+  var coDeal = null;
+  function renderChanges(){
+    var host = document.getElementById("view-changes");
+    var projs = CHANGES.projects || [];
+    if(!coDeal){
+      var s = CHANGES.summary || {};
+      var html = sectionTitle("Change Orders", s.count||0);
+      html += '<div class="empty" style="text-align:left;border-style:solid">'+ (s.count||0) +' change orders · sold '+fmtMoney(s.totalSold)+' · profit '+fmtMoney(s.totalProfit)+'. <b>'+(s.belowMarkup||0)+' below the 100% markup</b> the SOP requires (management approval needed). CO approval status isn’t exposed by the HUB API, so value + markup are shown.</div>';
+      if(!projs.length){ host.innerHTML = html + emptyState("🧾","No change orders."); return; }
+      projs.forEach(function(p){
+        html += '<div class="card tappable" data-co-deal="'+p.dealId+'"><div class="row"><div><p class="pname">'+esc(p.name)+'</p>'
+          + '<p class="psub">'+p.count+' COs · sold '+fmtMoney(p.totals.sold)+' · profit '+fmtMoney(p.totals.profit)+'</p></div>'
+          + (p.belowMarkupCount?'<span class="badge yellow">'+p.belowMarkupCount+' &lt;100%</span>':'<span class="badge green">OK</span>')+'</div></div>';
+      });
+      host.innerHTML = html; return;
+    }
+    var p = projs.find(function(x){ return x.dealId===coDeal; });
+    if(!p){ coDeal=null; return renderChanges(); }
+    var html = '<button class="back" id="coBack">‹ Change Orders</button>'
+      + '<div class="detail-head"><h1>'+esc(p.name)+'</h1></div>'
+      + '<p class="psub" style="margin:0 0 4px">'+p.count+' COs · sold '+fmtMoney(p.totals.sold)+' · cost '+fmtMoney(p.totals.cost)+' · profit '+fmtMoney(p.totals.profit)+'</p>'
+      + sectionTitle("Change orders", p.count);
+    p.changeOrders.forEach(function(c){
+      html += '<div class="card'+(c.belowMarkup?" health-yellow":"")+'"><div class="row"><div><p class="pname" style="font-size:15px">'+esc(c.title)+'</p>'
+        + '<p class="psub">sold '+fmtMoney(c.sold)+' · cost '+fmtMoney(c.cost)+' · profit '+fmtMoney(c.profit)+'</p></div>'
+        + '<span class="badge '+(c.belowMarkup?"yellow":"green")+'">'+(c.markupPct==null?"—":c.markupPct+"%")+'</span></div>'
+        + genBtn("co-notice", { dealId:p.dealId, project:p.name, title:c.title, sold:c.sold }, "✉ CO notice to client")
+        + '</div>';
+    });
+    host.innerHTML = html;
+    document.getElementById("coBack").addEventListener("click", function(){ coDeal=null; renderChanges(); });
+  }
+
+  // ---- Payments tab ----
+  var PFLAG = { overdue:{c:"red",l:"OVERDUE"}, "due-today":{c:"red",l:"DUE TODAY"}, "due-soon":{c:"yellow",l:"DUE SOON"}, unscheduled:{c:"yellow",l:"UNSCHEDULED"}, scheduled:{c:"muted",l:"SCHEDULED"}, held:{c:"muted",l:"HELD"}, paid:{c:"green",l:"PAID"} };
+  var MSTATUS = { overdue:{c:"red",l:"OVERDUE"}, upcoming:{c:"yellow",l:"UPCOMING"}, unscheduled:{c:"yellow",l:"UNSCHEDULED"}, scheduled:{c:"muted",l:"SCHEDULED"}, none:{c:"muted",l:"—"} };
+  function renderPayments(){
+    var host = document.getElementById("view-payments");
+    var mist = (PAYMENTS.clientMilestones||[]).slice().sort(function(a,b){ return (MSTATUS[a.status]?0:1) - (MSTATUS[b.status]?0:1) || ((a.daysOverdue||0) < (b.daysOverdue||0) ? 1 : -1); });
+    var subs = PAYMENTS.subPayments||[];
+    var html = "";
+    // Client milestones
+    html += sectionTitle("Client Milestones", mist.length);
+    if(!mist.length){ html += emptyState("💵","No milestones."); }
+    else mist.forEach(function(m){
+      var st = MSTATUS[m.status] || MSTATUS.none;
+      var meta = m.status==="overdue" ? (m.daysOverdue+"d overdue") : m.status==="unscheduled" ? "not scheduled" : m.date ? fmtDate(m.date) : "—";
+      html += '<div class="card tappable health-'+(st.c==="muted"?"green":st.c)+'" data-deal="'+m.dealId+'"><div class="row"><div>'
+        + '<p class="pname">'+esc(m.label)+' · '+fmtMoney(m.amount)+'</p>'
+        + '<p class="psub">'+esc(m.project)+' · '+esc(meta)+' · outstanding '+fmtMoney(m.outstanding)+'</p></div>'
+        + '<span class="badge '+st.c+'">'+st.l+'</span></div>'
+        + '<div class="pill '+(st.c==="red"?"red":st.c==="yellow"?"yellow":"muted")+'">'+esc(m.action)+'</div>'
+        + (["overdue","upcoming","unscheduled"].indexOf(m.status)>=0 ? genBtn("milestone-bill", { dealId:m.dealId, project:m.project, label:m.label, amount:m.amount }, "✉ Bill client") : "")
+        + '</div>';
+    });
+    // Subcontractor payments
+    html += sectionTitle("Subcontractor Payments", subs.length);
+    if(PAYMENTS.subsAreExample){ html += '<div class="empty" style="text-align:left;border-style:solid">⚠︎ Showing <b>example</b> sub data. Replace <code>config/subs.json</code> with your real subcontractors + schedules (the HUB sub directory is admin-only).</div>'; }
+    if(!subs.length){ html += emptyState("🧰","No subcontractor payments loaded."); }
+    else subs.forEach(function(x){
+      var f = PFLAG[x.flag] || PFLAG.scheduled;
+      var meta = x.flag==="paid" ? "paid" : x.flag==="held" ? "held until punch" : x.dueDate ? (x.daysUntil<0 ? (-x.daysUntil+"d overdue") : x.daysUntil===0 ? "due today" : "due "+fmtDate(x.dueDate)) : "unscheduled";
+      html += '<div class="card"><div class="row"><div>'
+        + '<p class="pname">'+esc(x.sub)+' · '+fmtMoney(x.amount)+'</p>'
+        + '<p class="psub">'+esc(x.trade)+' · '+esc(x.project)+' · '+esc(x.label)+' · '+esc(meta)+'</p></div>'
+        + '<span class="badge '+f.c+'">'+f.l+'</span></div>'
+        + (["overdue","due-today","due-soon"].indexOf(x.flag)>=0 ? genBtn("sub-reminder", { sub:x.sub, project:x.project, amount:x.amount, due:x.dueDate, flag:x.flag }, "✉ Reminder to me") : "")
+        + '</div>';
+    });
+    host.innerHTML = html;
+  }
+
+  // ---- Email tab ----
+  var emailDeal = null, emailMode = "inbox", weeklyDeal = null;
+  var ROLECHIP = { client:{c:"green",l:"Client"}, team:{c:"blue",l:"Chapter"}, you:{c:"blue",l:"You"}, vendor:{c:"muted",l:"Vendor"}, sub:{c:"muted",l:"Sub"}, system:{c:"muted",l:"Auto"} };
+  function segControl(){
+    var n = (WEEKLY.projects||[]).length;
+    return '<div class="seg">'
+      + '<button class="'+(emailMode==="inbox"?"on":"")+'" data-emode="inbox">Inboxes</button>'
+      + '<button class="'+(emailMode==="weekly"?"on":"")+'" data-emode="weekly">Weekly drafts'+(n?" ("+n+")":"")+'</button></div>';
+  }
+  function renderEmail(){
+    var host = document.getElementById("view-email");
+    if(emailMode==="weekly") return renderWeekly(host);
+    var projs = EMAILS.projects || [];
+    if(!emailDeal){
+      var html = segControl() + sectionTitle("Project Inboxes", projs.length);
+      if(!projs.length){ host.innerHTML = html + emptyState("✉️","No project emails loaded yet."); return; }
+      projs.forEach(function(p){
+        var chips = [];
+        if(p.recentCount) chips.push(p.recentCount+" recent");
+        if(p.unreadCount) chips.push(p.unreadCount+" unread");
+        chips.push(p.total+" emails");
+        html += '<div class="card tappable" data-email-deal="'+p.dealId+'"><div class="row"><div><p class="pname">'+esc(p.name)+'</p>'
+          + '<p class="psub">'+(p.client?esc(p.client.name):"Client not identified")+'</p></div>'
+          + (p.recentCount?'<span class="badge yellow">'+p.recentCount+' new</span>':'')+'</div>'
+          + '<p class="psub" style="margin-top:8px">'+esc(chips.join(" · "))+'</p></div>';
+      });
+      host.innerHTML = html; return;
+    }
+    var p = projs.find(function(x){ return x.dealId===emailDeal; });
+    if(!p){ emailDeal=null; return renderEmail(); }
+    var html = '<button class="back" id="emailBack">‹ Inboxes</button>'
+      + '<div class="detail-head"><h1>'+esc(p.name)+'</h1></div>'
+      + '<p class="psub" style="margin:0 0 4px">'+(p.client?("Client: "+esc(p.client.name)+(p.client.email?" · "+esc(p.client.email):"")):"Client not identified")+'</p>'
+      + sectionTitle("Thread", p.total);
+    p.emails.forEach(function(e){
+      var rc = ROLECHIP[e.role] || ROLECHIP.vendor;
+      html += '<div class="card tappable'+(e.recent?" health-yellow":"")+'" data-weblink="'+esc(e.webLink||"")+'">'
+        + '<div class="row"><div><p class="pname" style="font-size:15px">'+esc(e.subject)+'</p>'
+        + '<p class="psub">'+esc(e.from)+' · '+fmtDate(e.date)+(e.attach?" · 📎":"")+(e.recent?" · recent":"")+(e.read?"":" · unread")+'</p></div>'
+        + '<span class="badge '+rc.c+'">'+rc.l+'</span></div>'
+        + (e.snippet?'<p class="psub" style="margin-top:8px">'+esc(e.snippet)+'</p>':"")+'</div>';
+    });
+    host.innerHTML = html;
+    document.getElementById("emailBack").addEventListener("click", function(){ emailDeal=null; renderEmail(); });
+  }
+  function renderWeekly(host){
+    var projs = WEEKLY.projects || [];
+    if(!weeklyDeal){
+      var html = segControl() + sectionTitle("Weekly Client Updates", projs.length)
+        + '<div class="empty" style="text-align:left;border-style:solid">Auto-drafted every Friday ('+esc(WEEKLY.weekOf||"")+'). Review, then send from Outlook — nothing sends automatically.</div>';
+      projs.forEach(function(p){
+        html += '<div class="card tappable" data-weekly-deal="'+p.dealId+'"><div class="row"><div><p class="pname">'+esc(p.name)+'</p>'
+          + '<p class="psub">'+(p.client&&p.client.name?esc(p.client.name):"Client not identified")+' · client + internal draft ready</p></div>'
+          + '<span class="badge '+(p.clientReady?"green":"yellow")+'">'+(p.clientReady?"READY":"NEEDS EMAIL")+'</span></div></div>';
+      });
+      host.innerHTML = html; return;
+    }
+    var p = projs.find(function(x){ return x.dealId===weeklyDeal; });
+    if(!p){ weeklyDeal=null; return renderWeekly(host); }
+    var cd = p.clientDraft;
+    var html = '<button class="back" id="weeklyBack">‹ Weekly drafts</button>'
+      + '<div class="detail-head"><h1>'+esc(p.name)+'</h1></div>'
+      + sectionTitle("Client draft", null)
+      + '<div class="card"><p class="draft-subj">'+esc(cd.subject)+'</p>'
+      + '<p class="psub">To: '+(cd.to?esc(cd.to):"— (confirm client email)")+'</p>'
+      + '<div class="draftbox">'+esc(cd.body)+'</div>'
+      + '<div class="modal-actions" style="margin-top:12px"><button class="btn btn-primary" id="copyClient">Copy client draft</button></div></div>'
+      + sectionTitle("Internal notes", null)
+      + '<div class="card"><div class="draftbox">'+esc(p.internal.body)+'</div></div>';
+    host.innerHTML = html;
+    document.getElementById("weeklyBack").addEventListener("click", function(){ weeklyDeal=null; renderWeekly(host); });
+    document.getElementById("copyClient").addEventListener("click", function(){
+      var text = cd.subject + "\n\n" + cd.body;
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){ toast("Client draft copied"); }, function(){ toast("Copy failed"); }); }
+      else { toast("Copy not supported"); }
+    });
+  }
+
+  // ---- Detail ----
+  function renderDetail(dealId){
+    var p = DATA.projects.find(function(x){return x.dealId===dealId;});
+    if(!p) return;
+    var f=p.financials, m=f.nextMilestone, s=p.stakeholders;
+    var html = '<button class="back" id="backBtn">‹ Back</button>'
+      + '<div class="detail-head"><span class="badge '+p.health+'">'+p.health+'</span><h1>'+esc(p.address)+'</h1></div>'
+      + (p.client?'<p class="psub" style="margin:0 0 4px">Client: '+esc(p.client.name)+(p.client.email?" · "+esc(p.client.email):"")+'</p>':"");
+    html += sectionTitle("Financials",0).replace(/<span class="count">.*?<\/span>/,"");
+    html += '<div class="card">'
+      + kv("Contract (incl. COs)", fmtMoney(f.income))
+      + kv("Proposal", fmtMoney(f.proposal))
+      + kv("Change orders", fmtMoney(f.changeOrders))
+      + kv("Received", fmtMoney(f.paymentsReceived))
+      + kv("Outstanding", '<span style="color:var(--red)">'+fmtMoney(f.paymentsBalance)+'</span>')
+      + '</div>';
+    if(m){
+      var st = m.status==="overdue"?"red":(m.status==="upcoming"?"yellow":"muted");
+      html += sectionTitle("Next Milestone",0).replace(/<span class="count">.*?<\/span>/,"");
+      html += '<div class="card">'
+        + kv("Milestone", esc(m.label))
+        + kv("Amount", fmtMoney(m.amount)+" ("+(m.percent!=null?m.percent+"%":"—")+")")
+        + kv("Date", fmtDate(m.date))
+        + kv("Status", '<span style="color:var(--'+ (st==="muted"?"muted":st) +')">'+esc(m.status)+(m.daysOverdue?(" · "+m.daysOverdue+"d"):"")+'</span>')
+        + '</div>';
+      if(m.status==="overdue")
+        html += '<div class="pill red" style="width:100%;justify-content:center">⚠︎ Bill the client — '+m.daysOverdue+' days past milestone date</div>';
+    }
+    html += sectionTitle("Team",0).replace(/<span class="count">.*?<\/span>/,"");
+    html += '<div class="card">'
+      + kv("Project Manager", esc(s.projectManager||"—"))
+      + kv("Designer", esc(s.designer||"—"))
+      + kv("Architect", esc(s.architect||"—"))
+      + kv("Administrator", esc(s.administrator||"—"))
+      + '</div>';
+    html += sectionTitle("To-dos, emails &amp; change orders",0).replace(/<span class="count">.*?<\/span>/,"");
+    html += emptyState("🧩","Task list, consolidated emails, and change orders land here as those skills come online.");
+    document.getElementById("view-detail").innerHTML = html;
+    document.getElementById("backBtn").addEventListener("click", function(){ show(lastListTab); });
+  }
+
+  // ---- Stubs ----
+  function renderStub(id, icon, title, items){
+    document.getElementById(id).innerHTML =
+      '<div class="stub"><span class="big">'+icon+'</span><h2>'+title+'</h2>'
+      + '<p>Coming next in the build.</p><ul>'+items.map(function(i){return "<li>"+i+"</li>";}).join("")+'</ul></div>';
+  }
+
+  function sectionTitle(t,c){ return '<div class="section-title">'+t+(c!=null?'<span class="count">'+c+'</span>':'')+'</div>'; }
+  function emptyState(icon,t){ return '<div class="empty"><span class="big">'+icon+'</span>'+t+'</div>'; }
+  function kv(k,v){ return '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+
+  // ---- Navigation ----
+  var lastListTab = "today";
+  function show(tab){
+    if(TABS.indexOf(tab)>=0) lastListTab = tab;
+    current = tab;
+    document.querySelector(".htitle").textContent = TITLES[tab] || "Chapter PM";
+    if(tab==="email"){ emailDeal=null; weeklyDeal=null; renderEmail(); }
+    if(tab==="changes"){ coDeal=null; renderChanges(); }
+    document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+    document.getElementById("view-"+tab).classList.add("active");
+    document.querySelectorAll("nav button").forEach(function(b){ b.classList.toggle("active", b.dataset.tab===tab); });
+    document.getElementById("main").scrollTop=0; window.scrollTo(0,0);
+  }
+  document.querySelectorAll("nav button").forEach(function(b){
+    b.addEventListener("click", function(){ show(b.dataset.tab); });
+  });
+  // Card taps → detail
+  document.getElementById("main").addEventListener("click", function(e){
+    var gb = e.target.closest(".genbtn");
+    if(gb){ e.stopPropagation(); var g=GEN_REG[+gb.dataset.gen]; if(g) openDraft(buildDraft(g.type, g.ctx)); return; }
+    var cb = e.target.closest(".complete-btn");
+    if(cb){ e.stopPropagation(); completeManual(cb.dataset.mid); return; }
+    var seg = e.target.closest("[data-emode]");
+    if(seg){ emailMode = seg.dataset.emode; emailDeal=null; weeklyDeal=null; renderEmail(); return; }
+    var wk = e.target.closest("[data-weekly-deal]");
+    if(wk){ weeklyDeal = wk.dataset.weeklyDeal; renderEmail(); return; }
+    var co = e.target.closest("[data-co-deal]");
+    if(co){ coDeal = co.dataset.coDeal; renderChanges(); return; }
+    var mail = e.target.closest("[data-weblink]");
+    if(mail){ if(mail.dataset.weblink) window.open(mail.dataset.weblink, "_blank", "noopener"); return; }
+    var inbox = e.target.closest("[data-email-deal]");
+    if(inbox){ emailDeal = inbox.dataset.emailDeal; renderEmail(); return; }
+    var card = e.target.closest("[data-deal]");
+    if(card){ renderDetail(card.dataset.deal); show("detail"); }
+  });
+
+  // ---- Add-task modal ----
+  var modal = document.getElementById("modal");
+  function openModal(){
+    var sel = document.getElementById("m-project");
+    sel.innerHTML = '<option value="">General (no project)</option>' +
+      DATA.projects.map(function(p){ return '<option value="'+p.dealId+'">'+esc(p.address)+'</option>'; }).join("");
+    document.getElementById("m-title").value = "";
+    document.getElementById("m-cat").value = "site";
+    document.getElementById("m-due").value = TODAY.referenceDate || new Date().toISOString().slice(0,10);
+    modal.classList.add("show");
+    setTimeout(function(){ document.getElementById("m-title").focus(); }, 60);
+  }
+  function closeModal(){ modal.classList.remove("show"); }
+  document.getElementById("fab").addEventListener("click", openModal);
+  document.getElementById("m-cancel").addEventListener("click", closeModal);
+  modal.addEventListener("click", function(e){ if(e.target===modal) closeModal(); });
+  document.getElementById("m-save").addEventListener("click", function(){
+    var title = document.getElementById("m-title").value.trim();
+    if(!title){ document.getElementById("m-title").focus(); return; }
+    var sel = document.getElementById("m-project");
+    var dealId = sel.value || null;
+    var project = dealId ? sel.options[sel.selectedIndex].text : "General";
+    var a = loadManual();
+    a.push({ id:"m"+Date.now()+"-"+a.length, title:title, dealId:dealId, project:project, category:document.getElementById("m-cat").value, due:document.getElementById("m-due").value||null });
+    saveManual(a); closeModal(); show("today"); renderToday(); toast("Task added");
+  });
+
+  // ---- Draft (generated email) modal ----
+  var dm = document.getElementById("draftmodal");
+  document.getElementById("d-close").addEventListener("click", function(){ dm.classList.remove("show"); });
+  dm.addEventListener("click", function(e){ if(e.target===dm) dm.classList.remove("show"); });
+  document.getElementById("d-copy").addEventListener("click", function(){
+    var d = dm._draft; if(!d) return;
+    var t = (d.subject||"") + "\n\n" + (d.body||"");
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(function(){ toast("Email copied"); }, function(){ toast("Copy failed"); }); }
+    else { toast("Copy not supported"); }
+  });
+
+  // ---- Swipe between tabs ----
+  var tx=0, ty=0, tracking=false;
+  var mainEl = document.getElementById("main");
+  mainEl.addEventListener("touchstart", function(e){ tx=e.touches[0].clientX; ty=e.touches[0].clientY; tracking=true; }, {passive:true});
+  mainEl.addEventListener("touchend", function(e){
+    if(!tracking) return; tracking=false;
+    if(current==="detail") return;
+    var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.8){
+      var i=TABS.indexOf(current); if(i<0) return;
+      if(dx<0 && i<TABS.length-1) show(TABS[i+1]);
+      else if(dx>0 && i>0) show(TABS[i-1]);
+    }
+  }, {passive:true});
+
+  // ---- Pull to refresh ----
+  var ptr=document.getElementById("ptr"), startY=0, pulling=false, dist=0;
+  document.addEventListener("touchstart", function(e){ if(window.scrollY<=0 && document.getElementById("main").scrollTop<=0){ startY=e.touches[0].clientY; pulling=true; } }, {passive:true});
+  document.addEventListener("touchmove", function(e){
+    if(!pulling) return; dist=e.touches[0].clientY-startY;
+    if(dist>0){ ptr.style.height=Math.min(dist*0.5,60)+"px"; ptr.querySelector(".ptr-label").textContent = dist>80?"Release to refresh":"Pull to refresh"; }
+  }, {passive:true});
+  document.addEventListener("touchend", function(){ if(!pulling) return; pulling=false; if(dist>80){ refresh(); } else { ptr.style.height="0"; } dist=0; });
+
+  function refresh(){
+    ptr.classList.add("loading"); ptr.style.height="44px"; ptr.querySelector(".ptr-label").textContent="Refreshing…";
+    Promise.all([
+      fetch("data/projects.json",{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }),
+      fetch("data/today.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
+      fetch("data/emails.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
+      fetch("data/payments.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
+      fetch("data/weekly.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
+      fetch("data/changeorders.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }),
+      fetch("data/reminders.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; })
+    ]).then(function(res){ DATA=res[0]; if(res[1]) TODAY=res[1]; if(res[2]) EMAILS=res[2]; if(res[3]) PAYMENTS=res[3]; if(res[4]) WEEKLY=res[4]; if(res[5]) CHANGES=res[5]; if(res[6]) REMINDERS=res[6]; renderAll(); toast("Updated"); })
+      .catch(function(){ renderAll(); toast("Showing last saved data"); })
+      .finally(function(){ ptr.classList.remove("loading"); ptr.style.height="0"; });
+  }
+  function toast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(function(){t.classList.remove("show");},1800); }
+
+  function renderAll(){
+    renderHeader(); renderToday(); renderProjects();
+    renderPayments();
+    renderChanges();
+    renderEmail();
+  }
+  renderAll();
+})();
+</script>
+</body>
+</html>

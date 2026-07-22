@@ -58,11 +58,20 @@ jobs:
       - name: Rebuild portal from data
         run: node skills/refresh.mjs --ref "$(date +%F)"
 
+      # Sync the GitHub Pages publish dir (served from this branch's /docs — see RUNBOOK).
+      - name: Sync docs/ for GitHub Pages
+        run: |
+          cp portal/index.html docs/index.html
+          rm -rf docs/data
+          mkdir -p docs/data
+          cp data/*.json docs/data/
+          touch docs/.nojekyll
+
       - name: Commit regenerated data
         run: |
           git config user.name "chapter-pm-bot"
           git config user.email "itstime@hellochapter.com"
-          git add data portal/index.html
+          git add data portal/index.html docs
           if git diff --cached --quiet; then
             echo "No data changes."
           else

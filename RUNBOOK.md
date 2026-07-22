@@ -85,6 +85,25 @@ API call or JSON parse fails. **It only regenerates draft source text — nothin
 email stays draft-only, no HUB writeback.** Runs on the Friday cron and on manual
 `workflow_dispatch` (so you can test it), never on the nightly run.
 
+## GitHub Pages (the live link)
+The portal is published from this branch's **`docs/`** folder:
+
+**https://sagar-p-hellochapter.github.io/apm/**
+
+One-time setup (repo → **Settings → Pages**):
+1. **Source:** *Deploy from a branch*
+2. **Branch:** `claude/sop-prompt-review-alf2cx` · **Folder:** `/docs` → **Save**
+
+GitHub then builds and serves it (first build ~1 min). After that it's automatic: the
+refresh workflow re-syncs `docs/` (portal + `data/*.json`) and pushes, and GitHub rebuilds
+Pages on every push — so the link updates itself. `docs/.nojekyll` disables Jekyll so the
+files are served as-is.
+
+> We use *deploy-from-branch* rather than the GitHub-Actions Pages flow on purpose: the
+> Actions flow needs Pages pre-enabled with a token that can create the site (it fails with
+> "Resource not accessible by integration" otherwise) and restricts deploys to the default
+> branch. Deploy-from-branch has neither limitation.
+
 ## Production (always-on, independent of any chat session)
 For a page that updates 24/7 without this session alive, deploy `portal/` + `data/` to **Netlify**
 and run the refresh as a **scheduled Netlify function** (or GitHub Actions cron) holding your

@@ -1,0 +1,299 @@
+{
+  "generatedAt": "2026-07-14T23:00:00-04:00",
+  "referenceDate": "2026-07-14",
+  "source": "the HUB by Chapter (live) + config",
+  "summary": {
+    "totalProjects": 7,
+    "byHealth": {
+      "red": 6,
+      "yellow": 1,
+      "green": 0
+    },
+    "totalOutstanding": 678280.93,
+    "overdueMilestones": 6,
+    "overdueTasks": 0
+  },
+  "projects": [
+    {
+      "id": "8bdfa7e4-59a0-4d97-9d65-637bd6c2b2d2",
+      "dealId": "599696ee-8491-495a-890c-2a52077a8564",
+      "name": "75 East End Avenue #17A",
+      "address": "75 East End Avenue #17A",
+      "client": {
+        "name": "Nicholas Stoker",
+        "email": "nicholas.stoker@gmail.com"
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 104726,
+        "proposal": 104726,
+        "changeOrders": 0,
+        "paymentsReceived": 41890.4,
+        "paymentsBalance": 62835.6,
+        "nextMilestone": {
+          "label": "Milestone #1/5",
+          "amount": 15708.9,
+          "percent": 15,
+          "date": "2026-05-04T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 71
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "81d6e791-0524-443c-a99e-e339a6d167af",
+      "dealId": "bebec1ad-f9e2-45b7-9f0b-b42c81cdc242",
+      "name": "333 East 43rd Street #712",
+      "address": "333 East 43rd Street #712",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "yellow",
+      "financials": {
+        "income": 163835,
+        "proposal": 163835,
+        "changeOrders": 0,
+        "paymentsReceived": 24575.25,
+        "paymentsBalance": 139259.75,
+        "nextMilestone": {
+          "label": "Milestone #1/7",
+          "amount": 40958.75,
+          "percent": 25,
+          "date": null,
+          "status": "unscheduled",
+          "daysOverdue": null
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": "Lester Katz DXA",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "70962a9e-23bc-4df8-b19a-5dd02ceeebbf",
+      "dealId": "a87b2423-eada-4091-8a95-13591dcea5e3",
+      "name": "535 East 86th Street #21B",
+      "address": "535 East 86th Street #21B",
+      "client": {
+        "name": "Dean Schloyer",
+        "email": null
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 317423.33,
+        "proposal": 273457.5,
+        "changeOrders": 43965.83,
+        "paymentsReceived": 194367.46,
+        "paymentsBalance": 123055.87,
+        "nextMilestone": {
+          "label": "Milestone #2/5",
+          "amount": 27345.75,
+          "percent": 10,
+          "date": "2026-04-20T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 85
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Lorena Davila",
+        "architect": "Lester Katz DXA",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "f765752a-0792-4778-8e1e-b0f0319bb71e",
+      "dealId": "10d3a71b-f22d-4155-8929-e9b3b524bd8f",
+      "name": "401 East 86th Street #8A",
+      "address": "401 East 86th Street #8A",
+      "client": {
+        "name": "Ryan White",
+        "email": "ryanwphd@gmail.com"
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 216098.71,
+        "proposal": 167760,
+        "changeOrders": 48338.71,
+        "paymentsReceived": 140606.71,
+        "paymentsBalance": 75492,
+        "nextMilestone": {
+          "label": "Milestone #3/6",
+          "amount": 16776,
+          "percent": 10,
+          "date": "2026-04-24T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 81
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Katia Haniuk",
+        "architect": "Dionisio Ortega",
+        "administrator": "Project Coordinator BOT"
+      }
+    },
+    {
+      "id": "3b955cea-5c69-4c91-a5e2-2a74138390a5",
+      "dealId": "b97ef384-cb37-4cba-bf50-37cb027084ef",
+      "name": "177 East 79th Street #16/17",
+      "address": "177 East 79th Street #16/17",
+      "client": {
+        "name": "Rachel Park",
+        "email": "rachelpark28@gmail.com"
+      },
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 311987.85,
+        "proposal": 226115,
+        "changeOrders": 85872.85,
+        "paymentsReceived": 191717.1,
+        "paymentsBalance": 120270.75,
+        "nextMilestone": {
+          "label": "Milestone #3/13",
+          "amount": 20993.5,
+          "percent": 10,
+          "date": "2026-04-13T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 92
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Monica Cialona",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "503470e7-263d-4ad3-ac5a-0e7851fb5dd5",
+      "dealId": "a8c78b34-6f11-45db-a7b5-6d02b64c561a",
+      "name": "330 East 79th Street Apt #6B",
+      "address": "330 East 79th Street Apt #6B",
+      "client": null,
+      "role": "pm",
+      "isMyProject": true,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 411648.03,
+        "proposal": 261935,
+        "changeOrders": 149713.03,
+        "paymentsReceived": 292164.28,
+        "paymentsBalance": 119483.75,
+        "nextMilestone": {
+          "label": "Milestone #1/6",
+          "amount": 1613,
+          "percent": 20,
+          "date": "2025-03-17T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 484
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Sagar Patel",
+        "designer": "Katia Haniuk",
+        "architect": "Pietro Rosato",
+        "administrator": "Admin Hello Chapter"
+      }
+    },
+    {
+      "id": "7f7ade95-123f-4907-9e49-536dec0d07da",
+      "dealId": "0a5936ce-a95b-4552-a0b2-3fd8e8da3fcb",
+      "name": "1025 Fifth Avenue #6CS",
+      "address": "1025 Fifth Avenue #6CS",
+      "client": {
+        "name": "Jorge & Shannon",
+        "email": "jvitutia@hotmail.com"
+      },
+      "role": "designer",
+      "isMyProject": false,
+      "phase": null,
+      "health": "red",
+      "financials": {
+        "income": 222494.96,
+        "proposal": 213785,
+        "changeOrders": 8709.96,
+        "paymentsReceived": 184611.75,
+        "paymentsBalance": 37883.21,
+        "nextMilestone": {
+          "label": "Milestone #6/6",
+          "amount": 21378.5,
+          "percent": 10,
+          "date": "2026-02-25T00:00:00.000Z",
+          "status": "overdue",
+          "daysOverdue": 139
+        }
+      },
+      "todos": {
+        "overdue": 0,
+        "dueToday": 0,
+        "dueThisWeek": 0,
+        "nextDueDate": null
+      },
+      "stakeholders": {
+        "projectManager": "Nihaar Pathak",
+        "designer": "Dorothy Weise",
+        "architect": null,
+        "administrator": "Admin Hello Chapter"
+      }
+    }
+  ]
+}
