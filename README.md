@@ -4,6 +4,7 @@ A mobile-first, live PM assistant portal for Chapter Renovation — pulls real-t
 project data from the HUB (via MCP) and Outlook, surfaces the day's to-dos, payment
 and change-order status, and drafts client/reminder emails for review.
 
+- **Run / refresh / maintain:** [`RUNBOOK.md`](./RUNBOOK.md)
 - **Plan & decisions:** [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - **Skills:** [`skills/`](./skills) — discrete, composable steps in the data pipeline.
 - **Config you maintain:** [`config/`](./config) — `settings.json`, `subs.json`.
