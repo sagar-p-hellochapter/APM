@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-07-14T23:00:00-04:00",
-  "referenceDate": "2026-07-14",
+  "referenceDate": "2026-07-23",
   "windowDays": 7,
   "taskCoverage": [
     "599696ee-8491-495a-890c-2a52077a8564",
@@ -14,11 +14,11 @@
   "summary": {
     "total": 19,
     "counts": {
-      "overdue": 6,
+      "overdue": 18,
       "today": 0,
-      "2-day": 2,
-      "3-day": 2,
-      "soon": 9
+      "2-day": 0,
+      "3-day": 0,
+      "soon": 1
     }
   },
   "byCategory": {
@@ -29,10 +29,10 @@
         "project": "330 East 79th Street Apt #6B",
         "title": "Bill client — Milestone #1/6 ($1,613)",
         "due": "2025-03-17T00:00:00.000Z",
-        "daysUntil": -484,
+        "daysUntil": -493,
         "urgency": "overdue",
         "category": "payments",
-        "note": "484 days overdue",
+        "note": "493 days overdue",
         "amount": 1613
       },
       {
@@ -41,10 +41,10 @@
         "project": "1025 Fifth Avenue #6CS",
         "title": "Bill client — Milestone #6/6 ($21,379)",
         "due": "2026-02-25T00:00:00.000Z",
-        "daysUntil": -139,
+        "daysUntil": -148,
         "urgency": "overdue",
         "category": "payments",
-        "note": "139 days overdue",
+        "note": "148 days overdue",
         "amount": 21378.5
       },
       {
@@ -53,10 +53,10 @@
         "project": "177 East 79th Street #16/17",
         "title": "Bill client — Milestone #3/13 ($20,994)",
         "due": "2026-04-13T00:00:00.000Z",
-        "daysUntil": -92,
+        "daysUntil": -101,
         "urgency": "overdue",
         "category": "payments",
-        "note": "92 days overdue",
+        "note": "101 days overdue",
         "amount": 20993.5
       },
       {
@@ -65,10 +65,10 @@
         "project": "535 East 86th Street #21B",
         "title": "Bill client — Milestone #2/5 ($27,346)",
         "due": "2026-04-20T00:00:00.000Z",
-        "daysUntil": -85,
+        "daysUntil": -94,
         "urgency": "overdue",
         "category": "payments",
-        "note": "85 days overdue",
+        "note": "94 days overdue",
         "amount": 27345.75
       },
       {
@@ -77,10 +77,10 @@
         "project": "401 East 86th Street #8A",
         "title": "Bill client — Milestone #3/6 ($16,776)",
         "due": "2026-04-24T00:00:00.000Z",
-        "daysUntil": -81,
+        "daysUntil": -90,
         "urgency": "overdue",
         "category": "payments",
-        "note": "81 days overdue",
+        "note": "90 days overdue",
         "amount": 16776
       },
       {
@@ -89,10 +89,10 @@
         "project": "75 East End Avenue #17A",
         "title": "Bill client — Milestone #1/5 ($15,709)",
         "due": "2026-05-04T00:00:00.000Z",
-        "daysUntil": -71,
+        "daysUntil": -80,
         "urgency": "overdue",
         "category": "payments",
-        "note": "71 days overdue",
+        "note": "80 days overdue",
         "amount": 15708.9
       },
       {
@@ -115,8 +115,8 @@
         "project": "75 East End Avenue #17A",
         "title": "Design/PM Project Pass Off",
         "due": "2026-07-15T00:00:00.000Z",
-        "daysUntil": 1,
-        "urgency": "2-day",
+        "daysUntil": -8,
+        "urgency": "overdue",
         "category": "communication",
         "phase": "Pre-Construction",
         "assigned": [
@@ -131,8 +131,8 @@
         "project": "401 East 86th Street #8A",
         "title": "General Contractor Sign Off",
         "due": "2026-07-15T00:00:00.000Z",
-        "daysUntil": 1,
-        "urgency": "2-day",
+        "daysUntil": -8,
+        "urgency": "overdue",
         "category": "communication",
         "phase": "Post-Construction & Job Closing",
         "assigned": [
@@ -146,8 +146,8 @@
         "project": "333 East 43rd Street #712",
         "title": "Building Super Walkthrough",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "communication",
         "phase": "Pre-Construction",
         "assigned": [
@@ -164,8 +164,8 @@
         "project": "535 East 86th Street #21B",
         "title": "Change Orders",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "changeorder",
         "phase": "Construction",
         "assigned": [
@@ -182,8 +182,8 @@
         "project": "401 East 86th Street #8A",
         "title": "Check and Protect Tile Work",
         "due": "2026-07-17T00:00:00.000Z",
-        "daysUntil": 3,
-        "urgency": "3-day",
+        "daysUntil": -6,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Construction",
         "assigned": [
@@ -197,8 +197,8 @@
         "project": "401 East 86th Street #8A",
         "title": "Check and Protect new Floors",
         "due": "2026-07-17T00:00:00.000Z",
-        "daysUntil": 3,
-        "urgency": "3-day",
+        "daysUntil": -6,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Construction",
         "assigned": [
@@ -212,8 +212,8 @@
         "project": "75 East End Avenue #17A",
         "title": "Job Start Date",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Pre-Construction",
         "assigned": [
@@ -227,8 +227,8 @@
         "project": "333 East 43rd Street #712",
         "title": "Follow up on Architectural prints & Filing",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Design & Building Approval",
         "assigned": [
@@ -242,8 +242,8 @@
         "project": "333 East 43rd Street #712",
         "title": "Department of Buildings Permit",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Design & Building Approval",
         "assigned": [
@@ -257,8 +257,8 @@
         "project": "333 East 43rd Street #712",
         "title": "RFI Log",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Pre-Construction",
         "assigned": [
@@ -272,8 +272,8 @@
         "project": "535 East 86th Street #21B",
         "title": "Remote Camera Installation",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Construction",
         "assigned": [
@@ -287,8 +287,8 @@
         "project": "330 East 79th Street Apt #6B",
         "title": "Check and Protect Kitchen Cabinets",
         "due": "2026-07-20T00:00:00.000Z",
-        "daysUntil": 6,
-        "urgency": "soon",
+        "daysUntil": -3,
+        "urgency": "overdue",
         "category": "site",
         "phase": "Construction",
         "assigned": [
@@ -309,10 +309,10 @@
           "project": "330 East 79th Street Apt #6B",
           "title": "Bill client — Milestone #1/6 ($1,613)",
           "due": "2025-03-17T00:00:00.000Z",
-          "daysUntil": -484,
+          "daysUntil": -493,
           "urgency": "overdue",
           "category": "payments",
-          "note": "484 days overdue",
+          "note": "493 days overdue",
           "amount": 1613
         },
         {
@@ -321,8 +321,8 @@
           "project": "330 East 79th Street Apt #6B",
           "title": "Check and Protect Kitchen Cabinets",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Construction",
           "assigned": [
@@ -342,10 +342,10 @@
           "project": "1025 Fifth Avenue #6CS",
           "title": "Bill client — Milestone #6/6 ($21,379)",
           "due": "2026-02-25T00:00:00.000Z",
-          "daysUntil": -139,
+          "daysUntil": -148,
           "urgency": "overdue",
           "category": "payments",
-          "note": "139 days overdue",
+          "note": "148 days overdue",
           "amount": 21378.5
         }
       ]
@@ -360,10 +360,10 @@
           "project": "177 East 79th Street #16/17",
           "title": "Bill client — Milestone #3/13 ($20,994)",
           "due": "2026-04-13T00:00:00.000Z",
-          "daysUntil": -92,
+          "daysUntil": -101,
           "urgency": "overdue",
           "category": "payments",
-          "note": "92 days overdue",
+          "note": "101 days overdue",
           "amount": 20993.5
         }
       ]
@@ -378,10 +378,10 @@
           "project": "535 East 86th Street #21B",
           "title": "Bill client — Milestone #2/5 ($27,346)",
           "due": "2026-04-20T00:00:00.000Z",
-          "daysUntil": -85,
+          "daysUntil": -94,
           "urgency": "overdue",
           "category": "payments",
-          "note": "85 days overdue",
+          "note": "94 days overdue",
           "amount": 27345.75
         },
         {
@@ -390,8 +390,8 @@
           "project": "535 East 86th Street #21B",
           "title": "Change Orders",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "changeorder",
           "phase": "Construction",
           "assigned": [
@@ -406,8 +406,8 @@
           "project": "535 East 86th Street #21B",
           "title": "Remote Camera Installation",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Construction",
           "assigned": [
@@ -427,10 +427,10 @@
           "project": "401 East 86th Street #8A",
           "title": "Bill client — Milestone #3/6 ($16,776)",
           "due": "2026-04-24T00:00:00.000Z",
-          "daysUntil": -81,
+          "daysUntil": -90,
           "urgency": "overdue",
           "category": "payments",
-          "note": "81 days overdue",
+          "note": "90 days overdue",
           "amount": 16776
         },
         {
@@ -439,8 +439,8 @@
           "project": "401 East 86th Street #8A",
           "title": "General Contractor Sign Off",
           "due": "2026-07-15T00:00:00.000Z",
-          "daysUntil": 1,
-          "urgency": "2-day",
+          "daysUntil": -8,
+          "urgency": "overdue",
           "category": "communication",
           "phase": "Post-Construction & Job Closing",
           "assigned": [
@@ -454,8 +454,8 @@
           "project": "401 East 86th Street #8A",
           "title": "Check and Protect Tile Work",
           "due": "2026-07-17T00:00:00.000Z",
-          "daysUntil": 3,
-          "urgency": "3-day",
+          "daysUntil": -6,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Construction",
           "assigned": [
@@ -469,8 +469,8 @@
           "project": "401 East 86th Street #8A",
           "title": "Check and Protect new Floors",
           "due": "2026-07-17T00:00:00.000Z",
-          "daysUntil": 3,
-          "urgency": "3-day",
+          "daysUntil": -6,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Construction",
           "assigned": [
@@ -490,10 +490,10 @@
           "project": "75 East End Avenue #17A",
           "title": "Bill client — Milestone #1/5 ($15,709)",
           "due": "2026-05-04T00:00:00.000Z",
-          "daysUntil": -71,
+          "daysUntil": -80,
           "urgency": "overdue",
           "category": "payments",
-          "note": "71 days overdue",
+          "note": "80 days overdue",
           "amount": 15708.9
         },
         {
@@ -502,8 +502,8 @@
           "project": "75 East End Avenue #17A",
           "title": "Design/PM Project Pass Off",
           "due": "2026-07-15T00:00:00.000Z",
-          "daysUntil": 1,
-          "urgency": "2-day",
+          "daysUntil": -8,
+          "urgency": "overdue",
           "category": "communication",
           "phase": "Pre-Construction",
           "assigned": [
@@ -518,8 +518,8 @@
           "project": "75 East End Avenue #17A",
           "title": "Job Start Date",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Pre-Construction",
           "assigned": [
@@ -539,8 +539,8 @@
           "project": "333 East 43rd Street #712",
           "title": "Building Super Walkthrough",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "communication",
           "phase": "Pre-Construction",
           "assigned": [
@@ -554,8 +554,8 @@
           "project": "333 East 43rd Street #712",
           "title": "Follow up on Architectural prints & Filing",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Design & Building Approval",
           "assigned": [
@@ -569,8 +569,8 @@
           "project": "333 East 43rd Street #712",
           "title": "Department of Buildings Permit",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Design & Building Approval",
           "assigned": [
@@ -584,8 +584,8 @@
           "project": "333 East 43rd Street #712",
           "title": "RFI Log",
           "due": "2026-07-20T00:00:00.000Z",
-          "daysUntil": 6,
-          "urgency": "soon",
+          "daysUntil": -3,
+          "urgency": "overdue",
           "category": "site",
           "phase": "Pre-Construction",
           "assigned": [

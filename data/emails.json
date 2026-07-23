@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-07-14T23:00:00-04:00",
-  "referenceDate": "2026-07-14",
+  "referenceDate": "2026-07-23",
   "projects": [
     {
       "dealId": "599696ee-8491-495a-890c-2a52077a8564",
@@ -10,7 +10,7 @@
         "email": "nicholas.stoker@gmail.com"
       },
       "unreadCount": 0,
-      "recentCount": 3,
+      "recentCount": 0,
       "total": 3,
       "emails": [
         {
@@ -21,7 +21,7 @@
           "date": "2026-07-14T17:41:26.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSegAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -32,7 +32,7 @@
           "date": "2026-07-14T14:46:20.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSeeAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -43,7 +43,7 @@
           "date": "2026-07-14T12:57:20.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSeSAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         }
       ]
@@ -88,7 +88,7 @@
         "email": null
       },
       "unreadCount": 0,
-      "recentCount": 2,
+      "recentCount": 0,
       "total": 3,
       "emails": [
         {
@@ -99,7 +99,7 @@
           "date": "2026-07-13T23:14:02.000Z",
           "attach": true,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEJAACi2CndQGSAR69scM9bJJg%2BAACl2B5eAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -110,7 +110,7 @@
           "date": "2026-07-13T21:13:32.000Z",
           "attach": true,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSeCAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -134,7 +134,7 @@
         "email": "ryanwphd@gmail.com"
       },
       "unreadCount": 0,
-      "recentCount": 2,
+      "recentCount": 0,
       "total": 3,
       "emails": [
         {
@@ -145,7 +145,7 @@
           "date": "2026-07-13T17:12:31.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSd9AAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -156,7 +156,7 @@
           "date": "2026-07-13T15:21:04.000Z",
           "attach": true,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSd2AAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -180,7 +180,7 @@
         "email": "rachelpark28@gmail.com"
       },
       "unreadCount": 0,
-      "recentCount": 3,
+      "recentCount": 0,
       "total": 3,
       "emails": [
         {
@@ -191,7 +191,7 @@
           "date": "2026-07-14T18:36:17.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSepAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -202,7 +202,7 @@
           "date": "2026-07-14T18:32:00.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSenAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -213,7 +213,7 @@
           "date": "2026-07-14T18:31:08.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSemAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         }
       ]
@@ -258,7 +258,7 @@
         "email": "jvitutia@hotmail.com"
       },
       "unreadCount": 0,
-      "recentCount": 2,
+      "recentCount": 0,
       "total": 2,
       "emails": [
         {
@@ -269,7 +269,7 @@
           "date": "2026-07-14T15:27:18.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSefAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         },
         {
@@ -280,7 +280,7 @@
           "date": "2026-07-14T14:32:47.000Z",
           "attach": false,
           "read": true,
-          "recent": true,
+          "recent": false,
           "webLink": "https://outlook.office365.com/owa/?ItemID=AAMkADA5MTkwNWI0LWJkYzItNDQzZi1hYzA3LTk0NDkwMjRmY2FlYwBGAAAAAAAai4StOeJWQ5Vn%2Fav3hPKiBwCi2CndQGSAR69scM9bJJg%2BAAAAAAEMAACi2CndQGSAR69scM9bJJg%2BAACmFSebAAA%3D&exvsurl=1&viewmodel=ReadMessageItem"
         }
       ]
