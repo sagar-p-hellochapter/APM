@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-07-14T23:00:00-04:00",
-  "referenceDate": "2026-07-23",
+  "referenceDate": "2026-07-24",
   "subsAreExample": true,
   "summary": {
     "totalOutstandingClient": 678280.93,
@@ -18,7 +18,7 @@
       "percent": 15,
       "date": "2026-05-04T00:00:00.000Z",
       "status": "overdue",
-      "daysOverdue": 80,
+      "daysOverdue": 81,
       "outstanding": 62835.6,
       "action": "Bill now — past due"
     },
@@ -42,7 +42,7 @@
       "percent": 10,
       "date": "2026-04-20T00:00:00.000Z",
       "status": "overdue",
-      "daysOverdue": 94,
+      "daysOverdue": 95,
       "outstanding": 123055.87,
       "action": "Bill now — past due"
     },
@@ -54,7 +54,7 @@
       "percent": 10,
       "date": "2026-04-24T00:00:00.000Z",
       "status": "overdue",
-      "daysOverdue": 90,
+      "daysOverdue": 91,
       "outstanding": 75492,
       "action": "Bill now — past due"
     },
@@ -66,7 +66,7 @@
       "percent": 10,
       "date": "2026-04-13T00:00:00.000Z",
       "status": "overdue",
-      "daysOverdue": 101,
+      "daysOverdue": 102,
       "outstanding": 120270.75,
       "action": "Bill now — past due"
     },
@@ -78,7 +78,7 @@
       "percent": 20,
       "date": "2025-03-17T00:00:00.000Z",
       "status": "overdue",
-      "daysOverdue": 493,
+      "daysOverdue": 494,
       "outstanding": 119483.75,
       "action": "Bill now — past due"
     },
@@ -90,7 +90,7 @@
       "percent": 10,
       "date": "2026-02-25T00:00:00.000Z",
       "status": "overdue",
-      "daysOverdue": 148,
+      "daysOverdue": 149,
       "outstanding": 37883.21,
       "action": "Bill now — past due"
     }
@@ -105,7 +105,7 @@
       "label": "Rough-in complete",
       "amount": 21000,
       "dueDate": "2026-07-18",
-      "daysUntil": -5,
+      "daysUntil": -6,
       "status": "unpaid",
       "flag": "overdue"
     },
@@ -131,7 +131,7 @@
       "label": "Deposit (15%)",
       "amount": 6300,
       "dueDate": "2026-03-01",
-      "daysUntil": -144,
+      "daysUntil": -145,
       "status": "paid",
       "flag": "paid"
     }
