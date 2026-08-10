@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-07-14T23:00:00-04:00",
-  "referenceDate": "2026-08-09",
+  "referenceDate": "2026-08-10",
   "source": "the HUB by Chapter (live) + config",
   "summary": {
     "totalProjects": 7,
@@ -39,7 +39,7 @@
           "percent": 15,
           "date": "2026-05-04T00:00:00.000Z",
           "status": "overdue",
-          "daysOverdue": 97
+          "daysOverdue": 98
         }
       },
       "todos": {
@@ -118,7 +118,7 @@
           "percent": 10,
           "date": "2026-04-20T00:00:00.000Z",
           "status": "overdue",
-          "daysOverdue": 111
+          "daysOverdue": 112
         }
       },
       "todos": {
@@ -159,7 +159,7 @@
           "percent": 10,
           "date": "2026-04-24T00:00:00.000Z",
           "status": "overdue",
-          "daysOverdue": 107
+          "daysOverdue": 108
         }
       },
       "todos": {
@@ -200,7 +200,7 @@
           "percent": 10,
           "date": "2026-04-13T00:00:00.000Z",
           "status": "overdue",
-          "daysOverdue": 118
+          "daysOverdue": 119
         }
       },
       "todos": {
@@ -238,7 +238,7 @@
           "percent": 20,
           "date": "2025-03-17T00:00:00.000Z",
           "status": "overdue",
-          "daysOverdue": 510
+          "daysOverdue": 511
         }
       },
       "todos": {
@@ -279,7 +279,7 @@
           "percent": 10,
           "date": "2026-02-25T00:00:00.000Z",
           "status": "overdue",
-          "daysOverdue": 165
+          "daysOverdue": 166
         }
       },
       "todos": {
