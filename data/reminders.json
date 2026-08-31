@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-07-14T23:00:00-04:00",
-  "referenceDate": "2026-08-30",
+  "referenceDate": "2026-08-31",
   "selfAlertTo": "sagar.p@hellochapter.com",
   "counts": {
     "urgent": 19,
@@ -15,10 +15,10 @@
       "project": "330 East 79th Street Apt #6B",
       "title": "Bill client — Milestone #1/6 ($1,613)",
       "due": "2025-03-17T00:00:00.000Z",
-      "daysUntil": -531,
+      "daysUntil": -532,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Milestone 531 days overdue — bill the client"
+      "reason": "Milestone 532 days overdue — bill the client"
     },
     {
       "kind": "milestone",
@@ -27,10 +27,10 @@
       "project": "1025 Fifth Avenue #6CS",
       "title": "Bill client — Milestone #6/6 ($21,379)",
       "due": "2026-02-25T00:00:00.000Z",
-      "daysUntil": -186,
+      "daysUntil": -187,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Milestone 186 days overdue — bill the client"
+      "reason": "Milestone 187 days overdue — bill the client"
     },
     {
       "kind": "milestone",
@@ -39,10 +39,10 @@
       "project": "177 East 79th Street #16/17",
       "title": "Bill client — Milestone #3/13 ($20,994)",
       "due": "2026-04-13T00:00:00.000Z",
-      "daysUntil": -139,
+      "daysUntil": -140,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Milestone 139 days overdue — bill the client"
+      "reason": "Milestone 140 days overdue — bill the client"
     },
     {
       "kind": "milestone",
@@ -51,10 +51,10 @@
       "project": "535 East 86th Street #21B",
       "title": "Bill client — Milestone #2/5 ($27,346)",
       "due": "2026-04-20T00:00:00.000Z",
-      "daysUntil": -132,
+      "daysUntil": -133,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Milestone 132 days overdue — bill the client"
+      "reason": "Milestone 133 days overdue — bill the client"
     },
     {
       "kind": "milestone",
@@ -63,10 +63,10 @@
       "project": "401 East 86th Street #8A",
       "title": "Bill client — Milestone #3/6 ($16,776)",
       "due": "2026-04-24T00:00:00.000Z",
-      "daysUntil": -128,
+      "daysUntil": -129,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Milestone 128 days overdue — bill the client"
+      "reason": "Milestone 129 days overdue — bill the client"
     },
     {
       "kind": "milestone",
@@ -75,10 +75,10 @@
       "project": "75 East End Avenue #17A",
       "title": "Bill client — Milestone #1/5 ($15,709)",
       "due": "2026-05-04T00:00:00.000Z",
-      "daysUntil": -118,
+      "daysUntil": -119,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Milestone 118 days overdue — bill the client"
+      "reason": "Milestone 119 days overdue — bill the client"
     },
     {
       "kind": "task",
@@ -87,10 +87,10 @@
       "project": "75 East End Avenue #17A",
       "title": "Design/PM Project Pass Off",
       "due": "2026-07-15T00:00:00.000Z",
-      "daysUntil": -46,
+      "daysUntil": -47,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 46 days overdue"
+      "reason": "Task 47 days overdue"
     },
     {
       "kind": "task",
@@ -99,10 +99,10 @@
       "project": "401 East 86th Street #8A",
       "title": "General Contractor Sign Off",
       "due": "2026-07-15T00:00:00.000Z",
-      "daysUntil": -46,
+      "daysUntil": -47,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 46 days overdue"
+      "reason": "Task 47 days overdue"
     },
     {
       "kind": "task",
@@ -111,10 +111,10 @@
       "project": "401 East 86th Street #8A",
       "title": "Check and Protect Tile Work",
       "due": "2026-07-17T00:00:00.000Z",
-      "daysUntil": -44,
+      "daysUntil": -45,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 44 days overdue"
+      "reason": "Task 45 days overdue"
     },
     {
       "kind": "task",
@@ -123,10 +123,10 @@
       "project": "401 East 86th Street #8A",
       "title": "Check and Protect new Floors",
       "due": "2026-07-17T00:00:00.000Z",
-      "daysUntil": -44,
+      "daysUntil": -45,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 44 days overdue"
+      "reason": "Task 45 days overdue"
     },
     {
       "kind": "sub",
@@ -135,11 +135,11 @@
       "project": "75 East End Avenue #17A",
       "title": "Example Plumbing Co. — Rough-in complete",
       "due": "2026-07-18",
-      "daysUntil": -43,
+      "daysUntil": -44,
       "urgency": "overdue",
       "amount": 21000,
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Sub payment 43 days overdue"
+      "reason": "Sub payment 44 days overdue"
     },
     {
       "kind": "task",
@@ -148,10 +148,10 @@
       "project": "333 East 43rd Street #712",
       "title": "Building Super Walkthrough",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     },
     {
       "kind": "task",
@@ -160,10 +160,10 @@
       "project": "535 East 86th Street #21B",
       "title": "Change Orders",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     },
     {
       "kind": "task",
@@ -172,10 +172,10 @@
       "project": "75 East End Avenue #17A",
       "title": "Job Start Date",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     },
     {
       "kind": "task",
@@ -184,10 +184,10 @@
       "project": "333 East 43rd Street #712",
       "title": "Follow up on Architectural prints & Filing",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     },
     {
       "kind": "task",
@@ -196,10 +196,10 @@
       "project": "333 East 43rd Street #712",
       "title": "Department of Buildings Permit",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     },
     {
       "kind": "task",
@@ -208,10 +208,10 @@
       "project": "333 East 43rd Street #712",
       "title": "RFI Log",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     },
     {
       "kind": "task",
@@ -220,10 +220,10 @@
       "project": "535 East 86th Street #21B",
       "title": "Remote Camera Installation",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     },
     {
       "kind": "task",
@@ -232,10 +232,10 @@
       "project": "330 East 79th Street Apt #6B",
       "title": "Check and Protect Kitchen Cabinets",
       "due": "2026-07-20T00:00:00.000Z",
-      "daysUntil": -41,
+      "daysUntil": -42,
       "urgency": "overdue",
       "emailTo": "sagar.p@hellochapter.com",
-      "reason": "Task 41 days overdue"
+      "reason": "Task 42 days overdue"
     }
   ]
 }
